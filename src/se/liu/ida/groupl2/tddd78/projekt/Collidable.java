@@ -9,5 +9,4 @@ public interface Collidable
     public int getWidth();
 
     public int getHeight();
-
 }

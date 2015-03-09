@@ -42,6 +42,10 @@ public abstract class Weapon
         this.direction = direction;
     }
 
+    public int getPower() {
+        return power;
+    }
+
     public void setPower(int power) {
         this.power = power;
     }

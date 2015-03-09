@@ -88,9 +88,6 @@ public class GameComponent extends JComponent implements Listener
 	super.paintComponent(g);
 	final Graphics2D g2d = (Graphics2D) g;
 
-	// Paint the projectile
-	paintProjectile(g2d);
-
 	// Paint the board
 	paintBoard(g2d);
 
@@ -101,6 +98,12 @@ public class GameComponent extends JComponent implements Listener
 	// Paint the weapons on the players
 	paintWeapon(g2d, player1);
 	paintWeapon(g2d, player2);
+
+	// Paint the projectile
+	paintProjectile(g2d);
+
+	// Paint the statusField
+	paintStatusField(g2d);
     }
 
     private void paintBoard(Graphics2D g2d) {
@@ -179,6 +182,28 @@ public class GameComponent extends JComponent implements Listener
 	    g2d.setColor(color);
 	    g2d.fillOval(xPos, yPos, radius * 2, radius * 2);
 	}
+    }
+
+    private void paintStatusField(Graphics g2d) {
+	Player currentPlayer = gameBoard.getCurrentPlayer();
+	if (currentPlayer == player1) {
+	    String player = "Player 1";
+	    g2d.drawString(player, 40, 40);
+	    int angle = (int) Math.abs(currentPlayer.getWeapon().getDirection()) % 360;
+	    String weaponAngle = "angle " + angle;
+	    g2d.drawString(weaponAngle, 40, 60);
+	} else if (currentPlayer == player2) {
+	    String player = "Player 2";
+	    g2d.drawString(player, 40, 40);
+	    int angle = (int) (Math.abs(currentPlayer.getWeapon().getDirection()) % 360 - 180);
+	    String weaponAngle = "angle " + angle;
+	    g2d.drawString(weaponAngle, 40, 60);
+	}
+
+	String power = "power " + currentPlayer.getWeapon().getPower();
+	g2d.drawString(power, 40, 80);
+
+
     }
 
     public void update() {
