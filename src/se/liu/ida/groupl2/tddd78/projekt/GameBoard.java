@@ -76,7 +76,6 @@ public class GameBoard
     public void shotsFired() {
         if (!calm) {
             Player currentPlayer = getCurrentPlayer();
-            currentPlayer.getWeapon().setPower(1);
             int playerSize = Player.PLAYERSIZE;
 
             Weapon weapon = currentPlayer.getWeapon();

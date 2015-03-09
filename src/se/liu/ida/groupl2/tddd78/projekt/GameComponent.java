@@ -1,11 +1,6 @@
 package se.liu.ida.groupl2.tddd78.projekt;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.ActionMap;
-import javax.swing.InputMap;
-import javax.swing.JComponent;
-import javax.swing.KeyStroke;
+import javax.swing.*;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -66,6 +61,7 @@ public class GameComponent extends JComponent implements Listener
 	{
 	    @Override public void actionPerformed(final ActionEvent e) {
 		// Creates projectile and adds is to board.
+		gameBoard.getCurrentPlayer().getWeapon().setPower(10);
 		gameBoard.shotsFired();
 	    }
 	};

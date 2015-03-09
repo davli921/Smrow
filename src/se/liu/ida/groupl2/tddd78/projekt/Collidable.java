@@ -10,5 +10,4 @@ public interface Collidable
 
     public int getHeight();
 
-    // TEST
 }

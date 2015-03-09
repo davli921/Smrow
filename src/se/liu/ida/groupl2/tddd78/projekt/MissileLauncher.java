@@ -19,7 +19,7 @@ public class MissileLauncher extends Weapon
     }
 
     public Projectile shoot() {
-        Projectile missile = new Missile(DMG, power, Math.toRadians(direction));
+        Projectile missile = new Missile(DMG, power, direction);
         return missile;
     }
 
