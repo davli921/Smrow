@@ -1,12 +1,16 @@
 package se.liu.ida.groupl2.tddd78.projekt;
 
 import java.awt.Rectangle;
-
 import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * HealthBar-objects visually represents the Player-objects current health
+ */
 
 public class HealthBar
 {
-    private ArrayList<Rectangle> healthBar;
+    private List<Rectangle> healthBar;
     private Player player;
     private int playerSize = Player.PLAYERSIZE;
     private int length;

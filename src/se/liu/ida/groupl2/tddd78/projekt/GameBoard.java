@@ -37,10 +37,21 @@ public class GameBoard
 	this.height = height;
 	// Two thirds of the board will be above ground
 	this.groundlevel = (height / 3) * 2;
-	// Creates Player objects that start at groundlevel
-	// and 1/10 in from the sides. Also assigns a Weapon to each player.
-        this.player1 = new Player((width / 10 - Player.PLAYERSIZE), groundlevel - Player.PLAYERSIZE, new MissileLauncher(0));
-        this.player2 = new Player((width - (width / 10)), groundlevel - Player.PLAYERSIZE, new MissileLauncher(180));
+
+        // Start values for player1
+        int player1StartDir = 0;
+        int player1startXPos = width/10 -Player.PLAYERSIZE;
+        int player1StartYPos = groundlevel -Player.PLAYERSIZE;
+        Weapon player1Weapon = new MissileLauncher(player1StartDir);
+        this.player1 = new Player(player1startXPos, player1StartYPos, player1Weapon);
+
+        // Start values for player2
+        int player2startXPos = width - width/10;
+        int player2StartYPos = groundlevel -Player.PLAYERSIZE;
+        int player2StartDir = 180;
+        Weapon player2Weapon = new MissileLauncher(player2StartDir);
+        this.player2 = new Player(player2startXPos, player2StartYPos,player2Weapon);
+
         this.player1Turn = true;
         this.listeners = new ArrayList<>();
     }
@@ -73,10 +84,24 @@ public class GameBoard
         return projectile;
     }
 
+    // If 500ms has passed since first call charge the current weapon
+    // and return true
+    public void chargeWeapon(){
+        Weapon currentWeapon = getCurrentPlayer().getWeapon();
+        int currentPower = currentWeapon.getPower();
+        currentPower++;
+        currentWeapon.setPower(currentPower);
+    }
+
+    // Creates a projectile using Weapon.shoot() then writes it as the
+    // current projectile. Sets X and Y positions to a coordinate near the
+    // firing player and sets "calm" to true
     public void shotsFired() {
         if (!calm) {
             Player currentPlayer = getCurrentPlayer();
-            int playerSize = Player.PLAYERSIZE;
+            double playerSize = Player.PLAYERSIZE;
+            double middleXOfPlayer = currentPlayer.getXPos() + playerSize/2.0;
+            double middleYOfPlayer = currentPlayer.getYPos() + playerSize/2.0;
 
             Weapon weapon = currentPlayer.getWeapon();
             double direction = weapon.getDirection();
@@ -84,8 +109,8 @@ public class GameBoard
 
             Projectile projectile = weapon.shoot();
 
-            double spawnPointX = currentPlayer.getXPos() + playerSize / 2.0 + weaponLenght * cos(toRadians(direction));
-            double spawnPointY = currentPlayer.getYPos() + playerSize / 2.0 + weaponLenght * sin(toRadians(direction));
+            double spawnPointX = middleXOfPlayer + weaponLenght * cos(toRadians(direction));
+            double spawnPointY = middleYOfPlayer + weaponLenght * sin(toRadians(direction));
             int x = (int) spawnPointX;
             int y = (int) spawnPointY;
 
@@ -191,7 +216,6 @@ public class GameBoard
         }
     }
 
-
     // Returns true if there is a collision
     public boolean checkCollision(Collidable moving, Collidable obstruction){
 
@@ -239,6 +263,7 @@ public class GameBoard
         }
 
         // Is moving bottom below obstruction top && moving top above obstruction bottom
+        // (Different statements with identical branches because of increased readability)
         else if ((mYPos + mHeight >= obstYPos && mYPos <= obstYPos + obstHeight)) {
             // Collision if moving takes a step to the right
             if (direction == "right" && mXPos + mWidth <= obstXPos && mXPos + mWidth + moveStep > obstXPos) {
@@ -258,16 +283,18 @@ public class GameBoard
         int mWidth = moving.getWidth();
         int mHeight = moving.getHeight();
 
-        if (mXPos < 0 || mYPos < 0 || mXPos + mWidth > width || mYPos + mHeight > height) {
+        // No roof outOfBound so it can still fall down even though it is not visible
+        if (mXPos < 0 || mXPos + mWidth > width || mYPos + mHeight > groundlevel) {
             return true;
         } else {
             return false;
         }
     }
 
-    // reset projectile, calm, and change turns
+    // reset projectile, calm, and change turns. Also resets the power on the weapon
     private void resetProjectile() {
         this.projectile = null;
+        getCurrentPlayer().getWeapon().setPower(0);
         this.calm = false;
         nextTurn();
     }

@@ -52,6 +52,7 @@ public class Player implements Collidable
         return this.healthBar;
     }
 
+    // These two do the same thing but are seperate so they fit in "Collidable"
     public int getWidth() {
         return PLAYERSIZE;
     }
@@ -59,6 +60,7 @@ public class Player implements Collidable
     public int getHeight() {
         return PLAYERSIZE;
     }
+    // ------------------------------------------------------------------------//
 
     public void move(String horizontalDirection) {
         if (horizontalDirection == "right") {

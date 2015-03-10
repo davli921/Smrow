@@ -1,11 +1,7 @@
 package se.liu.ida.groupl2.tddd78.projekt;
 
 import javax.swing.*;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.geom.AffineTransform;
 
@@ -21,12 +17,17 @@ public class GameComponent extends JComponent implements Listener
     private Player player1;
     private Player player2;
 
+    private long startTime;
+    private static final long RELOAD_TIME = 250;
+
     public GameComponent(final GameBoard gameBoard) {
 	this.gameBoard = gameBoard;
 	this.player1 = gameBoard.getPlayer1();
 	this.player2 = gameBoard.getPlayer2();
 	final InputMap inputMap = new InputMap();
 	final ActionMap actionMap = new ActionMap();
+
+	this.startTime = System.currentTimeMillis();
 
 	// Event Handling
 	Action moveLeft = new AbstractAction()
@@ -57,27 +58,47 @@ public class GameComponent extends JComponent implements Listener
 	    }
 	};
 
+	Action chargeWeapon = new AbstractAction()
+	{
+	    @Override public void actionPerformed(final ActionEvent e) {
+		long currentTime = System.currentTimeMillis();
+		long deltaTime = currentTime - startTime;
+		if(deltaTime >= RELOAD_TIME){
+		    gameBoard.chargeWeapon();
+		    startTime = currentTime;
+		}
+	    }
+	};
+
 	Action shoot = new AbstractAction()
 	{
 	    @Override public void actionPerformed(final ActionEvent e) {
-		// Creates projectile and adds is to board.
-		gameBoard.getCurrentPlayer().getWeapon().setPower(10);
 		gameBoard.shotsFired();
 	    }
 	};
 
 	this.getInputMap().put(KeyStroke.getKeyStroke("LEFT"), "Move Left");
-	this.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"), "Move Right");
-	this.getInputMap().put(KeyStroke.getKeyStroke("UP"), "Move Weapon Up");
-	this.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "Move Weapon Down");
-	this.getInputMap().put(KeyStroke.getKeyStroke("SPACE"), "Shoot");
 	this.getActionMap().put("Move Left", moveLeft);
+
+	this.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"), "Move Right");
 	this.getActionMap().put("Move Right", moveRight);
+
+	this.getInputMap().put(KeyStroke.getKeyStroke("UP"), "Move Weapon Up");
 	this.getActionMap().put("Move Weapon Up", moveWeaponUp);
+
+	this.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "Move Weapon Down");
 	this.getActionMap().put("Move Weapon Down", moveWeaponDown);
+
+	/* Fire when pressed
+	this.getInputMap().put(KeyStroke.getKeyStroke("SPACE"), "Shoot");
 	this.getActionMap().put("Shoot", shoot);
+	*/
 
-
+	// Use to charge the weapon and then fire
+	this.getInputMap().put(KeyStroke.getKeyStroke("SPACE"),"Charge Weapon");
+	this.getActionMap().put("Charge Weapon", chargeWeapon);
+	this.getInputMap().put(KeyStroke.getKeyStroke("released SPACE"),"Shoot");
+	this.getActionMap().put("Shoot", shoot);
     }
 
     @Override public Dimension getPreferredSize() {
@@ -176,8 +197,8 @@ public class GameComponent extends JComponent implements Listener
 	if (projectile != null) {
 	    Color color = projectile.getColor();
 	    int radius = projectile.getRadius();
-	    int xPos = (int) projectile.getXPos();
-	    int yPos = (int) projectile.getYPos();
+	    int xPos = projectile.getXPos();
+	    int yPos = projectile.getYPos();
 
 	    g2d.setColor(color);
 	    g2d.fillOval(xPos, yPos, radius * 2, radius * 2);
@@ -186,24 +207,26 @@ public class GameComponent extends JComponent implements Listener
 
     private void paintStatusField(Graphics g2d) {
 	Player currentPlayer = gameBoard.getCurrentPlayer();
+	int fieldXPos = 40;
+	int playerFieldYPos = 40;
+	int angleFieldYPos = 60;
+	int powerFieldYpos = 80;
+
 	if (currentPlayer == player1) {
 	    String player = "Player 1";
-	    g2d.drawString(player, 40, 40);
+	    g2d.drawString(player, fieldXPos, playerFieldYPos);
 	    int angle = (int) Math.abs(currentPlayer.getWeapon().getDirection()) % 360;
 	    String weaponAngle = "angle " + angle;
-	    g2d.drawString(weaponAngle, 40, 60);
+	    g2d.drawString(weaponAngle, fieldXPos, angleFieldYPos);
 	} else if (currentPlayer == player2) {
 	    String player = "Player 2";
-	    g2d.drawString(player, 40, 40);
+	    g2d.drawString(player, fieldXPos, playerFieldYPos);
 	    int angle = (int) (Math.abs(currentPlayer.getWeapon().getDirection()) % 360 - 180);
 	    String weaponAngle = "angle " + angle;
-	    g2d.drawString(weaponAngle, 40, 60);
+	    g2d.drawString(weaponAngle, fieldXPos, angleFieldYPos);
 	}
-
 	String power = "power " + currentPlayer.getWeapon().getPower();
-	g2d.drawString(power, 40, 80);
-
-
+	g2d.drawString(power, fieldXPos, powerFieldYpos);
     }
 
     public void update() {

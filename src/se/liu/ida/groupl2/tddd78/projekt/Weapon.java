@@ -12,6 +12,7 @@ public abstract class Weapon
     protected int length;
     protected int height;
     protected double direction;
+    // 1<power<=15 seems to be fine, maybe more.
     protected int power;
     protected Color color;
 
@@ -20,6 +21,7 @@ public abstract class Weapon
         this.height = height;
         this.color = color;
         this.direction = direction;
+        this.power = 0;
     }
 
     public int getLength() {

@@ -6,17 +6,22 @@ import static java.lang.Math.sin;
 import static java.lang.Math.toRadians;
 import static java.lang.Math.pow;
 
+/**
+ * Created by MissileLauncher and represents a projectile on the GameBoard.
+ * Has method for calculating its trajectory.
+ */
+
 public class Missile extends Projectile
 {
     final static Color COLOR = Color.BLACK;
     final static int WIDTH = 2;
     final static int HEIGHT = 2;
     final static int RADIUS = 2;
-    private long TIME_OF_BIRTH;
+    private long timeOfBirth;
 
     public Missile(int dmg, int speed, double direction) {
         super(dmg, COLOR, WIDTH, HEIGHT, speed, direction);
-        this.TIME_OF_BIRTH = System.currentTimeMillis();
+        this.timeOfBirth = System.currentTimeMillis();
     }
 
     public int getRadius() {
@@ -25,15 +30,16 @@ public class Missile extends Projectile
 
     public void move() {
 
-        double g = 9.82;
         long currentT = System.currentTimeMillis();
-        double t = (double)(currentT-TIME_OF_BIRTH)/(double)1000;
+        double t = (currentT-timeOfBirth) /(double)1000;
 
         double cosValue = cos(toRadians(direction));
         double sinValue = sin(toRadians(direction));
 
         double newXPos = xPos + speed*cosValue;
-        double newYPos = yPos + speed*sinValue  +(g*(pow(t,2.0)))/2.0;
+        // Gravity constant
+        final double g = 9.82;
+        double newYPos = yPos + speed*sinValue  +(g *(pow(t,2.0)))/2.0;
 
         this.xPos = newXPos;
         this.yPos = newYPos;

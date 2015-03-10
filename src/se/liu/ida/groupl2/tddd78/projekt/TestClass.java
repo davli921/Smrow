@@ -5,6 +5,10 @@ import javax.swing.Action;
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 
+/**
+ * TestClass...
+ */
+
 public final class TestClass
 {
 
