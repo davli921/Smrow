@@ -14,9 +14,9 @@ public abstract class Weapon
     protected double direction;
     protected int power;
     protected Color color;
-    protected static final int MAXPOWER = 25;
+    protected static final int MAXPOWER = 100;
     // Chargetime in milliseconds
-    protected static final long CHARGETIME = 250;
+    protected static final long CHARGETIME = 50;
 
     protected Weapon(final int length, final int height, final Color color, final double direction) {
         this.length = length;

@@ -12,11 +12,11 @@ public abstract class Projectile implements Collidable
     // because when we calculate the new positions with trigonometric functions they in some cases return less than +1 in change.
     // The getters however is still returning int, so that projectile fullfills the contract of Collidable.
     protected double xPos, yPos;
-    protected int dmg, width, height, speed;
-    protected double direction;
+    protected int dmg, width, height;
+    protected double speed, direction;
     protected Color color;
 
-    protected Projectile(int dmg, Color color, int width, int height, int speed, double direction) {
+    protected Projectile(int dmg, Color color, int width, int height, double speed, double direction) {
         this.dmg = dmg;
         this.color = color;
         this.width = width;

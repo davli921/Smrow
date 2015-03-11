@@ -19,7 +19,7 @@ public class Missile extends Projectile
     final static int RADIUS = 2;
     private long timeOfBirth;
 
-    public Missile(int dmg, int speed, double direction) {
+    public Missile(int dmg, double speed, double direction) {
         super(dmg, COLOR, WIDTH, HEIGHT, speed, direction);
         this.timeOfBirth = System.currentTimeMillis();
     }
@@ -36,10 +36,13 @@ public class Missile extends Projectile
         double cosValue = cos(toRadians(direction));
         double sinValue = sin(toRadians(direction));
 
-        double newXPos = xPos + speed*cosValue;
-        // Gravity constant
+        double deltaX = (speed*cosValue);
         final double g = 9.82;
-        double newYPos = yPos + speed*sinValue  +(g *(pow(t,2.0)))/2.0;
+        double deltaDown = g*( pow(t,2)/2 );
+        double deltaY = (speed*sinValue + deltaDown);
+
+        double newXPos = xPos + deltaX;
+        double newYPos = yPos + deltaY;
 
         this.xPos = newXPos;
         this.yPos = newYPos;

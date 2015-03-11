@@ -14,7 +14,7 @@ public final class TestClass
 
     private final static int WIDTH = 1000;
     private final static int HEIGHT = 750;
-    private static final int REFRESH_TIMER_MS = 16;
+    private static final int REFRESH_TIMER_MS = 5;
 
     private TestClass() {}
 

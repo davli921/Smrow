@@ -19,7 +19,9 @@ public class MissileLauncher extends Weapon
     }
 
     public Projectile shoot() {
-        Projectile missile = new Missile(DMG, power, direction);
+        // Divide power by 10 for better calculation and movement in the projectiles move func.
+        double speed = power/10;
+        Projectile missile = new Missile(DMG, speed, direction);
         return missile;
     }
 
