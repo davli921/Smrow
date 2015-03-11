@@ -12,9 +12,11 @@ public abstract class Weapon
     protected int length;
     protected int height;
     protected double direction;
-    // 1<power<=15 seems to be fine, maybe more.
     protected int power;
     protected Color color;
+    protected static final int MAXPOWER = 25;
+    // Chargetime in milliseconds
+    protected static final long CHARGETIME = 250;
 
     protected Weapon(final int length, final int height, final Color color, final double direction) {
         this.length = length;

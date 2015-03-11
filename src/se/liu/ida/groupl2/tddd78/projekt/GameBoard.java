@@ -26,8 +26,12 @@ public class GameBoard
     private Player player1;
     private Player player2;
     private boolean player1Turn;
-    // calm true between to turns
-    private boolean calm;
+    // betweenTurns true between to turns
+    private boolean betweenTurns;
+
+    private boolean chargingWeapon;
+    private long startTime;
+
     private boolean gameOver = false;
 
     private List<Listener> listeners;
@@ -53,6 +57,11 @@ public class GameBoard
         this.player2 = new Player(player2startXPos, player2StartYPos,player2Weapon);
 
         this.player1Turn = true;
+        this.betweenTurns = false;
+
+        this.chargingWeapon = false;
+        this.startTime = System.currentTimeMillis();
+
         this.listeners = new ArrayList<>();
     }
 
@@ -84,20 +93,31 @@ public class GameBoard
         return projectile;
     }
 
-    // If 500ms has passed since first call charge the current weapon
-    // and return true
+    public void setChargingWeapon(final boolean chargingWeapon) {
+        this.chargingWeapon = chargingWeapon;
+    }
+
     public void chargeWeapon(){
         Weapon currentWeapon = getCurrentPlayer().getWeapon();
         int currentPower = currentWeapon.getPower();
-        currentPower++;
-        currentWeapon.setPower(currentPower);
+        long currentTime = System.currentTimeMillis();
+        long deltaTime = currentTime- startTime;
+        long chargeTime = Weapon.CHARGETIME;
+        int maxPower = Weapon.MAXPOWER;
+
+        if(deltaTime>chargeTime && currentPower < maxPower){
+            currentPower++;
+            currentWeapon.setPower(currentPower);
+            startTime = System.currentTimeMillis();
+        }
+
     }
 
     // Creates a projectile using Weapon.shoot() then writes it as the
     // current projectile. Sets X and Y positions to a coordinate near the
-    // firing player and sets "calm" to true
+    // firing player and sets "betweenTurns" to true
     public void shotsFired() {
-        if (!calm) {
+        if (!betweenTurns) {
             Player currentPlayer = getCurrentPlayer();
             double playerSize = Player.PLAYERSIZE;
             double middleXOfPlayer = currentPlayer.getXPos() + playerSize/2.0;
@@ -118,14 +138,15 @@ public class GameBoard
             projectile.setXPos(x);
             projectile.setYPos(y);
             this.projectile = projectile;
-            this.calm = true;
+            this.chargingWeapon = false;
+            this.betweenTurns = true;
         }
     }
 
     // If String is "right" move right, if "left" ...
     // If invalid string do nothing
     public void moveCurrentPlayer(String horizontalDirection) {
-        if (!calm) {
+        if (!betweenTurns && !chargingWeapon) {
 
             Player currentPlayer = getCurrentPlayer();
 
@@ -148,7 +169,7 @@ public class GameBoard
         Weapon weapon = player.getWeapon();
         Double currentDirection = weapon.getDirection();
 
-        if (!calm) {
+        if (!betweenTurns && !chargingWeapon) {
             int up = -1;
             int down = 1;
             if (player == player1) {
@@ -291,11 +312,11 @@ public class GameBoard
         }
     }
 
-    // reset projectile, calm, and change turns. Also resets the power on the weapon
+    // reset projectile, betweenTurns, and change turns. Also resets the power on the weapon
     private void resetProjectile() {
         this.projectile = null;
         getCurrentPlayer().getWeapon().setPower(0);
-        this.calm = false;
+        this.betweenTurns = false;
         nextTurn();
     }
 
@@ -318,6 +339,9 @@ public class GameBoard
     public void tick() {
         checkGameOver();
         moveProjectile();
+        if(chargingWeapon){
+            chargeWeapon();
+        }
         notifyListener();
     }
 

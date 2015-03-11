@@ -61,12 +61,15 @@ public class GameComponent extends JComponent implements Listener
 	Action chargeWeapon = new AbstractAction()
 	{
 	    @Override public void actionPerformed(final ActionEvent e) {
+		gameBoard.setChargingWeapon(true);
+		/*
 		long currentTime = System.currentTimeMillis();
 		long deltaTime = currentTime - startTime;
 		if(deltaTime >= RELOAD_TIME){
 		    gameBoard.chargeWeapon();
 		    startTime = currentTime;
 		}
+		*/
 	    }
 	};
 
