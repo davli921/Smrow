@@ -210,26 +210,48 @@ public class GameComponent extends JComponent implements Listener
 
     private void paintStatusField(Graphics g2d) {
 	Player currentPlayer = gameBoard.getCurrentPlayer();
-	int fieldXPos = 40;
+
+	Player player1 = gameBoard.getPlayer1();
+	Player player2 = gameBoard.getPlayer2();
+
+	int fieldPlayer1XPos = 40;
+	int fieldPlayer2XPos = 900;
+
 	int playerFieldYPos = 40;
 	int angleFieldYPos = 60;
-	int powerFieldYpos = 80;
+	int powerFieldYPos = 80;
+	int healthFieldYPos = 100;
 
 	if (currentPlayer == player1) {
-	    String player = "Player 1";
-	    g2d.drawString(player, fieldXPos, playerFieldYPos);
-	    int angle = (int) Math.abs(currentPlayer.getWeapon().getDirection()) % 360;
-	    String weaponAngle = "angle " + angle;
-	    g2d.drawString(weaponAngle, fieldXPos, angleFieldYPos);
-	} else if (currentPlayer == player2) {
-	    String player = "Player 2";
-	    g2d.drawString(player, fieldXPos, playerFieldYPos);
-	    int angle = (int) (Math.abs(currentPlayer.getWeapon().getDirection()) % 360 - 180);
-	    String weaponAngle = "angle " + angle;
-	    g2d.drawString(weaponAngle, fieldXPos, angleFieldYPos);
+	    String currentPlayerName = "Current player: " + "Player 1";
+	    g2d.drawString(currentPlayerName, 450, playerFieldYPos);
+   	 } else if (currentPlayer == player2) {
+	    String currentPlayerName = "Current player: " + "Player 2";
+	    g2d.drawString(currentPlayerName, 450, playerFieldYPos);
 	}
-	String power = "power " + currentPlayer.getWeapon().getPower();
-	g2d.drawString(power, fieldXPos, powerFieldYpos);
+
+
+
+	int anglePlayer1 = (int) Math.abs(player1.getWeapon().getDirection()) % 360;
+	String powerPlayer1 = "Power: " + player1.getWeapon().getPower();
+	String currentHealthPlayer1 = "Hp: " + player1.getHealth();
+	String player1Name = "Player 1";
+	String weaponAnglePlayer1 = "Angle: " + anglePlayer1;
+	g2d.drawString(currentHealthPlayer1, fieldPlayer1XPos, healthFieldYPos);
+	g2d.drawString(powerPlayer1, fieldPlayer1XPos, powerFieldYPos);
+	g2d.drawString(player1Name, fieldPlayer1XPos, playerFieldYPos);
+	g2d.drawString(weaponAnglePlayer1, fieldPlayer1XPos, angleFieldYPos);
+
+
+	int anglePlayer2 = (int) (Math.abs(player2.getWeapon().getDirection()) % 360 - 180);
+	String powerPlayer2 = "Power: " + player2.getWeapon().getPower();
+	String currentHealthPlayer2 = "Hp: " + player2.getHealth();
+	String player2Name = "Player 2";
+	String weaponAnglePlayer2 = "Angle: " + anglePlayer2;
+	g2d.drawString(currentHealthPlayer2, fieldPlayer2XPos, healthFieldYPos);
+	g2d.drawString(powerPlayer2, fieldPlayer2XPos, powerFieldYPos);
+	g2d.drawString(player2Name, fieldPlayer2XPos, playerFieldYPos);
+	g2d.drawString(weaponAnglePlayer2, fieldPlayer2XPos, angleFieldYPos);
     }
 
     public void update() {
