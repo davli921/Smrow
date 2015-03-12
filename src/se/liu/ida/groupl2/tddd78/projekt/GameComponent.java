@@ -209,6 +209,7 @@ public class GameComponent extends JComponent implements Listener
     }
 
     private void paintStatusField(Graphics g2d) {
+	// Shows information about the players.
 	Player currentPlayer = gameBoard.getCurrentPlayer();
 
 	Player player1 = gameBoard.getPlayer1();
