@@ -14,7 +14,7 @@ public class HealthBar
     final static Color HEALTH_LOST_COLOR = Color.red;
     private List<Rectangle> healthBar;
     private Player player;
-    private int playerSize = Player.PLAYER_SIZE;
+    private int playerSize = (int)Player.PLAYER_SIZE;
     private int length;
     private int healthLostLength;
     private int distanceAbovePlayer;

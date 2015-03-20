@@ -5,6 +5,7 @@ import java.util.List;
 
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
+import static java.lang.Math.atan;
 import static java.lang.Math.toRadians;
 
 /**
@@ -15,7 +16,7 @@ import static java.lang.Math.toRadians;
 public class GameBoard
 {
 
-    private int width,height,groundlevel;
+    private double width,height,groundlevel;
 
     // One projectile at the time since it is turn-based
     private Projectile projectile;
@@ -27,24 +28,26 @@ public class GameBoard
     private long startTime;
 
     private List<Listener> listeners;
+    private List<Integer> xCoords;
+    private List<Integer> yCoords;
 
-    public GameBoard(final int width, final int height) {
+    public GameBoard(double width, double height) {
 	this.width = width;
 	this.height = height;
 	// Two thirds of the board will be above ground
 	this.groundlevel = (height / 3) * 2;
-        int playerSize = Player.PLAYER_SIZE;
+        double playerSize = Player.PLAYER_SIZE;
 
         // Start values for player1
-        int player1StartDir = 0;
-        int player1StartXPos = width / 10 - playerSize;
-        int player1StartYPos = groundlevel - playerSize;
+        double player1StartDir = 0;
+        double player1StartXPos = width / 10 - playerSize;
+        double player1StartYPos = groundlevel - playerSize;
         this.player1 = new Player(player1StartXPos, player1StartYPos, player1StartDir, "MissileLauncher");
 
         // Start values for player2
-        int player2StartXPos = width - width / 10;
-        int player2StartYPos = groundlevel - playerSize;
-        int player2StartDir = 0;
+        double player2StartXPos = width - width / 10;
+        double player2StartYPos = groundlevel - playerSize;
+        int player2StartDir = 180;
         this.player2 = new Player(player2StartXPos, player2StartYPos, player2StartDir, "MissileLauncher");
 
         this.player1Turn = true;
@@ -56,19 +59,27 @@ public class GameBoard
 
         this.listeners = new ArrayList<>();
 
+        // List over cords where the ground changes
+        this.xCoords = new ArrayList<>();
+        this.yCoords = new ArrayList<>();
+        addGroundPoint(0,height);
+        addGroundPoint(0,groundlevel);
+        addGroundPoint(groundlevel+50,height/2);
+        addGroundPoint(width,groundlevel);
+        addGroundPoint(width,height);
     }
 
     // GETTERS & SETTERS ----------------------------------//
 
-    public int getWidth() {
+    public double getWidth() {
 	return width;
     }
 
-    public int getHeight() {
+    public double getHeight() {
 	return height;
     }
 
-    public int getGroundlevel() {
+    public double getGroundlevel() {
 	return groundlevel;
     }
 
@@ -96,7 +107,7 @@ public class GameBoard
 
     public void chargeWeapon(){
         Weapon currentWeapon = getCurrentPlayer().getWeapon();
-        int currentPower = (int) currentWeapon.getPower();
+        int currentPower = currentWeapon.getPower();
         long currentTime = System.currentTimeMillis();
         long deltaTime = currentTime- startTime;
         long chargeTime = Weapon.CHARGE_TIME;
@@ -126,14 +137,14 @@ public class GameBoard
 
             Weapon weapon = currentPlayer.getWeapon();
             double direction = weapon.getDirection();
-            int weaponLenght = (int) weapon.getLength();
+            double weaponLenght = weapon.getLength();
 
             Projectile projectile = weapon.shoot();
 
             double spawnPointX = middleXOfPlayer + weaponLenght * cos(toRadians(direction));
             double spawnPointY = middleYOfPlayer + weaponLenght * sin(toRadians(direction));
-            int x = (int) spawnPointX;
-            int y = (int) spawnPointY;
+            double x = spawnPointX;
+            double y = spawnPointY;
 
             // Create it where the player is
             projectile.setXPos(x);
@@ -147,6 +158,13 @@ public class GameBoard
     // If String is "right" move right, if "left" ...
     // If invalid string do nothing
     public void moveCurrentPlayer(String horizontalDirection) {
+        double xPos = getCurrentPlayer().getXPos();
+        double gradient = getGradient(xPos);
+        double direction = atan(gradient);
+        getCurrentPlayer().setDirection(direction);
+
+        System.out.println(Math.toDegrees(direction));
+
         if (!betweenTurns && !chargingWeapon) {
 
             Player currentPlayer = getCurrentPlayer();
@@ -163,6 +181,28 @@ public class GameBoard
             }
         }
         notifyListener();
+    }
+
+    private double getGradient(double xPos){
+        int i = 0;
+        while(xPos > xCoords.get(i)){
+            i++;
+        }
+        // *(-1) since the coords system is flipped
+        double y2 = (-1)*yCoords.get(i);
+        double y1 = (-1)*yCoords.get(i-1);
+        double x2 = xCoords.get(i);
+        double x1 = xCoords.get(i-1);
+
+        double gradient = (y2-y1)/(x2-x1);
+        return gradient;
+    }
+
+    private void addGroundPoint(double xPos, double yPos){
+        int x = (int) xPos;
+        int y = (int) yPos;
+        xCoords.add(x);
+        yCoords.add(y);
     }
 
     public void rotateWeapon(String direction) {
@@ -241,15 +281,15 @@ public class GameBoard
     // Returns true if there is a collision
     public boolean checkCollision(Collidable moving, Collidable obstruction){
 
-        int mXPos = (int) moving.getXPos();
-        int mYPos = (int) moving.getYPos();
-        int mWidth = (int) moving.getWidth();
-        int mHeight = (int) moving.getHeight();
+        double mXPos = moving.getXPos();
+        double mYPos = moving.getYPos();
+        double mWidth = moving.getWidth();
+        double mHeight = moving.getHeight();
 
-        int obstXPos = (int) obstruction.getXPos();
-        int obstYPos = (int) obstruction.getYPos();
-        int obstWidth = (int) obstruction.getWidth();
-        int obstHeight = (int) obstruction.getHeight();
+        double obstXPos = obstruction.getXPos();
+        double obstYPos = obstruction.getYPos();
+        double obstWidth = obstruction.getWidth();
+        double obstHeight = obstruction.getHeight();
 
         // Check if the bottom of moving is below the top of obst &&
         // check if the top of moving is above the bottom of obst &&
@@ -268,16 +308,16 @@ public class GameBoard
 
         boolean willCollide = false;
 
-        int mXPos = (int) moving.getXPos();
-        int mYPos = (int) moving.getYPos();
-        int mWidth = (int) moving.getWidth();
-        int mHeight = (int) moving.getHeight();
-        int moveStep = Player.MOVE_STEP;
+        double mXPos = moving.getXPos();
+        double mYPos = moving.getYPos();
+        double mWidth = moving.getWidth();
+        double mHeight = moving.getHeight();
+        double moveStep = Player.MOVE_STEP;
 
-        int obstXPos = (int) obstruction.getXPos();
-        int obstYPos = (int) obstruction.getYPos();
-        int obstWidth = (int) obstruction.getWidth();
-        int obstHeight = (int) obstruction.getHeight();
+        double obstXPos = obstruction.getXPos();
+        double obstYPos = obstruction.getYPos();
+        double obstWidth = obstruction.getWidth();
+        double obstHeight = obstruction.getHeight();
 
         // Collision with outer walls
         if ((direction == "left" && mXPos - moveStep < 0) || (direction == "right" && mXPos + mWidth + moveStep > width)) {
@@ -300,10 +340,10 @@ public class GameBoard
     }
 
     private boolean outOfBounds(Collidable moving) {
-        int mXPos = (int) moving.getXPos();
-        int mYPos = (int) moving.getYPos();
-        int mWidth = (int) moving.getWidth();
-        int mHeight = (int) moving.getHeight();
+        double mXPos = moving.getXPos();
+        double mYPos = moving.getYPos();
+        double mWidth = moving.getWidth();
+        double mHeight = moving.getHeight();
 
         // No roof outOfBound so it can still fall down even though it is not visible
         if (mXPos < 0 || mXPos + mWidth > width || mYPos + mHeight > groundlevel) {

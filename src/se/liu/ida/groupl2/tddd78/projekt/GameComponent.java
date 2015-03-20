@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.geom.AffineTransform;
-
 import static java.lang.Math.toRadians;
 import static java.lang.Math.abs;
 
@@ -94,7 +93,7 @@ public class GameComponent extends JComponent implements Listener
     }
 
     @Override public Dimension getPreferredSize() {
-	return new Dimension(gameBoard.getWidth(), gameBoard.getHeight());
+	return new Dimension((int)gameBoard.getWidth(), (int) gameBoard.getHeight());
     }
 
     @Override protected void paintComponent(Graphics g) {
@@ -132,11 +131,10 @@ public class GameComponent extends JComponent implements Listener
 	GameBoard gameBoard = this.gameBoard;
 	// Paint the sky
 	g2d.setColor(lightblue);
-	g2d.fillRect(0, 0, gameBoard.getWidth(), gameBoard.getHeight());
+	g2d.fillRect(0, 0, (int)gameBoard.getWidth(), (int)gameBoard.getHeight());
 	// Paint the ground
 	g2d.setColor(brown);
-	g2d.fillRect(0, gameBoard.getGroundlevel(), gameBoard.getWidth(), gameBoard.getHeight());
-
+	g2d.fillRect(0, (int)gameBoard.getGroundlevel(), (int)gameBoard.getWidth(), (int)gameBoard.getHeight());
     }
 
     private void paintPlayer(Graphics2D g2d, Player player) {
@@ -144,17 +142,17 @@ public class GameComponent extends JComponent implements Listener
 	AffineTransform oldTransformer = g2d.getTransform();
 	AffineTransform transformer = new AffineTransform();
 
-	int x = (int) player.getXPos();
-	int y = (int) player.getYPos();
-	int playerSize = Player.PLAYER_SIZE;
+	int x = (int)player.getXPos();
+	int y = (int)player.getYPos();
+	int playerSize = (int)Player.PLAYER_SIZE;
 	Color playerColor = Player.COLOR;
 	Color healthLeftColor = HealthBar.HEALTH_LEFT_COLOR;
 	Color healthLostColor = HealthBar.HEALTH_LOST_COLOR;
 	double direction = toRadians(player.getDirection());
 	/////Affinetransform for players, in progress
 
-	int playerAnchorPointX = (int) player.getXPos() + playerSize / 2;
-	int playerAnchorPointY = (int) player.getYPos() + playerSize / 2;
+	int playerAnchorPointX = (int)player.getXPos() + playerSize / 2;
+	int playerAnchorPointY = (int)player.getYPos() + playerSize / 2;
 
 
 	transformer.setToRotation(direction, playerAnchorPointX, playerAnchorPointY);
@@ -268,8 +266,8 @@ public class GameComponent extends JComponent implements Listener
     }
 
     private void paintGround(Graphics2D g2d){
-	int width =  gameBoard.getWidth();
-	int height = gameBoard.getHeight();
+	int width =  (int)gameBoard.getWidth();
+	int height = (int)gameBoard.getHeight();
 	int xCoords[] = {0,0,width/2,width,width};
 	int yCoords[] = {height,height/2,height/2-100,height/2,height};
 	g2d.setColor(Color.white);
