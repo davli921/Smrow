@@ -149,6 +149,7 @@ public class GameComponent extends JComponent implements Listener
 	Color healthLeftColor = HealthBar.HEALTH_LEFT_COLOR;
 	Color healthLostColor = HealthBar.HEALTH_LOST_COLOR;
 	double direction = toRadians(player.getDirection());
+
 	/////Affinetransform for players, in progress
 
 	int playerAnchorPointX = (int)player.getXPos() + playerSize / 2;
@@ -157,6 +158,7 @@ public class GameComponent extends JComponent implements Listener
 
 	transformer.setToRotation(direction, playerAnchorPointX, playerAnchorPointY);
 	g2d.setTransform(transformer);
+
 
 	HealthBar healthBar = player.getHealthBar();
 	Rectangle healthLeft = healthBar.getHealthLeft();
@@ -188,10 +190,10 @@ public class GameComponent extends JComponent implements Listener
 	double weaponAngle = weapon.getDirection();
 	int weaponLength = (int) weapon.getLength();
 	int weaponHeight = (int) weapon.getHeight();
-	int weaponPosX = (int) playerXPos + playerSize / 2;
-	int weaponPosY = (int) playerYPos + playerSize / 2 - weaponHeight / 2;
-	int anchorPointX = (int) weaponPosX + 2;
-	int anchorPointY = (int) weaponPosY + weaponHeight / 2;
+	int weaponPosX =  playerXPos + playerSize / 2;
+	int weaponPosY =  playerYPos + playerSize / 2 - weaponHeight / 2;
+	int anchorPointX =  weaponPosX + 2;
+	int anchorPointY =  weaponPosY + weaponHeight / 2;
 	Color color = weapon.getColor();
 	g2d.setColor(color);
 

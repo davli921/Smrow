@@ -14,7 +14,7 @@ import java.awt.Color;
 public class Player implements Collidable
 {
 
-    final static double PLAYER_SIZE = 35;
+    final static double PLAYER_SIZE = 34;
     final static double MOVE_STEP = 5;
     final static int MAX_HP = 100;
     final static Color COLOR = Color.black;
