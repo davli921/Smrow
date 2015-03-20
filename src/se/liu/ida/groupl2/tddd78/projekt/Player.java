@@ -33,12 +33,12 @@ public class Player implements Collidable
 
     }
 
-    public int getXPos() {
-        return (int) xPos;
+    public double getXPos() {
+        return xPos;
     }
 
-    public int getYPos() {
-        return (int) yPos;
+    public double getYPos() {
+        return yPos;
     }
 
     public double getDirection() {
@@ -67,11 +67,11 @@ public class Player implements Collidable
     }
 
     // These two do the same thing but are seperate so they fit in "Collidable"
-    public int getWidth() {
+    public double getWidth() {
         return PLAYER_SIZE;
     }
 
-    public int getHeight() {
+    public double getHeight() {
         return PLAYER_SIZE;
     }
     // ------------------------------------------------------------------------//

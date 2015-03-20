@@ -36,7 +36,7 @@ public class GameBoard
         int playerSize = Player.PLAYER_SIZE;
 
         // Start values for player1
-        int player1StartDir = 45;
+        int player1StartDir = 0;
         int player1StartXPos = width / 10 - playerSize;
         int player1StartYPos = groundlevel - playerSize;
         this.player1 = new Player(player1StartXPos, player1StartYPos, player1StartDir, "MissileLauncher");
@@ -44,7 +44,7 @@ public class GameBoard
         // Start values for player2
         int player2StartXPos = width - width / 10;
         int player2StartYPos = groundlevel - playerSize;
-        int player2StartDir = 90;
+        int player2StartDir = 0;
         this.player2 = new Player(player2StartXPos, player2StartYPos, player2StartDir, "MissileLauncher");
 
         this.player1Turn = true;
@@ -96,7 +96,7 @@ public class GameBoard
 
     public void chargeWeapon(){
         Weapon currentWeapon = getCurrentPlayer().getWeapon();
-        int currentPower = currentWeapon.getPower();
+        int currentPower = (int) currentWeapon.getPower();
         long currentTime = System.currentTimeMillis();
         long deltaTime = currentTime- startTime;
         long chargeTime = Weapon.CHARGE_TIME;
@@ -126,7 +126,7 @@ public class GameBoard
 
             Weapon weapon = currentPlayer.getWeapon();
             double direction = weapon.getDirection();
-            int weaponLenght = weapon.getLength();
+            int weaponLenght = (int) weapon.getLength();
 
             Projectile projectile = weapon.shoot();
 
@@ -241,15 +241,15 @@ public class GameBoard
     // Returns true if there is a collision
     public boolean checkCollision(Collidable moving, Collidable obstruction){
 
-        int mXPos = moving.getXPos();
-        int mYPos = moving.getYPos();
-        int mWidth = moving.getWidth();
-        int mHeight = moving.getHeight();
+        int mXPos = (int) moving.getXPos();
+        int mYPos = (int) moving.getYPos();
+        int mWidth = (int) moving.getWidth();
+        int mHeight = (int) moving.getHeight();
 
-        int obstXPos = obstruction.getXPos();
-        int obstYPos = obstruction.getYPos();
-        int obstWidth = obstruction.getWidth();
-        int obstHeight = obstruction.getHeight();
+        int obstXPos = (int) obstruction.getXPos();
+        int obstYPos = (int) obstruction.getYPos();
+        int obstWidth = (int) obstruction.getWidth();
+        int obstHeight = (int) obstruction.getHeight();
 
         // Check if the bottom of moving is below the top of obst &&
         // check if the top of moving is above the bottom of obst &&
@@ -268,16 +268,16 @@ public class GameBoard
 
         boolean willCollide = false;
 
-        int mXPos = moving.getXPos();
-        int mYPos = moving.getYPos();
-        int mWidth = moving.getWidth();
-        int mHeight = moving.getHeight();
+        int mXPos = (int) moving.getXPos();
+        int mYPos = (int) moving.getYPos();
+        int mWidth = (int) moving.getWidth();
+        int mHeight = (int) moving.getHeight();
         int moveStep = Player.MOVE_STEP;
 
-        int obstXPos = obstruction.getXPos();
-        int obstYPos = obstruction.getYPos();
-        int obstWidth = obstruction.getWidth();
-        int obstHeight = obstruction.getHeight();
+        int obstXPos = (int) obstruction.getXPos();
+        int obstYPos = (int) obstruction.getYPos();
+        int obstWidth = (int) obstruction.getWidth();
+        int obstHeight = (int) obstruction.getHeight();
 
         // Collision with outer walls
         if ((direction == "left" && mXPos - moveStep < 0) || (direction == "right" && mXPos + mWidth + moveStep > width)) {
@@ -300,10 +300,10 @@ public class GameBoard
     }
 
     private boolean outOfBounds(Collidable moving) {
-        int mXPos = moving.getXPos();
-        int mYPos = moving.getYPos();
-        int mWidth = moving.getWidth();
-        int mHeight = moving.getHeight();
+        int mXPos = (int) moving.getXPos();
+        int mYPos = (int) moving.getYPos();
+        int mWidth = (int) moving.getWidth();
+        int mHeight = (int) moving.getHeight();
 
         // No roof outOfBound so it can still fall down even though it is not visible
         if (mXPos < 0 || mXPos + mWidth > width || mYPos + mHeight > groundlevel) {

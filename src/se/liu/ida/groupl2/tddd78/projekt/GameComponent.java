@@ -144,8 +144,8 @@ public class GameComponent extends JComponent implements Listener
 	AffineTransform oldTransformer = g2d.getTransform();
 	AffineTransform transformer = new AffineTransform();
 
-	int x = player.getXPos();
-	int y = player.getYPos();
+	int x = (int) player.getXPos();
+	int y = (int) player.getYPos();
 	int playerSize = Player.PLAYER_SIZE;
 	Color playerColor = Player.COLOR;
 	Color healthLeftColor = HealthBar.HEALTH_LEFT_COLOR;
@@ -153,8 +153,8 @@ public class GameComponent extends JComponent implements Listener
 	double direction = toRadians(player.getDirection());
 	/////Affinetransform for players, in progress
 
-	int playerAnchorPointX = player.getXPos() + playerSize / 2;
-	int playerAnchorPointY = player.getYPos() + playerSize / 2;
+	int playerAnchorPointX = (int) player.getXPos() + playerSize / 2;
+	int playerAnchorPointY = (int) player.getYPos() + playerSize / 2;
 
 
 	transformer.setToRotation(direction, playerAnchorPointX, playerAnchorPointY);
