@@ -107,7 +107,7 @@ public class GameBoard
 
     public void chargeWeapon(){
         Weapon currentWeapon = getCurrentPlayer().getWeapon();
-        int currentPower = (int)currentWeapon.getPower();
+        int currentPower = (int) currentWeapon.getPower();
         long currentTime = System.currentTimeMillis();
         long deltaTime = currentTime- startTime;
         long chargeTime = Weapon.CHARGE_TIME;

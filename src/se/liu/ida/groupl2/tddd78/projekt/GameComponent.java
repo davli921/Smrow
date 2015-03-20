@@ -142,8 +142,8 @@ public class GameComponent extends JComponent implements Listener
 	AffineTransform oldTransformer = g2d.getTransform();
 	AffineTransform transformer = new AffineTransform();
 
-	int x = (int)player.getXPos();
-	int y = (int)player.getYPos();
+	int x = (int) player.getXPos();
+	int y = (int) player.getYPos();
 	int playerSize = (int)Player.PLAYER_SIZE;
 	Color playerColor = Player.COLOR;
 	Color healthLeftColor = HealthBar.HEALTH_LEFT_COLOR;
@@ -152,13 +152,12 @@ public class GameComponent extends JComponent implements Listener
 
 	/////Affinetransform for players, in progress
 
-	int playerAnchorPointX = (int)player.getXPos() + playerSize / 2;
-	int playerAnchorPointY = (int)player.getYPos() + playerSize / 2;
+	int playerAnchorPointX = (int) player.getXPos() + playerSize / 2;
+	int playerAnchorPointY = (int) player.getYPos() + playerSize / 2;
 
 
 	transformer.setToRotation(direction, playerAnchorPointX, playerAnchorPointY);
 	g2d.setTransform(transformer);
-
 
 	HealthBar healthBar = player.getHealthBar();
 	Rectangle healthLeft = healthBar.getHealthLeft();
@@ -190,10 +189,10 @@ public class GameComponent extends JComponent implements Listener
 	double weaponAngle = weapon.getDirection();
 	int weaponLength = (int) weapon.getLength();
 	int weaponHeight = (int) weapon.getHeight();
-	int weaponPosX =  playerXPos + playerSize / 2;
-	int weaponPosY =  playerYPos + playerSize / 2 - weaponHeight / 2;
-	int anchorPointX =  weaponPosX + 2;
-	int anchorPointY =  weaponPosY + weaponHeight / 2;
+	int weaponPosX = playerXPos + playerSize / 2;
+	int weaponPosY = playerYPos + playerSize / 2 - weaponHeight / 2;
+	int anchorPointX = weaponPosX + 2;
+	int anchorPointY = weaponPosY + weaponHeight / 2;
 	Color color = weapon.getColor();
 	g2d.setColor(color);
 
