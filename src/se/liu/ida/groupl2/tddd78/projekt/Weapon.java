@@ -9,8 +9,7 @@ import java.awt.Color;
 public abstract class Weapon
 {
 
-    protected double length, height;
-    protected int power;
+    protected double length, height,power;
     protected double direction;
     protected Color color;
     protected static final int MAX_POWER = 100;
@@ -45,7 +44,7 @@ public abstract class Weapon
         this.direction = direction;
     }
 
-    public int getPower() {
+    public double getPower() {
         return power;
     }
 
