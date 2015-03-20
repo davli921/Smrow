@@ -7,11 +7,11 @@ package se.liu.ida.groupl2.tddd78.projekt;
 
 public interface Collidable
 {
-    public int getXPos();
+    public double getXPos();
 
-    public int getYPos();
+    public double getYPos();
 
-    public int getWidth();
+    public double getWidth();
 
-    public int getHeight();
+    public double getHeight();
 }

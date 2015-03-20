@@ -4,7 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.geom.AffineTransform;
-import java.util.ArrayList;
+
+import static java.lang.Math.toRadians;
+import static java.lang.Math.abs;
 
 /**
  * GameComponent is the visual representation of the playing field. Contains a GameBoard, the players-objects size, and the
@@ -134,27 +136,46 @@ public class GameComponent extends JComponent implements Listener
 	// Paint the ground
 	g2d.setColor(brown);
 	g2d.fillRect(0, gameBoard.getGroundlevel(), gameBoard.getWidth(), gameBoard.getHeight());
+
     }
 
     private void paintPlayer(Graphics2D g2d, Player player) {
+
+	AffineTransform oldTransformer = g2d.getTransform();
+	AffineTransform transformer = new AffineTransform();
+
 	int x = player.getXPos();
 	int y = player.getYPos();
-	int playerSize = Player.PLAYERSIZE;
-	g2d.setColor(Color.black);
-	g2d.fillRect(x, y, playerSize, playerSize);
+	int playerSize = Player.PLAYER_SIZE;
+	Color playerColor = Player.COLOR;
+	Color healthLeftColor = HealthBar.HEALTH_LEFT_COLOR;
+	Color healthLostColor = HealthBar.HEALTH_LOST_COLOR;
+	double direction = toRadians(player.getDirection());
+	/////Affinetransform for players, in progress
+
+	int playerAnchorPointX = player.getXPos() + playerSize / 2;
+	int playerAnchorPointY = player.getYPos() + playerSize / 2;
+
+
+	transformer.setToRotation(direction, playerAnchorPointX, playerAnchorPointY);
+	g2d.setTransform(transformer);
 
 	HealthBar healthBar = player.getHealthBar();
 	Rectangle healthLeft = healthBar.getHealthLeft();
 	Rectangle healthLost = healthBar.getHealthLost();
 
-	g2d.setColor(Color.green);
+	g2d.setColor(healthLeftColor);
 	g2d.fill(healthLeft);
 	g2d.draw(healthLeft);
 
-	g2d.setColor(Color.red);
+	g2d.setColor(healthLostColor);
 	g2d.fill(healthLost);
 	g2d.draw(healthLost);
 
+	g2d.setColor(playerColor);
+	g2d.fillRect(x, y, playerSize, playerSize);
+
+	g2d.setTransform(oldTransformer);
     }
 
     private void paintWeapon(Graphics2D g2d, Player player) {
@@ -162,22 +183,22 @@ public class GameComponent extends JComponent implements Listener
 	AffineTransform oldTransformer = g2d.getTransform();
 	AffineTransform transformer = new AffineTransform();
 
-	int playerSize = Player.PLAYERSIZE;
-	int playerXPos = player.getXPos();
-	int playerYPos = player.getYPos();
+	int playerSize = (int) Player.PLAYER_SIZE;
+	int playerXPos = (int) player.getXPos();
+	int playerYPos = (int) player.getYPos();
 	Weapon weapon = player.getWeapon();
-	double weaponAngle = Math.toRadians(weapon.getDirection());
-	int weaponLength = weapon.getLength();
-	int weaponHeight = weapon.getHeight();
-	int weaponPosX = playerXPos + playerSize / 2;
-	int weaponPosY = playerYPos + playerSize / 2 - weaponHeight / 2;
-	int anchorPointX = weaponPosX + 2;
-	int anchorPointY = weaponPosY + weaponHeight / 2;
+	double weaponAngle = weapon.getDirection();
+	int weaponLength = (int) weapon.getLength();
+	int weaponHeight = (int) weapon.getHeight();
+	int weaponPosX = (int) playerXPos + playerSize / 2;
+	int weaponPosY = (int) playerYPos + playerSize / 2 - weaponHeight / 2;
+	int anchorPointX = (int) weaponPosX + 2;
+	int anchorPointY = (int) weaponPosY + weaponHeight / 2;
 	Color color = weapon.getColor();
 	g2d.setColor(color);
 
 	// Rotates the weapon around two anchor points.
-	transformer.setToRotation(weaponAngle, anchorPointX, anchorPointY);
+	transformer.setToRotation(toRadians(weaponAngle), anchorPointX, anchorPointY);
 	g2d.setTransform(transformer);
 
 	Rectangle weaponShape = new Rectangle(weaponPosX, weaponPosY, weaponLength, weaponHeight);
@@ -191,9 +212,9 @@ public class GameComponent extends JComponent implements Listener
 	Projectile projectile = gameBoard.getProjectile();
 	if (projectile != null) {
 	    Color color = projectile.getColor();
-	    int radius = projectile.getRadius();
-	    int xPos = projectile.getXPos();
-	    int yPos = projectile.getYPos();
+	    int radius = (int) projectile.getRadius();
+	    int xPos = (int) projectile.getXPos();
+	    int yPos = (int) projectile.getYPos();
 
 	    g2d.setColor(color);
 	    g2d.fillOval(xPos, yPos, radius * 2, radius * 2);
@@ -224,8 +245,7 @@ public class GameComponent extends JComponent implements Listener
 	}
 
 
-
-	int anglePlayer1 = (int) Math.abs(player1.getWeapon().getDirection()) % 360;
+	int anglePlayer1 = (int) abs(player1.getWeapon().getDirection()) % 360;
 	String powerPlayer1 = "Power: " + player1.getWeapon().getPower();
 	String currentHealthPlayer1 = "Hp: " + player1.getHealth();
 	String player1Name = "Player 1";
@@ -236,7 +256,7 @@ public class GameComponent extends JComponent implements Listener
 	g2d.drawString(weaponAnglePlayer1, fieldPlayer1XPos, angleFieldYPos);
 
 
-	int anglePlayer2 = (int) (Math.abs(player2.getWeapon().getDirection()) % 360 - 180);
+	int anglePlayer2 = (int) (abs(player2.getWeapon().getDirection()) % 360 - 180);
 	String powerPlayer2 = "Power: " + player2.getWeapon().getPower();
 	String currentHealthPlayer2 = "Hp: " + player2.getHealth();
 	String player2Name = "Player 2";

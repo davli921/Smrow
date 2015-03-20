@@ -1,7 +1,6 @@
 package se.liu.ida.groupl2.tddd78.projekt;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static java.lang.Math.cos;
@@ -34,18 +33,19 @@ public class GameBoard
 	this.height = height;
 	// Two thirds of the board will be above ground
 	this.groundlevel = (height / 3) * 2;
+        int playerSize = Player.PLAYER_SIZE;
 
         // Start values for player1
-        int player1StartDir = 0;
-        int player1startXPos = width/10 -Player.PLAYERSIZE;
-        int player1StartYPos = groundlevel -Player.PLAYERSIZE;
-        this.player1 = new Player(player1startXPos, player1StartYPos, player1StartDir,"MissileLauncher");
+        int player1StartDir = 45;
+        int player1StartXPos = width / 10 - playerSize;
+        int player1StartYPos = groundlevel - playerSize;
+        this.player1 = new Player(player1StartXPos, player1StartYPos, player1StartDir, "MissileLauncher");
 
         // Start values for player2
-        int player2startXPos = width - width/10;
-        int player2StartYPos = groundlevel -Player.PLAYERSIZE;
-        int player2StartDir = 180;
-        this.player2 = new Player(player2startXPos, player2StartYPos,player2StartDir,"MissileLauncher");
+        int player2StartXPos = width - width / 10;
+        int player2StartYPos = groundlevel - playerSize;
+        int player2StartDir = 90;
+        this.player2 = new Player(player2StartXPos, player2StartYPos, player2StartDir, "MissileLauncher");
 
         this.player1Turn = true;
         this.betweenTurns = false;
@@ -99,8 +99,8 @@ public class GameBoard
         int currentPower = currentWeapon.getPower();
         long currentTime = System.currentTimeMillis();
         long deltaTime = currentTime- startTime;
-        long chargeTime = Weapon.CHARGETIME;
-        int maxPower = Weapon.MAXPOWER;
+        long chargeTime = Weapon.CHARGE_TIME;
+        int maxPower = Weapon.MAX_POWER;
 
         if(!betweenTurns){
             if(deltaTime>chargeTime && currentPower < maxPower){
@@ -120,7 +120,7 @@ public class GameBoard
     public void shotsFired() {
         if (!betweenTurns) {
             Player currentPlayer = getCurrentPlayer();
-            double playerSize = Player.PLAYERSIZE;
+            double playerSize = Player.PLAYER_SIZE;
             double middleXOfPlayer = currentPlayer.getXPos() + playerSize/2.0;
             double middleYOfPlayer = currentPlayer.getYPos() + playerSize/2.0;
 
@@ -272,7 +272,7 @@ public class GameBoard
         int mYPos = moving.getYPos();
         int mWidth = moving.getWidth();
         int mHeight = moving.getHeight();
-        int moveStep = Player.MOVESTEP;
+        int moveStep = Player.MOVE_STEP;
 
         int obstXPos = obstruction.getXPos();
         int obstYPos = obstruction.getYPos();

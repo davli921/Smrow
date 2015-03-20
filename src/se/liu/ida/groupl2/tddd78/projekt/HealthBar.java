@@ -1,6 +1,6 @@
 package se.liu.ida.groupl2.tddd78.projekt;
 
-import java.awt.Rectangle;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,9 +10,11 @@ import java.util.List;
 
 public class HealthBar
 {
+    final static Color HEALTH_LEFT_COLOR = Color.green;
+    final static Color HEALTH_LOST_COLOR = Color.red;
     private List<Rectangle> healthBar;
     private Player player;
-    private int playerSize = Player.PLAYERSIZE;
+    private int playerSize = Player.PLAYER_SIZE;
     private int length;
     private int healthLostLength;
     private int distanceAbovePlayer;
@@ -23,8 +25,8 @@ public class HealthBar
 	this.player = player;
 	this.length = 20;
 	this.distanceAbovePlayer = 10;
-	this.xPos = player.getXPos();
-	this.yPos = player.getYPos();
+	this.xPos = (int) player.getXPos();
+	this.yPos = (int) player.getYPos();
 	// Length -1 so that it doesnt get painted.
 	this.healthLostLength = -1;
 
@@ -44,10 +46,10 @@ public class HealthBar
     }
 
     public void updateHealthBar() {
-	int maxHp = Player.MAXHP;
+	int maxHp = (int) Player.MAX_HP;
 	int health = player.getHealth();
-	this.xPos = player.getXPos();
-	this.yPos = player.getYPos();
+	this.xPos = (int) player.getXPos();
+	this.yPos = (int) player.getYPos();
 
 	double healthChange = (double) health / maxHp;
 

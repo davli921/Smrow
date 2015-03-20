@@ -12,10 +12,11 @@ public abstract class Projectile implements Collidable
     // because when we calculate the new positions with trigonometric functions they in some cases return less than +1 in change.
     // The getters however is still returning int, so that projectile fullfills the contract of Collidable.
     protected double xPos, yPos,speed, direction;
-    protected int dmg, width, height;
+    protected int dmg;
+    protected double width, height;
     protected Color color;
 
-    protected Projectile(int dmg, Color color, int width, int height, double speed, double direction) {
+    protected Projectile(int dmg, Color color, double width, double height, double speed, double direction) {
         this.dmg = dmg;
         this.color = color;
         this.width = width;
@@ -28,16 +29,16 @@ public abstract class Projectile implements Collidable
         return dmg;
     }
 
-    public int getXPos() {
-        return (int) xPos;
+    public double getXPos() {
+        return xPos;
     }
 
     public void setXPos(double xPos) {
         this.xPos = xPos;
     }
 
-    public int getYPos() {
-        return (int) yPos;
+    public double getYPos() {
+        return yPos;
     }
 
     public void setYPos(double yPos) {
@@ -48,18 +49,18 @@ public abstract class Projectile implements Collidable
         return color;
     }
 
-    @Override public int getWidth() {
+    @Override public double getWidth() {
         return width;
     }
 
-    @Override public int getHeight() {
+    @Override public double getHeight() {
         return height;
     }
 
     abstract void move();
 
     //temporal, maybe different shape later
-    abstract int getRadius();
+    abstract double getRadius();
     
     
 }

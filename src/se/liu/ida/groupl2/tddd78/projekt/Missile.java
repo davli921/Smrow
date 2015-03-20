@@ -14,9 +14,9 @@ import static java.lang.Math.pow;
 public class Missile extends Projectile
 {
     final static Color COLOR = Color.BLACK;
-    final static int WIDTH = 2;
-    final static int HEIGHT = 2;
-    final static int RADIUS = 2;
+    final static double WIDTH = 2.0;
+    final static double HEIGHT = 2.0;
+    final static double RADIUS = 2.0;
     private long timeOfBirth;
 
     public Missile(int dmg, double speed, double direction) {
@@ -24,8 +24,8 @@ public class Missile extends Projectile
         this.timeOfBirth = System.currentTimeMillis();
     }
 
-    public int getRadius() {
-	return RADIUS;
+    public double getRadius() {
+        return RADIUS;
     }
 
     public void move() {

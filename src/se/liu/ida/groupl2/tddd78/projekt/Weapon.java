@@ -9,14 +9,14 @@ import java.awt.Color;
 public abstract class Weapon
 {
 
-    protected int length,height,power;
+    protected double length, height, power;
     protected double direction;
     protected Color color;
-    protected static final int MAXPOWER = 100;
+    protected static final int MAX_POWER = 100;
     // Chargetime in milliseconds
-    protected static final long CHARGETIME = 50;
+    protected static final long CHARGE_TIME = 50;
 
-    protected Weapon(final int length, final int height, final Color color, final double direction) {
+    protected Weapon(final double length, final double height, final Color color, final double direction) {
         this.length = length;
         this.height = height;
         this.color = color;
@@ -24,11 +24,11 @@ public abstract class Weapon
         this.power = 0;
     }
 
-    public int getLength() {
+    public double getLength() {
         return length;
     }
 
-    public int getHeight() {
+    public double getHeight() {
         return height;
     }
 
@@ -44,7 +44,7 @@ public abstract class Weapon
         this.direction = direction;
     }
 
-    public int getPower() {
+    public double getPower() {
         return power;
     }
 

@@ -9,8 +9,8 @@ import java.awt.Color;
 public class MissileLauncher extends Weapon
 {
 
-    final static int LENGTH = 50;
-    final static int HEIGHT = 10;
+    final static double LENGTH = 50;
+    final static double HEIGHT = 10;
     final static int DMG = 20;
     final static Color COLOR = Color.RED;
 
