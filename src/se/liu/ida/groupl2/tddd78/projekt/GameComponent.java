@@ -242,7 +242,7 @@ public class GameComponent extends JComponent implements Listener
 	    g2d.drawString(currentPlayerName, 450, playerFieldYPos);
 	}
 
-
+	// Problems if the player is rotated!!
 	int anglePlayer1 = (int) abs(player1.getWeapon().getDirection()) % 360;
 	String powerPlayer1 = "Power: " + player1.getWeapon().getPower();
 	String currentHealthPlayer1 = "Hp: " + player1.getHealth();
