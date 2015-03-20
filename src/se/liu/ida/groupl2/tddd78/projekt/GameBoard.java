@@ -44,7 +44,7 @@ public class GameBoard
         // Start values for player2
         int player2StartXPos = width - width / 10;
         int player2StartYPos = groundlevel - playerSize;
-        int player2StartDir = 0;
+        int player2StartDir = 180;
         this.player2 = new Player(player2StartXPos, player2StartYPos, player2StartDir, "MissileLauncher");
 
         this.player1Turn = true;
