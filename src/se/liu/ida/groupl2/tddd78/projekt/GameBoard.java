@@ -46,15 +46,13 @@ public class GameBoard
         int player1StartDir = 0;
         int player1startXPos = width/10 -Player.PLAYERSIZE;
         int player1StartYPos = groundlevel -Player.PLAYERSIZE;
-        Weapon player1Weapon = new MissileLauncher(player1StartDir);
-        this.player1 = new Player(player1startXPos, player1StartYPos, player1Weapon);
+        this.player1 = new Player(player1startXPos, player1StartYPos, player1StartDir,"MissileLauncher");
 
         // Start values for player2
         int player2startXPos = width - width/10;
         int player2StartYPos = groundlevel -Player.PLAYERSIZE;
         int player2StartDir = 180;
-        Weapon player2Weapon = new MissileLauncher(player2StartDir);
-        this.player2 = new Player(player2startXPos, player2StartYPos,player2Weapon);
+        this.player2 = new Player(player2startXPos, player2StartYPos,player2StartDir,"MissileLauncher");
 
         this.player1Turn = true;
         this.betweenTurns = false;
@@ -105,11 +103,15 @@ public class GameBoard
         long chargeTime = Weapon.CHARGETIME;
         int maxPower = Weapon.MAXPOWER;
 
-        if(deltaTime>chargeTime && currentPower < maxPower){
-            currentPower++;
-            currentWeapon.setPower(currentPower);
-            startTime = System.currentTimeMillis();
+        if(!betweenTurns){
+            if(deltaTime>chargeTime && currentPower < maxPower){
+                currentPower++;
+                currentWeapon.setPower(currentPower);
+                startTime = System.currentTimeMillis();
+            }
         }
+
+
 
     }
 
@@ -344,6 +346,5 @@ public class GameBoard
         }
         notifyListener();
     }
-
 
 }

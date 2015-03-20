@@ -14,16 +14,18 @@ public class Player implements Collidable
     final static int MAXHP = 100;
     private int xPos;
     private int yPos;
-    private Weapon weapon;
+    private double direction;
     private int health;
     private HealthBar healthBar;
+    private Weapon weapon;
 
-    public Player(final int xPos, final int yPos, Weapon weapon) {
+    public Player(final int xPos, final int yPos, double direction, String weapon) {
         this.xPos = xPos;
         this.yPos = yPos;
-        this.weapon = weapon;
+        this.direction = direction;
         this.health = 100;
         this.healthBar = new HealthBar(this);
+        createWeapon(weapon);
 
     }
 
@@ -69,6 +71,16 @@ public class Player implements Collidable
         } else if (horizontalDirection == "left") {
             xPos -= MOVESTEP;
             this.healthBar.updateHealthBar();
+        }
+    }
+
+    private void createWeapon(String weapon){
+        switch (weapon){
+            case "MissileLauncher":
+                this.weapon = new MissileLauncher(direction);
+                break;
+            default:
+                break;
         }
     }
 

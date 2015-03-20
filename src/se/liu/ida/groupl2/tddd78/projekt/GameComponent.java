@@ -17,17 +17,12 @@ public class GameComponent extends JComponent implements Listener
     private Player player1;
     private Player player2;
 
-    private long startTime;
-    private static final long RELOAD_TIME = 250;
-
     public GameComponent(final GameBoard gameBoard) {
 	this.gameBoard = gameBoard;
 	this.player1 = gameBoard.getPlayer1();
 	this.player2 = gameBoard.getPlayer2();
 	final InputMap inputMap = new InputMap();
 	final ActionMap actionMap = new ActionMap();
-
-	this.startTime = System.currentTimeMillis();
 
 	// Event Handling
 	Action moveLeft = new AbstractAction()
@@ -62,14 +57,6 @@ public class GameComponent extends JComponent implements Listener
 	{
 	    @Override public void actionPerformed(final ActionEvent e) {
 		gameBoard.setChargingWeapon(true);
-		/*
-		long currentTime = System.currentTimeMillis();
-		long deltaTime = currentTime - startTime;
-		if(deltaTime >= RELOAD_TIME){
-		    gameBoard.chargeWeapon();
-		    startTime = currentTime;
-		}
-		*/
 	    }
 	};
 
