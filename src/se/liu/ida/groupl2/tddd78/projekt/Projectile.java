@@ -11,9 +11,8 @@ public abstract class Projectile implements Collidable
     // We chose to have the positions in double to be able to move the projectile less than one pixel in the move() function
     // because when we calculate the new positions with trigonometric functions they in some cases return less than +1 in change.
     // The getters however is still returning int, so that projectile fullfills the contract of Collidable.
-    protected double xPos, yPos;
+    protected double xPos, yPos,speed, direction;
     protected int dmg, width, height;
-    protected double speed, direction;
     protected Color color;
 
     protected Projectile(int dmg, Color color, int width, int height, double speed, double direction) {

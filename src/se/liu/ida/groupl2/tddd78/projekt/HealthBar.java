@@ -43,7 +43,6 @@ public class HealthBar
 	return healthBar.get(1);
     }
 
-
     public void updateHealthBar() {
 	int maxHp = Player.MAXHP;
 	int health = player.getHealth();

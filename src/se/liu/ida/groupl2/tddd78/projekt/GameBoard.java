@@ -1,6 +1,7 @@
 package se.liu.ida.groupl2.tddd78.projekt;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static java.lang.Math.cos;
@@ -15,24 +16,16 @@ import static java.lang.Math.toRadians;
 public class GameBoard
 {
 
-    private int width;
-    private int height;
-    // Player & Projectile -objects only moveable above groundlevel
-    private int groundlevel;
+    private int width,height,groundlevel;
 
     // One projectile at the time since it is turn-based
     private Projectile projectile;
 
     private Player player1;
     private Player player2;
-    private boolean player1Turn;
-    // betweenTurns true between to turns
-    private boolean betweenTurns;
+    private boolean player1Turn, betweenTurns,chargingWeapon,gameOver;
 
-    private boolean chargingWeapon;
     private long startTime;
-
-    private boolean gameOver = false;
 
     private List<Listener> listeners;
 
@@ -56,12 +49,16 @@ public class GameBoard
 
         this.player1Turn = true;
         this.betweenTurns = false;
-
         this.chargingWeapon = false;
+        this.gameOver = false;
+
         this.startTime = System.currentTimeMillis();
 
         this.listeners = new ArrayList<>();
+
     }
+
+    // GETTERS & SETTERS ----------------------------------//
 
     public int getWidth() {
 	return width;
@@ -90,6 +87,8 @@ public class GameBoard
     public Projectile getProjectile() {
         return projectile;
     }
+
+    //---------------------------------------------------//
 
     public void setChargingWeapon(final boolean chargingWeapon) {
         this.chargingWeapon = chargingWeapon;

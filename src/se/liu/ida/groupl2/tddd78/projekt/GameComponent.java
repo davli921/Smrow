@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
 
 /**
  * GameComponent is the visual representation of the playing field. Contains a GameBoard, the players-objects size, and the
@@ -14,8 +15,7 @@ public class GameComponent extends JComponent implements Listener
 {
 
     private GameBoard gameBoard;
-    private Player player1;
-    private Player player2;
+    private Player player1,player2;
 
     public GameComponent(final GameBoard gameBoard) {
 	this.gameBoard = gameBoard;
@@ -102,6 +102,9 @@ public class GameComponent extends JComponent implements Listener
 	// Paint the board
 	paintBoard(g2d);
 
+	//Paint ground
+	paintGround(g2d);
+
 	// Paint the player
 	paintPlayer(g2d, player1);
 	paintPlayer(g2d, player2);
@@ -115,6 +118,8 @@ public class GameComponent extends JComponent implements Listener
 
 	// Paint the statusField
 	paintStatusField(g2d);
+
+
     }
 
     private void paintBoard(Graphics2D g2d) {
@@ -240,6 +245,16 @@ public class GameComponent extends JComponent implements Listener
 	g2d.drawString(powerPlayer2, fieldPlayer2XPos, powerFieldYPos);
 	g2d.drawString(player2Name, fieldPlayer2XPos, playerFieldYPos);
 	g2d.drawString(weaponAnglePlayer2, fieldPlayer2XPos, angleFieldYPos);
+    }
+
+    private void paintGround(Graphics2D g2d){
+	int width =  gameBoard.getWidth();
+	int height = gameBoard.getHeight();
+	int xCoords[] = {0,0,width/2,width,width};
+	int yCoords[] = {height,height/2,height/2-100,height/2,height};
+	g2d.setColor(Color.white);
+	Polygon polygon = new Polygon(xCoords, yCoords,5);
+	g2d.fillPolygon(polygon);
     }
 
     public void update() {

@@ -9,10 +9,8 @@ import java.awt.Color;
 public abstract class Weapon
 {
 
-    protected int length;
-    protected int height;
+    protected int length,height,power;
     protected double direction;
-    protected int power;
     protected Color color;
     protected static final int MAXPOWER = 100;
     // Chargetime in milliseconds

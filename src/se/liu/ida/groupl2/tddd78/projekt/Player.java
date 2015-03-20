@@ -1,5 +1,8 @@
 package se.liu.ida.groupl2.tddd78.projekt;
 
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
+import static java.lang.Math.toRadians;
 
 /**
  * The Player class contains information about the objects position and its size. It has a list of listeners which it can notify
@@ -12,14 +15,12 @@ public class Player implements Collidable
     final static int PLAYERSIZE = 35;
     final static int MOVESTEP = 5;
     final static int MAXHP = 100;
-    private int xPos;
-    private int yPos;
-    private double direction;
     private int health;
+    private double xPos,yPos,direction;
     private HealthBar healthBar;
     private Weapon weapon;
 
-    public Player(final int xPos, final int yPos, double direction, String weapon) {
+    public Player(double xPos, double yPos, double direction, String weapon) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.direction = direction;
@@ -30,11 +31,19 @@ public class Player implements Collidable
     }
 
     public int getXPos() {
-        return xPos;
+        return (int) xPos;
     }
 
     public int getYPos() {
-        return yPos;
+        return (int) yPos;
+    }
+
+    public double getDirection() {
+        return direction;
+    }
+
+    public void setDirection(final double direction) {
+        this.direction = direction;
     }
 
     public Weapon getWeapon() {
@@ -65,11 +74,14 @@ public class Player implements Collidable
     // ------------------------------------------------------------------------//
 
     public void move(String horizontalDirection) {
+        double directionRadians = toRadians(direction);
         if (horizontalDirection == "right") {
-            xPos += MOVESTEP;
+            xPos += (MOVESTEP*cos(directionRadians));
+            yPos -= (MOVESTEP*sin(directionRadians));
             this.healthBar.updateHealthBar();
         } else if (horizontalDirection == "left") {
-            xPos -= MOVESTEP;
+            xPos -=  (MOVESTEP * cos(directionRadians));
+            yPos += (MOVESTEP*sin(directionRadians));
             this.healthBar.updateHealthBar();
         }
     }
@@ -77,7 +89,7 @@ public class Player implements Collidable
     private void createWeapon(String weapon){
         switch (weapon){
             case "MissileLauncher":
-                this.weapon = new MissileLauncher(direction);
+                this.weapon = new MissileLauncher(0);
                 break;
             default:
                 break;
