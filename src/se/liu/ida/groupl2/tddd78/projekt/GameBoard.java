@@ -120,9 +120,6 @@ public class GameBoard
                 startTime = System.currentTimeMillis();
             }
         }
-
-
-
     }
 
     // Creates a projectile using Weapon.shoot() then writes it as the
@@ -160,10 +157,13 @@ public class GameBoard
     public void moveCurrentPlayer(String horizontalDirection) {
         double xPos = getCurrentPlayer().getXPos();
         double gradient = getGradient(xPos);
-        double direction = atan(gradient);
-        getCurrentPlayer().setDirection(direction);
+        double directionRadians = atan(gradient);
+        double directionDegrees = Math.toDegrees(directionRadians);
+        getCurrentPlayer().setDirection(directionDegrees);
 
-        System.out.println(Math.toDegrees(direction));
+        System.out.println(directionDegrees);
+        double test = getGradient(100);
+        double test
 
         if (!betweenTurns && !chargingWeapon) {
 
