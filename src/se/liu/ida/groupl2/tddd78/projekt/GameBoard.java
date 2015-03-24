@@ -36,7 +36,6 @@ public class GameBoard
 	this.height = height;
 	// Two thirds of the board will be above ground
 	this.groundlevel = (height / 3) * 2;
-        double playerSize = Player.PLAYER_SIZE;
 
         this.player1Turn = true;
         this.betweenTurns = false;
@@ -56,6 +55,7 @@ public class GameBoard
         addGroundPoint(width,groundlevel);
         addGroundPoint(width,height);
 
+        double playerSize = Player.PLAYER_SIZE;
         // Start values for player1
         double player1StartXPos = width / 10 - playerSize;
         double player1StartDir = Math.toDegrees(Math.atan(getGradient(player1StartXPos)));
@@ -193,7 +193,6 @@ public class GameBoard
         double x2 = xCoords.get(i);
         double x1 = xCoords.get(i-1);
 
-        // (-1) to compensate for y-axis pointing south.
         double gradient = (y2-y1)/(x2-x1);
         return gradient;
     }
