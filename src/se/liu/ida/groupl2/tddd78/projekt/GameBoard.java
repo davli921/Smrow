@@ -38,18 +38,6 @@ public class GameBoard
 	this.groundlevel = (height / 3) * 2;
         double playerSize = Player.PLAYER_SIZE;
 
-        // Start values for player1
-        double player1StartDir = 0;
-        double player1StartXPos = width / 10 - playerSize;
-        double player1StartYPos = groundlevel - playerSize;
-        this.player1 = new Player(player1StartXPos, player1StartYPos, player1StartDir, "MissileLauncher");
-
-        // Start values for player2
-        double player2StartXPos = width - width / 10;
-        double player2StartYPos = groundlevel - playerSize;
-        int player2StartDir = 180;
-        this.player2 = new Player(player2StartXPos, player2StartYPos, player2StartDir, "MissileLauncher");
-
         this.player1Turn = true;
         this.betweenTurns = false;
         this.chargingWeapon = false;
@@ -64,9 +52,24 @@ public class GameBoard
         this.yCoords = new ArrayList<>();
         addGroundPoint(0,height);
         addGroundPoint(0,groundlevel);
-        addGroundPoint(groundlevel+50,height/2);
+        addGroundPoint(width/2,groundlevel-50);
         addGroundPoint(width,groundlevel);
         addGroundPoint(width,height);
+
+        // Start values for player1
+        double player1StartXPos = width / 10 - playerSize;
+        double player1StartDir = Math.toDegrees(Math.atan(getGradient(player1StartXPos)));
+        System.out.println(player1StartDir);
+        double player1StartYPos = groundlevel - playerSize + (player1StartXPos+playerSize/2)*Math.tan(Math.toRadians(player1StartDir));
+        this.player1 = new Player(player1StartXPos, player1StartYPos, player1StartDir, "MissileLauncher");
+
+        // Start values for player2
+        double player2StartXPos = width - width / 10;
+        double player2StartDir = Math.toDegrees(Math.atan(getGradient(player2StartXPos)));
+        System.out.println("2 DIR " + player2StartDir);
+        double player2StartYPos = groundlevel - playerSize - (width-(player2StartXPos+playerSize/2))*Math.tan(Math.toRadians(player2StartDir));
+        this.player2 = new Player(player2StartXPos, player2StartYPos, player2StartDir, "MissileLauncher");
+
     }
 
     // GETTERS & SETTERS ----------------------------------//
@@ -155,15 +158,11 @@ public class GameBoard
     // If String is "right" move right, if "left" ...
     // If invalid string do nothing
     public void moveCurrentPlayer(String horizontalDirection) {
-        double xPos = getCurrentPlayer().getXPos();
+        double xPos = getCurrentPlayer().getXPos()+Player.PLAYER_SIZE/2;
         double gradient = getGradient(xPos);
         double directionRadians = atan(gradient);
         double directionDegrees = Math.toDegrees(directionRadians);
         getCurrentPlayer().setDirection(directionDegrees);
-
-        System.out.println(directionDegrees);
-        double test = getGradient(100);
-        double test
 
         if (!betweenTurns && !chargingWeapon) {
 
@@ -185,15 +184,16 @@ public class GameBoard
 
     private double getGradient(double xPos){
         int i = 0;
-        while(xPos > xCoords.get(i)){
+        while(xPos >= xCoords.get(i)){
             i++;
         }
-        // *(-1) since the coords system is flipped
-        double y2 = (-1)*yCoords.get(i);
-        double y1 = (-1)*yCoords.get(i-1);
+
+        double y2 = yCoords.get(i);
+        double y1 = yCoords.get(i-1);
         double x2 = xCoords.get(i);
         double x1 = xCoords.get(i-1);
 
+        // (-1) to compensate for y-axis pointing south.
         double gradient = (y2-y1)/(x2-x1);
         return gradient;
     }

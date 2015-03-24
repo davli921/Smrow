@@ -80,11 +80,11 @@ public class Player implements Collidable
         double directionRadians = toRadians(direction);
         if (horizontalDirection == "right") {
             xPos += (MOVE_STEP * cos(directionRadians));
-            yPos -= (MOVE_STEP * sin(directionRadians));
+            yPos += (MOVE_STEP * sin(directionRadians));
             this.healthBar.updateHealthBar();
         } else if (horizontalDirection == "left") {
-            xPos -= (MOVE_STEP * cos(directionRadians));
-            yPos += (MOVE_STEP * sin(directionRadians));
+            xPos += (MOVE_STEP * cos(directionRadians+Math.PI));
+            yPos += (MOVE_STEP * sin(directionRadians+Math.PI));
             this.healthBar.updateHealthBar();
         }
     }

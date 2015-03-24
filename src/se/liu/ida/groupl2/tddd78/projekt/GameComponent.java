@@ -269,8 +269,9 @@ public class GameComponent extends JComponent implements Listener
     private void paintGround(Graphics2D g2d){
 	int width =  (int)gameBoard.getWidth();
 	int height = (int)gameBoard.getHeight();
+	int groundlevel = (int)gameBoard.getGroundlevel();
 	int xCoords[] = {0,0,width/2,width,width};
-	int yCoords[] = {height,height/2,height/2-100,height/2,height};
+	int yCoords[] = {height,groundlevel,groundlevel-50,groundlevel,height};
 	g2d.setColor(Color.white);
 	Polygon polygon = new Polygon(xCoords, yCoords,5);
 	g2d.fillPolygon(polygon);
