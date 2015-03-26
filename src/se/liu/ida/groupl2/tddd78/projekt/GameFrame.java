@@ -17,6 +17,9 @@ import java.awt.event.ActionListener;
 public class GameFrame extends JFrame
 {
 
+    // Gameframe ska ha component fält och setter till detta. Menucomponent i constructor,
+    // den kan skappa ett gameboard och ändra till gamecomponent. Gameboard kollar gameover
+    // och om sann så skapas highscoreComponent osv...
     public GameFrame(final String title, GameComponent gameComponent) throws HeadlessException {
 	super(title);
 	this.setLayout(new BorderLayout());
