@@ -46,6 +46,7 @@ public class GameBoard
 
         this.listeners = new ArrayList<>();
 
+        // FIXA
         // List over cords where the ground changes
         this.xCoords = new ArrayList<>();
         this.yCoords = new ArrayList<>();
@@ -55,6 +56,7 @@ public class GameBoard
         addGroundPoint(width,groundlevel);
         addGroundPoint(width,height);
 
+        // Player construction ------------------------------//
         double playerSize = Player.PLAYER_SIZE;
         // Start values for player1
         double player1StartXPos = width / 10 - playerSize;
@@ -69,7 +71,7 @@ public class GameBoard
         System.out.println("2 DIR " + player2StartDir);
         double player2StartYPos = groundlevel - playerSize - (width-(player2StartXPos+playerSize/2))*Math.tan(Math.toRadians(player2StartDir));
         this.player2 = new Player(player2StartXPos, player2StartYPos, player2StartDir, "MissileLauncher");
-
+        // -------------------------------------------------//
     }
 
     // GETTERS & SETTERS ----------------------------------//
@@ -113,11 +115,9 @@ public class GameBoard
         int currentPower = (int) currentWeapon.getPower();
         long currentTime = System.currentTimeMillis();
         long deltaTime = currentTime- startTime;
-        long chargeTime = Weapon.CHARGE_TIME;
-        int maxPower = Weapon.MAX_POWER;
 
         if(!betweenTurns){
-            if(deltaTime>chargeTime && currentPower < maxPower){
+            if(deltaTime>Weapon.CHARGE_TIME && currentPower < Weapon.MAX_POWER){
                 currentPower++;
                 currentWeapon.setPower(currentPower);
                 startTime = System.currentTimeMillis();
@@ -141,10 +141,8 @@ public class GameBoard
 
             Projectile projectile = weapon.shoot();
 
-            double spawnPointX = middleXOfPlayer + weaponLenght * cos(toRadians(direction));
-            double spawnPointY = middleYOfPlayer + weaponLenght * sin(toRadians(direction));
-            double x = spawnPointX;
-            double y = spawnPointY;
+            double x = middleXOfPlayer + weaponLenght * cos(toRadians(direction));
+            double y = middleYOfPlayer + weaponLenght * sin(toRadians(direction));
 
             // Create it where the player is
             projectile.setXPos(x);
@@ -197,6 +195,7 @@ public class GameBoard
         return gradient;
     }
 
+    // Work in progress
     private void addGroundPoint(double xPos, double yPos){
         int x = (int) xPos;
         int y = (int) yPos;
@@ -277,6 +276,7 @@ public class GameBoard
         }
     }
 
+    // Collision controllers -------------------- //
     // Returns true if there is a collision
     public boolean checkCollision(Collidable moving, Collidable obstruction){
 
@@ -351,8 +351,9 @@ public class GameBoard
             return false;
         }
     }
+    // ------------------------------------------- //
 
-    // reset projectile, betweenTurns, and change turns. Also resets the power on the weapon
+    // Reset projectile, betweenTurns, and change turns. Also resets the power on the weapon
     private void resetProjectile() {
         this.projectile = null;
         getCurrentPlayer().getWeapon().setPower(0);
