@@ -59,16 +59,16 @@ public class GameBoard
         // Start values for player1
         double player1StartXPos = width / 10 - playerSize;
         double player1StartDir = Math.toDegrees(Math.atan(getGradient(player1StartXPos)));
-        System.out.println(player1StartDir);
         double player1StartYPos = groundlevel - playerSize + (player1StartXPos+playerSize/2)*Math.tan(Math.toRadians(player1StartDir));
         this.player1 = new Player(player1StartXPos, player1StartYPos, player1StartDir, "MissileLauncher");
+        player1.getWeapon().setDirection(0);
 
         // Start values for player2
         double player2StartXPos = width - width / 10;
         double player2StartDir = Math.toDegrees(Math.atan(getGradient(player2StartXPos)));
-        System.out.println("2 DIR " + player2StartDir);
         double player2StartYPos = groundlevel - playerSize - (width-(player2StartXPos+playerSize/2))*Math.tan(Math.toRadians(player2StartDir));
         this.player2 = new Player(player2StartXPos, player2StartYPos, player2StartDir, "MissileLauncher");
+        player2.getWeapon().setDirection(180);
 
     }
 

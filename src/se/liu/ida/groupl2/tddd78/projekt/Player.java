@@ -83,8 +83,8 @@ public class Player implements Collidable
             yPos += (MOVE_STEP * sin(directionRadians));
             this.healthBar.updateHealthBar();
         } else if (horizontalDirection == "left") {
-            xPos += (MOVE_STEP * cos(directionRadians+Math.PI));
-            yPos += (MOVE_STEP * sin(directionRadians+Math.PI));
+            xPos += (MOVE_STEP * cos(directionRadians + Math.PI));
+            yPos += (MOVE_STEP * sin(directionRadians + Math.PI));
             this.healthBar.updateHealthBar();
         }
     }
