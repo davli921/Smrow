@@ -5,7 +5,6 @@ import static java.lang.Math.sin;
 import static java.lang.Math.toRadians;
 
 import java.awt.Color;
-import java.util.Objects;
 
 /**
  * The Player class contains information about the objects position and its size. It has a list of listeners which it can notify
@@ -79,11 +78,11 @@ public class Player implements Collidable
 
     public void move(String horizontalDirection) {
         double directionRadians = toRadians(direction);
-        if (Objects.equals(horizontalDirection, "right")) {
+        if (horizontalDirection.equals("right")) {
             xPos += (MOVE_STEP * cos(directionRadians));
             yPos += (MOVE_STEP * sin(directionRadians));
             this.healthBar.updateHealthBar();
-        } else if (Objects.equals(horizontalDirection, "left")) {
+        } else if (horizontalDirection.equals("left")) {
             xPos += (MOVE_STEP * cos(directionRadians+Math.PI));
             yPos += (MOVE_STEP * sin(directionRadians+Math.PI));
             this.healthBar.updateHealthBar();
