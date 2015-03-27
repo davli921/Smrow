@@ -99,42 +99,29 @@ public class GameComponent extends JComponent implements Listener
     @Override protected void paintComponent(Graphics g) {
 	super.paintComponent(g);
 	final Graphics2D g2d = (Graphics2D) g;
-
-	// Paint the board
 	paintBoard(g2d);
-
-	//Paint ground
-	paintGround(g2d);
-
-	// Paint the player
-	paintPlayer(g2d, player1);
-	paintPlayer(g2d, player2);
-
-	// Paint the weapons on the players
-	paintWeapon(g2d, player1);
-	paintWeapon(g2d, player2);
-
-	// Paint the projectile
-	paintProjectile(g2d);
-
-	// Paint the statusField
-	paintStatusField(g2d);
-
-
     }
 
     private void paintBoard(Graphics2D g2d) {
 	// Colors
 	Color lightblue = new Color(0, 0, 182, 89);
-	Color brown = new Color(139, 69, 19);
 
 	GameBoard gameBoard = this.gameBoard;
 	// Paint the sky
 	g2d.setColor(lightblue);
 	g2d.fillRect(0, 0, (int)gameBoard.getWidth(), (int)gameBoard.getHeight());
-	// Paint the ground
-	g2d.setColor(brown);
-	g2d.fillRect(0, (int)gameBoard.getGroundlevel(), (int)gameBoard.getWidth(), (int)gameBoard.getHeight());
+
+	paintGround(g2d);
+
+	paintPlayer(g2d, player1);
+	paintWeapon(g2d, player1);
+
+	paintPlayer(g2d, player2);
+	paintWeapon(g2d, player2);
+
+	paintProjectile(g2d);
+
+	paintStatusField(g2d);
     }
 
     private void paintPlayer(Graphics2D g2d, Player player) {
@@ -200,7 +187,7 @@ public class GameComponent extends JComponent implements Listener
 	transformer.setToRotation(toRadians(weaponAngle), anchorPointX, anchorPointY);
 	g2d.setTransform(transformer);
 
-	Rectangle weaponShape = new Rectangle(weaponPosX, weaponPosY, weaponLength, weaponHeight);
+	Shape weaponShape = new Rectangle(weaponPosX, weaponPosY, weaponLength, weaponHeight);
 	g2d.draw(weaponShape);
 	g2d.fill(weaponShape);
 
@@ -270,8 +257,8 @@ public class GameComponent extends JComponent implements Listener
 	int width =  (int)gameBoard.getWidth();
 	int height = (int)gameBoard.getHeight();
 	int groundlevel = (int)gameBoard.getGroundlevel();
-	int xCoords[] = {0,0,width/2,width,width};
-	int yCoords[] = {height,groundlevel,groundlevel-50,groundlevel,height};
+	int[] xCoords = { 0, 0, width / 2, width, width };
+	int[] yCoords = { height, groundlevel, groundlevel - 50, groundlevel, height };
 	g2d.setColor(Color.white);
 	Polygon polygon = new Polygon(xCoords, yCoords,5);
 	g2d.fillPolygon(polygon);

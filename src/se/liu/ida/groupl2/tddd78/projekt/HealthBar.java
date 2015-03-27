@@ -46,7 +46,7 @@ public class HealthBar
     }
 
     public void updateHealthBar() {
-	int maxHp = (int) Player.MAX_HP;
+	int maxHp = Player.MAX_HP;
 	int health = player.getHealth();
 	this.xPos = (int) player.getXPos();
 	this.yPos = (int) player.getYPos();

@@ -12,25 +12,40 @@ import java.awt.event.ActionEvent;
 public final class TestClass
 {
 
-    private final static int WIDTH = 1000;
-    private final static int HEIGHT = 750;
+    public final static int WIDTH = 1000;
+    public final static int HEIGHT = 750;
     private static final int REFRESH_TIMER_MS = 5;
 
-    private TestClass() {}
+    // TEst meny
+    static String gameState = "menu";
+    static String lastState = "menu";
 
+    private TestClass() {}
+ 
     public static void main(String[] args) {
 	final GameBoard gameBoard = new GameBoard(WIDTH, HEIGHT);
 	GameComponent gameComponent = new GameComponent(gameBoard);
-	GameFrame frame = new GameFrame("Spel", gameComponent);
+
+	MenuComponent menuComponent = new MenuComponent();
+
+	GameFrame frame = new GameFrame("Spel", menuComponent);
 	// Adds listener
 	gameBoard.addListener(gameComponent);
-
 	frame.setVisible(true);
+
+	//TEST
 
 	final Action updateGameState = new AbstractAction()
 	{
 	    @Override public void actionPerformed(final ActionEvent e) {
-		gameBoard.tick();
+		if(gameState.equals("game") && lastState.equals("game")){
+		    gameBoard.tick();
+		}
+		else if(gameState.equals("game") && lastState.equals("menu")){
+		    frame.setComponent(gameComponent);
+		    lastState = "game";
+		}
+
 	    }
 	};
 

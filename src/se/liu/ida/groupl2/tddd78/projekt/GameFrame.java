@@ -1,10 +1,6 @@
 package se.liu.ida.groupl2.tddd78.projekt;
 
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.HeadlessException;
 import java.awt.event.ActionListener;
@@ -17,17 +13,28 @@ import java.awt.event.ActionListener;
 public class GameFrame extends JFrame
 {
 
+    private JComponent component;
+
     // Gameframe ska ha component fält och setter till detta. Menucomponent i constructor,
     // den kan skappa ett gameboard och ändra till gamecomponent. Gameboard kollar gameover
     // och om sann så skapas highscoreComponent osv...
-    public GameFrame(final String title, GameComponent gameComponent) throws HeadlessException {
+    public GameFrame(final String title, JComponent component) throws HeadlessException {
 	super(title);
 	this.setLayout(new BorderLayout());
 	this.createMenu();
-	this.add(gameComponent);
+	this.component = component;
+	this.add(component);
 	this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	// Frame is not resizable
 	this.setResizable(false);
+	this.pack();
+    }
+
+    public void setComponent(final JComponent component) {
+	this.remove(this.component);
+	this.component = component;
+	this.add(component);
+	this.component.requestFocus();
 	this.pack();
     }
 

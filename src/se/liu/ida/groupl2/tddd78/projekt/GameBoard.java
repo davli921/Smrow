@@ -2,6 +2,7 @@ package se.liu.ida.groupl2.tddd78.projekt;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
@@ -60,16 +61,18 @@ public class GameBoard
         double playerSize = Player.PLAYER_SIZE;
         // Start values for player1
         double player1StartXPos = width / 10 - playerSize;
-        double player1StartDir = Math.toDegrees(Math.atan(getGradient(player1StartXPos)));
+        double player1StartDir = Math.toDegrees(atan(getGradient(player1StartXPos)));
         System.out.println(player1StartDir);
-        double player1StartYPos = groundlevel - playerSize + (player1StartXPos+playerSize/2)*Math.tan(Math.toRadians(player1StartDir));
+        double player1StartYPos = groundlevel - playerSize + (player1StartXPos+playerSize/2)*Math.tan(
+                toRadians(player1StartDir));
         this.player1 = new Player(player1StartXPos, player1StartYPos, player1StartDir, "MissileLauncher");
 
         // Start values for player2
         double player2StartXPos = width - width / 10;
-        double player2StartDir = Math.toDegrees(Math.atan(getGradient(player2StartXPos)));
+        double player2StartDir = Math.toDegrees(atan(getGradient(player2StartXPos)));
         System.out.println("2 DIR " + player2StartDir);
-        double player2StartYPos = groundlevel - playerSize - (width-(player2StartXPos+playerSize/2))*Math.tan(Math.toRadians(player2StartDir));
+        double player2StartYPos = groundlevel - playerSize - (width-(player2StartXPos+playerSize/2))*Math.tan(
+                toRadians(player2StartDir));
         this.player2 = new Player(player2StartXPos, player2StartYPos, player2StartDir, "MissileLauncher");
         // -------------------------------------------------//
     }
@@ -212,17 +215,17 @@ public class GameBoard
             int up = -1;
             int down = 1;
             if (player == player1) {
-                if (direction == "Up") {
+                if (direction.equals("Up")) {
                     weapon.setDirection(currentDirection + up);
 
-                } else if (direction == "Down") {
+                } else if (direction.equals("Down")) {
                     weapon.setDirection(currentDirection + down);
                 }
             } else if (player == player2) {
-                if (direction == "Up") {
+                if (Objects.equals(direction, "Up")) {
                     weapon.setDirection(currentDirection + down);
 
-                } else if (direction == "Down") {
+                } else if (Objects.equals(direction, "Down")) {
                     weapon.setDirection(currentDirection + up);
                 }
             }
@@ -303,7 +306,7 @@ public class GameBoard
         }
     }
 
-    private boolean willCollide(Player moving, String direction, Collidable obstruction) {
+    private boolean willCollide(Collidable moving, String direction, Collidable obstruction) {
 
         boolean willCollide = false;
 
@@ -319,7 +322,7 @@ public class GameBoard
         double obstHeight = obstruction.getHeight();
 
         // Collision with outer walls
-        if ((direction == "left" && mXPos - moveStep < 0) || (direction == "right" && mXPos + mWidth + moveStep > width)) {
+        if ((Objects.equals(direction, "left") && mXPos - moveStep < 0) || (Objects.equals(direction, "right") && mXPos + mWidth + moveStep > width)) {
             willCollide = true;
         }
 
@@ -327,11 +330,11 @@ public class GameBoard
         // (Different statements with identical branches because of increased readability)
         else if ((mYPos + mHeight >= obstYPos && mYPos <= obstYPos + obstHeight)) {
             // Collision if moving takes a step to the right
-            if (direction == "right" && mXPos + mWidth <= obstXPos && mXPos + mWidth + moveStep > obstXPos) {
+            if (Objects.equals(direction, "right") && mXPos + mWidth <= obstXPos && mXPos + mWidth + moveStep > obstXPos) {
                 willCollide = true;
             }
             // Collision if moving takes a step to the left
-            else if (direction == "left" && mXPos >= obstXPos + obstWidth && mXPos - moveStep < obstXPos + obstWidth) {
+            else if (Objects.equals(direction, "left") && mXPos >= obstXPos + obstWidth && mXPos - moveStep < obstXPos + obstWidth) {
                 willCollide = true;
             }
         }
