@@ -21,7 +21,7 @@ public final class TestClass
     static String lastState = "menu";
 
     private TestClass() {}
- 
+
     public static void main(String[] args) {
 	final GameBoard gameBoard = new GameBoard(WIDTH, HEIGHT);
 	GameComponent gameComponent = new GameComponent(gameBoard);

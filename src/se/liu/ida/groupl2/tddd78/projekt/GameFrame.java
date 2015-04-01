@@ -1,8 +1,7 @@
 package se.liu.ida.groupl2.tddd78.projekt;
 
 import javax.swing.*;
-import java.awt.BorderLayout;
-import java.awt.HeadlessException;
+import java.awt.*;
 import java.awt.event.ActionListener;
 
 /**
@@ -20,11 +19,12 @@ public class GameFrame extends JFrame
     // och om sann så skapas highscoreComponent osv...
     public GameFrame(final String title, JComponent component) throws HeadlessException {
 	super(title);
-	this.setLayout(new BorderLayout());
+	//this.setLayout(new BorderLayout());
 	this.createMenu();
 	this.component = component;
 	this.add(component);
 	this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
 	// Frame is not resizable
 	this.setResizable(false);
 	this.pack();
@@ -39,12 +39,12 @@ public class GameFrame extends JFrame
     }
 
     private void createMenu() {
-	final JMenu alpha = new JMenu("Alpha");
+	final JMenu menu = new JMenu("Alpha");
 	final JMenuItem restart = new JMenuItem("Restart");
 	final JMenuItem exit = new JMenuItem("Exit");
-	alpha.add(restart);
-	alpha.addSeparator();
-	alpha.add(exit);
+	menu.add(restart);
+	menu.addSeparator();
+	menu.add(exit);
 
 	//Creates a action listener for the menuitems.
 	final ActionListener actionListener = e -> {
@@ -60,7 +60,7 @@ public class GameFrame extends JFrame
 	exit.addActionListener(actionListener);
 
 	final JMenuBar menuBar = new JMenuBar();
-	menuBar.add(alpha);
+	menuBar.add(menu);
 	this.setJMenuBar(menuBar);
     }
 
