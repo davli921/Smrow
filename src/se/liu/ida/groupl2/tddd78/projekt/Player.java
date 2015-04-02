@@ -22,6 +22,7 @@ public class Player implements Collidable
     private double xPos,yPos,direction;
     private HealthBar healthBar;
     private Weapon weapon;
+    private String name =  "JonhDoe";
 
     public Player(double xPos, double yPos, double direction, String weapon) {
         this.xPos = xPos;
@@ -32,6 +33,8 @@ public class Player implements Collidable
         createWeapon(weapon);
 
     }
+
+    // GETTERS & SETTERS------------------------------------------------//
 
     public double getXPos() {
         return xPos;
@@ -66,6 +69,14 @@ public class Player implements Collidable
         return this.healthBar;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     // These two do the same thing but are seperate so they fit in "Collidable"
     public double getWidth() {
         return PLAYER_SIZE;
@@ -74,6 +85,7 @@ public class Player implements Collidable
     public double getHeight() {
         return PLAYER_SIZE;
     }
+
     // ------------------------------------------------------------------------//
 
     public void move(String horizontalDirection) {

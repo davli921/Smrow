@@ -214,6 +214,9 @@ public class GameComponent extends JComponent implements Listener
 	Player player1 = gameBoard.getPlayer1();
 	Player player2 = gameBoard.getPlayer2();
 
+	String player1Name = player1.getName();
+	String player2Name = player2.getName();
+
 	int fieldPlayer1XPos = 40;
 	int fieldPlayer2XPos = 900;
 
@@ -223,10 +226,10 @@ public class GameComponent extends JComponent implements Listener
 	int healthFieldYPos = 100;
 
 	if (currentPlayer == player1) {
-	    String currentPlayerName = "Current player: " + "Player 1";
+	    String currentPlayerName = "Current player: " + player1Name;
 	    g2d.drawString(currentPlayerName, 450, playerFieldYPos);
    	 } else if (currentPlayer == player2) {
-	    String currentPlayerName = "Current player: " + "Player 2";
+	    String currentPlayerName = "Current player: " + player2Name;
 	    g2d.drawString(currentPlayerName, 450, playerFieldYPos);
 	}
 
@@ -234,7 +237,6 @@ public class GameComponent extends JComponent implements Listener
 	int anglePlayer1 = (int) abs(player1.getWeapon().getDirection()) % 360;
 	String powerPlayer1 = "Power: " + player1.getWeapon().getPower();
 	String currentHealthPlayer1 = "Hp: " + player1.getHealth();
-	String player1Name = "Player 1";
 	String weaponAnglePlayer1 = "Angle: " + anglePlayer1;
 	g2d.drawString(currentHealthPlayer1, fieldPlayer1XPos, healthFieldYPos);
 	g2d.drawString(powerPlayer1, fieldPlayer1XPos, powerFieldYPos);
@@ -245,7 +247,6 @@ public class GameComponent extends JComponent implements Listener
 	int anglePlayer2 = (int) (abs(player2.getWeapon().getDirection()) % 360 - 180);
 	String powerPlayer2 = "Power: " + player2.getWeapon().getPower();
 	String currentHealthPlayer2 = "Hp: " + player2.getHealth();
-	String player2Name = "Player 2";
 	String weaponAnglePlayer2 = "Angle: " + anglePlayer2;
 	g2d.drawString(currentHealthPlayer2, fieldPlayer2XPos, healthFieldYPos);
 	g2d.drawString(powerPlayer2, fieldPlayer2XPos, powerFieldYPos);

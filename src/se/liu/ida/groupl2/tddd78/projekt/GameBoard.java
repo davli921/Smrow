@@ -114,16 +114,18 @@ public class GameBoard
     }
 
     public void chargeWeapon(){
-        Weapon currentWeapon = getCurrentPlayer().getWeapon();
-        int currentPower = (int) currentWeapon.getPower();
-        long currentTime = System.currentTimeMillis();
-        long deltaTime = currentTime- startTime;
+        if(!betweenTurns) {
+            Weapon currentWeapon = getCurrentPlayer().getWeapon();
+            int currentPower = (int) currentWeapon.getPower();
+            long currentTime = System.currentTimeMillis();
+            long deltaTime = currentTime - startTime;
 
-        if(!betweenTurns){
-            if(deltaTime>Weapon.CHARGE_TIME && currentPower < Weapon.MAX_POWER){
-                currentPower++;
-                currentWeapon.setPower(currentPower);
-                startTime = System.currentTimeMillis();
+            if (!betweenTurns) {
+                if (deltaTime > Weapon.CHARGE_TIME && currentPower < Weapon.MAX_POWER) {
+                    currentPower++;
+                    currentWeapon.setPower(currentPower);
+                    startTime = System.currentTimeMillis();
+                }
             }
         }
     }
@@ -257,28 +259,6 @@ public class GameBoard
         }
     }
 
-    public boolean hasWon() {
-        int currentHpPlayer1 = player1.getHealth();
-        int currentHpPlayer2 = player2.getHealth();
-
-        if (currentHpPlayer1 <= 0) {
-            System.out.println("Player 2 has won the game!");
-            this.gameOver = true;
-            return true;
-        } else if (currentHpPlayer2 <= 0) {
-            System.out.println("Player 1 has won the game!");
-            this.gameOver = true;
-            return true;
-        } else { return false; }
-    }
-
-    public void checkGameOver() {
-        this.hasWon();
-        if (gameOver) {
-            System.exit(0);
-        }
-    }
-
     // Collision controllers -------------------- //
     // Returns true if there is a collision
     public boolean checkCollision(Collidable moving, Collidable obstruction){
@@ -378,6 +358,28 @@ public class GameBoard
 
     public void notifyListener() {
         listeners.forEach(Listener::update);
+    }
+
+    public boolean hasWon() {
+        int currentHpPlayer1 = player1.getHealth();
+        int currentHpPlayer2 = player2.getHealth();
+
+        if (currentHpPlayer1 <= 0) {
+            System.out.println("Player 2 has won the game!");
+            this.gameOver = true;
+            return true;
+        } else if (currentHpPlayer2 <= 0) {
+            System.out.println("Player 1 has won the game!");
+            this.gameOver = true;
+            return true;
+        } else { return false; }
+    }
+
+    public void checkGameOver() {
+        this.hasWon();
+        if (gameOver) {
+           Smrow.frameState = FrameState.HIGHSCORE;
+        }
     }
 
     public void tick() {

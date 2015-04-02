@@ -19,7 +19,6 @@ public class GameFrame extends JFrame
     // och om sann så skapas highscoreComponent osv...
     public GameFrame(final String title, JComponent component) throws HeadlessException {
 	super(title);
-	//this.setLayout(new BorderLayout());
 	this.createMenu();
 	this.component = component;
 	this.add(component);

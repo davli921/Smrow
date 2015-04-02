@@ -1,69 +1,64 @@
 package se.liu.ida.groupl2.tddd78.projekt;
 
+import net.miginfocom.swing.MigLayout;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * The MenuComponent contains options in the form of buttons which you
+ * can use to start,quit, modify player names or access the highscore list.
+ */
 
 public class MenuComponent extends JComponent
 {
 
     public MenuComponent() {
 
-	InputMap inputMap = new InputMap();
-	ActionMap actionMap = new ActionMap();
-
-	this.setLayout(new BorderLayout(0,10));
-
-	JPanel buttonPanel = new JPanel();
-	buttonPanel.setLayout(new BorderLayout());
+	this.setLayout(new MigLayout());
 
 	JButton start = new JButton("Start");
 	JButton highscore = new JButton("Highscore");
 	JButton quit = new JButton("Quit");
 
+	JLabel textLabel = new JLabel("Player1");
+	JTextField textField = new JTextField();
+	Dimension textDim = new Dimension(105, 10);
+	textField.setPreferredSize(textDim);
+	JButton enter = new JButton("Enter");
+
 	ActionListener al = e -> {
-	    if(e.getSource().equals(start)){
-		TestClass.gameState = "game";
-	    }
-	    else if(e.getSource().equals(quit)){
+	    if (e.getSource().equals(start)) {
+		Smrow.frameState = FrameState.GAME;
+	    } else if (e.getSource().equals(quit)) {
 		System.exit(0);
+	    }
+	    // The following branches sets player#:s name to
+	    // the text "in textField"
+	    else if (e.getSource().equals(enter) && textLabel.getText().equals("Player1")) {
+		String player1Name = textField.getText();
+		textLabel.setText("Player2");
+		textField.setText("");
+		textField.requestFocus();
+		Smrow.gameBoard.getPlayer1().setName(player1Name);
+	    }
+	    else if (e.getSource().equals(enter) && textLabel.getText().equals("Player2")) {
+		String player2Name = textField.getText();
+		Smrow.gameBoard.getPlayer2().setName(player2Name);
+		Smrow.frameState = FrameState.GAME;
 	    }
 	};
 
 	start.addActionListener(al);
 	quit.addActionListener(al);
+	enter.addActionListener(al);
 
-	buttonPanel.add(start, BorderLayout.NORTH);
-	buttonPanel.add(highscore, BorderLayout.CENTER);
-	buttonPanel.add(quit, BorderLayout.SOUTH);
-	this.add(buttonPanel, BorderLayout.NORTH);
+	this.add(start);
+	this.add(highscore);
+	this.add(quit, "wrap");
+	this.add(textLabel);
+	this.add(textField);
+	this.add(enter);
 
-	JPanel textPanel = new JPanel();
-	JLabel textLabel = new JLabel("Test");
-	JTextField textField = new JTextField();
-	textField.setPreferredSize(new Dimension(100,20));
-	textPanel.add(textLabel,BorderLayout.NORTH);
-	textPanel.add(textField, BorderLayout.SOUTH);
-	this.add(textPanel, BorderLayout.CENTER);
-
-	JButton enter = new JButton("Enter");
-	this.add(enter, BorderLayout.SOUTH);
-
-	Action write = new AbstractAction()
-	{
-	    @Override public void actionPerformed(final ActionEvent e) {
-		System.out.println(textField.getText());
-	    }
-	};
-
-	this.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "Write");
-	this.getActionMap().put("Write", write);
-
-    }
-
-    @Override public Dimension getPreferredSize() {
-	return new Dimension(200,150);
     }
 }
