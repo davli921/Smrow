@@ -38,6 +38,8 @@ public class GameBoard
 	// Two thirds of the board will be above ground
 	this.groundlevel = (height / 3) * 2;
 
+        this.projectile = null;
+
         this.player1Turn = true;
         this.betweenTurns = false;
         this.chargingWeapon = false;
@@ -62,7 +64,6 @@ public class GameBoard
         // Start values for player1
         double player1StartXPos = width / 10 - playerSize;
         double player1StartDir = Math.toDegrees(atan(getGradient(player1StartXPos)));
-        System.out.println(player1StartDir);
         double player1StartYPos = groundlevel - playerSize + (player1StartXPos+playerSize/2)*Math.tan(
                 toRadians(player1StartDir));
         this.player1 = new Player(player1StartXPos, player1StartYPos, player1StartDir, "MissileLauncher");
@@ -70,10 +71,11 @@ public class GameBoard
         // Start values for player2
         double player2StartXPos = width - width / 10;
         double player2StartDir = Math.toDegrees(atan(getGradient(player2StartXPos)));
-        System.out.println("2 DIR " + player2StartDir);
         double player2StartYPos = groundlevel - playerSize - (width-(player2StartXPos+playerSize/2))*Math.tan(
                 toRadians(player2StartDir));
         this.player2 = new Player(player2StartXPos, player2StartYPos, player2StartDir, "MissileLauncher");
+        // Set direction so that the players face eachother from the start
+        player2.getWeapon().setDirection(180 + player2StartDir);
         // -------------------------------------------------//
     }
 
@@ -137,8 +139,8 @@ public class GameBoard
         if (!betweenTurns) {
             Player currentPlayer = getCurrentPlayer();
             double playerSize = Player.PLAYER_SIZE;
-            double middleXOfPlayer = currentPlayer.getXPos() + playerSize/2.0;
-            double middleYOfPlayer = currentPlayer.getYPos() + playerSize/2.0;
+            double middleXOfPlayer = currentPlayer.getXPos() + playerSize/2;
+            double middleYOfPlayer = currentPlayer.getYPos() + playerSize/2;
 
             Weapon weapon = currentPlayer.getWeapon();
             double direction = weapon.getDirection();
@@ -360,25 +362,20 @@ public class GameBoard
         listeners.forEach(Listener::update);
     }
 
-    public boolean hasWon() {
+    public void checkGameOver() {
         int currentHpPlayer1 = player1.getHealth();
         int currentHpPlayer2 = player2.getHealth();
 
         if (currentHpPlayer1 <= 0) {
             System.out.println("Player 2 has won the game!");
             this.gameOver = true;
-            return true;
         } else if (currentHpPlayer2 <= 0) {
             System.out.println("Player 1 has won the game!");
             this.gameOver = true;
-            return true;
-        } else { return false; }
-    }
-
-    public void checkGameOver() {
-        this.hasWon();
+        }
         if (gameOver) {
-           Smrow.frameState = FrameState.HIGHSCORE;
+            StateList.getInstance().setFrameState(FrameState.HIGHSCORE);
+            StateList.getInstance().getFrame().setComponent(StateList.getInstance().getHighscoreComponent());
         }
     }
 

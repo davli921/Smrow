@@ -17,13 +17,21 @@ public class GameFrame extends JFrame
     // Gameframe ska ha component fält och setter till detta. Menucomponent i constructor,
     // den kan skappa ett gameboard och ändra till gamecomponent. Gameboard kollar gameover
     // och om sann så skapas highscoreComponent osv...
-    public GameFrame(final String title, JComponent component) throws HeadlessException {
+    public GameFrame(final String title) throws HeadlessException {
 	super(title);
 	this.createMenu();
-	this.component = component;
-	this.add(component);
 	this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+	// Add the correct component from StateList
+	StateList sList = StateList.getInstance();
+	if(sList.getFrameState().equals(FrameState.HIGHSCORE)){
+	    this.component = sList.getHighscoreComponent();
+	} else if(sList.getFrameState().equals(FrameState.GAME)){
+	    this.component = sList.getGameComponent();
+	} else if(sList.getFrameState().equals(FrameState.MENU)){
+	    this.component = sList.getMenuComponent();
+	}
+	this.add(component);
 	// Frame is not resizable
 	this.setResizable(false);
 	this.pack();

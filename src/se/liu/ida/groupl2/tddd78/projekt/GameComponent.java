@@ -22,8 +22,6 @@ public class GameComponent extends JComponent implements Listener
 	this.gameBoard = gameBoard;
 	this.player1 = gameBoard.getPlayer1();
 	this.player2 = gameBoard.getPlayer2();
-	final InputMap inputMap = new InputMap();
-	final ActionMap actionMap = new ActionMap();
 
 	// Event Handling
 	Action moveLeft = new AbstractAction()
@@ -244,7 +242,7 @@ public class GameComponent extends JComponent implements Listener
 	g2d.drawString(weaponAnglePlayer1, fieldPlayer1XPos, angleFieldYPos);
 
 
-	int anglePlayer2 = (int) (abs(player2.getWeapon().getDirection()) % 360 - 180);
+	int anglePlayer2 = (int) abs((player2.getWeapon().getDirection()) % 360 - 180);
 	String powerPlayer2 = "Power: " + player2.getWeapon().getPower();
 	String currentHealthPlayer2 = "Hp: " + player2.getHealth();
 	String weaponAnglePlayer2 = "Angle: " + anglePlayer2;

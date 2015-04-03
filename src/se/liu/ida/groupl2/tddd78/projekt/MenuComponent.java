@@ -15,6 +15,8 @@ public class MenuComponent extends JComponent
 
     public MenuComponent() {
 
+	StateList sList = StateList.getInstance();
+
 	this.setLayout(new MigLayout());
 
 	JButton start = new JButton("Start");
@@ -29,7 +31,7 @@ public class MenuComponent extends JComponent
 
 	ActionListener al = e -> {
 	    if (e.getSource().equals(start)) {
-		Smrow.frameState = FrameState.GAME;
+		StateList.getInstance().setFrameState(FrameState.GAME);
 	    } else if (e.getSource().equals(quit)) {
 		System.exit(0);
 	    }
@@ -40,12 +42,13 @@ public class MenuComponent extends JComponent
 		textLabel.setText("Player2");
 		textField.setText("");
 		textField.requestFocus();
-		Smrow.gameBoard.getPlayer1().setName(player1Name);
+		StateList.getInstance().getGameBoard().getPlayer1().setName(player1Name);
 	    }
 	    else if (e.getSource().equals(enter) && textLabel.getText().equals("Player2")) {
 		String player2Name = textField.getText();
-		Smrow.gameBoard.getPlayer2().setName(player2Name);
-		Smrow.frameState = FrameState.GAME;
+		sList.getGameBoard().getPlayer2().setName(player2Name);
+		sList.setFrameState(FrameState.GAME);
+		sList.getFrame().setComponent(sList.getGameComponent());
 	    }
 	};
 
