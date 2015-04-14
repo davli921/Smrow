@@ -16,20 +16,6 @@ public final class Smrow
     public final static int HEIGHT = 750;
     private static final int REFRESH_TIMER_MS = 5;
 
-    /*
-    // Test meny
-    static FrameState frameState = FrameState.MENU;
-    static FrameState frameLastState = FrameState.MENU;
-
-    static GameBoard gameBoard = new GameBoard(WIDTH, HEIGHT);
-
-    static GameComponent gameComponent = new GameComponent(gameBoard);
-    static MenuComponent menuComponent = new MenuComponent();
-    static HighscoreComponent highscoreComponent = new HighscoreComponent();
-
-    static GameFrame frame = new GameFrame("Spel", menuComponent);
-    */
-
     private Smrow() {}
 
     public static void main(String[] args) {
