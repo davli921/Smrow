@@ -103,6 +103,39 @@ public class GameBoard
 
     //---------------------------------------------------//
 
+    private double getGradient(double xPos){
+        int i = 0;
+        while(xPos >= XCOORDS[i]){
+            i++;
+        }
+
+        double y2 =YCOORDS[i];
+        double y1 = YCOORDS[i-1];
+        double x2 = XCOORDS[i];
+        double x1 = XCOORDS[i-1];
+
+        double gradient = (y2-y1)/(x2-x1);
+        return gradient;
+        }
+
+    private double getYCoord(double xPos) {
+        int i = 0;
+        while(xPos >= XCOORDS[i]){
+            i++;
+        }
+
+        double y2 =YCOORDS[i];
+        double y1 = YCOORDS[i-1];
+        double x2 = XCOORDS[i];
+        double x1 = XCOORDS[i-1];
+
+        double k = (y2-y1)/(x2-x1);
+        double m = y2 - k*x2;
+
+        double y = k*xPos + m;
+        return y;
+    }
+
     public void setChargingWeapon(final boolean chargingWeapon) {
         this.chargingWeapon = chargingWeapon;
     }
@@ -123,6 +156,33 @@ public class GameBoard
             }
         }
     }
+
+    public void rotateWeapon(String direction) {
+            Player player = this.getCurrentPlayer();
+            Weapon weapon = player.getWeapon();
+            Double currentDirection = weapon.getDirection();
+
+            if (!betweenTurns && !chargingWeapon) {
+                int up = -1;
+                int down = 1;
+                if (player == player1) {
+                    if (direction.equals("Up")) {
+                        weapon.setDirection(currentDirection + up);
+
+                    } else if (direction.equals("Down")) {
+                        weapon.setDirection(currentDirection + down);
+                    }
+                } else if (player == player2) {
+                    if (Objects.equals(direction, "Up")) {
+                        weapon.setDirection(currentDirection + down);
+
+                    } else if (Objects.equals(direction, "Down")) {
+                        weapon.setDirection(currentDirection + up);
+                    }
+                }
+                notifyListener();
+            }
+        }
 
     // Creates a projectile using Weapon.shoot() then writes it as the
     // current projectile. Sets X and Y positions to a coordinate near the
@@ -186,48 +246,6 @@ public class GameBoard
             }
         }
         notifyListener();
-    }
-
-    private double getGradient(double xPos){
-        int i = 0;
-        while(xPos >= XCOORDS[i]){
-            i++;
-        }
-
-        double y2 =YCOORDS[i];
-        double y1 = YCOORDS[i-1];
-        double x2 = XCOORDS[i];
-        double x1 = XCOORDS[i-1];
-
-        double gradient = (y2-y1)/(x2-x1);
-        return gradient;
-    }
-
-    public void rotateWeapon(String direction) {
-        Player player = this.getCurrentPlayer();
-        Weapon weapon = player.getWeapon();
-        Double currentDirection = weapon.getDirection();
-
-        if (!betweenTurns && !chargingWeapon) {
-            int up = -1;
-            int down = 1;
-            if (player == player1) {
-                if (direction.equals("Up")) {
-                    weapon.setDirection(currentDirection + up);
-
-                } else if (direction.equals("Down")) {
-                    weapon.setDirection(currentDirection + down);
-                }
-            } else if (player == player2) {
-                if (Objects.equals(direction, "Up")) {
-                    weapon.setDirection(currentDirection + down);
-
-                } else if (Objects.equals(direction, "Down")) {
-                    weapon.setDirection(currentDirection + up);
-                }
-            }
-            notifyListener();
-        }
     }
     
     public void moveProjectile() {
@@ -329,9 +347,10 @@ public class GameBoard
         double mYPos = moving.getYPos();
         double mWidth = moving.getWidth();
         double mHeight = moving.getHeight();
+        double minimalYPOS = getYCoord(mXPos);
 
         // No roof outOfBound so it can still fall down even though it is not visible
-        if (mXPos < 0 || mXPos + mWidth > WIDTH || mYPos + mHeight > GROUNDLEVEL) {
+        if (mXPos < 0 || mXPos + mWidth > WIDTH || mYPos + mHeight > minimalYPOS) {
             return true;
         } else {
             return false;
