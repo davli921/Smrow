@@ -10,14 +10,19 @@ import static java.lang.Math.atan;
 import static java.lang.Math.toRadians;
 
 /**
- * GameBoard contains information about the playing field such as "width", "height", and "groundlevel". It also has two
+ * GameBoard contains information about the playing field such as "WIDTH", "HEIGHT", and "GROUNDLEVEL". It also has two
  * Player-object and one Projectile-object. GameBoard has method to change and retrive the current player.
  */
 
 public class GameBoard
 {
 
-    private double width,height,groundlevel;
+    final static int WIDTH = 1000;
+    final static int HEIGHT = 750;
+    final static int GROUNDLEVEL = 400;
+
+    final int[] XCOORDS = {0, 0, WIDTH / 2, WIDTH, WIDTH};
+    final int[] YCOORDS = {HEIGHT, GROUNDLEVEL, GROUNDLEVEL - 50, GROUNDLEVEL, HEIGHT};
 
     // One projectile at the time since it is turn-based
     private Projectile projectile;
@@ -29,15 +34,8 @@ public class GameBoard
     private long startTime;
 
     private List<Listener> listeners;
-    private List<Integer> xCoords;
-    private List<Integer> yCoords;
 
-    public GameBoard(double width, double height) {
-	this.width = width;
-	this.height = height;
-	// Two thirds of the board will be above ground
-	this.groundlevel = (height / 3) * 2;
-
+    public GameBoard() {
         this.projectile = null;
 
         this.player1Turn = true;
@@ -49,29 +47,19 @@ public class GameBoard
 
         this.listeners = new ArrayList<>();
 
-        // FIXA
-        // List over cords where the ground changes
-        this.xCoords = new ArrayList<>();
-        this.yCoords = new ArrayList<>();
-        addGroundPoint(0,height);
-        addGroundPoint(0,groundlevel);
-        addGroundPoint(width/2,groundlevel-50);
-        addGroundPoint(width,groundlevel);
-        addGroundPoint(width,height);
-
         // Player construction ------------------------------//
         double playerSize = Player.PLAYER_SIZE;
         // Start values for player1
-        double player1StartXPos = width / 10 - playerSize;
+        double player1StartXPos = WIDTH / 10 - playerSize;
         double player1StartDir = Math.toDegrees(atan(getGradient(player1StartXPos)));
-        double player1StartYPos = groundlevel - playerSize + (player1StartXPos+playerSize/2)*Math.tan(
+        double player1StartYPos = GROUNDLEVEL - playerSize + (player1StartXPos+playerSize/2)*Math.tan(
                 toRadians(player1StartDir));
         this.player1 = new Player(player1StartXPos, player1StartYPos, player1StartDir, "MissileLauncher");
 
         // Start values for player2
-        double player2StartXPos = width - width / 10;
+        double player2StartXPos = WIDTH - WIDTH / 10;
         double player2StartDir = Math.toDegrees(atan(getGradient(player2StartXPos)));
-        double player2StartYPos = groundlevel - playerSize - (width-(player2StartXPos+playerSize/2))*Math.tan(
+        double player2StartYPos = GROUNDLEVEL - playerSize - (WIDTH-(player2StartXPos+playerSize/2))*Math.tan(
                 toRadians(player2StartDir));
         this.player2 = new Player(player2StartXPos, player2StartYPos, player2StartDir, "MissileLauncher");
         // Set direction so that the players face eachother from the start
@@ -81,16 +69,12 @@ public class GameBoard
 
     // GETTERS & SETTERS ----------------------------------//
 
-    public double getWidth() {
-	return width;
+    public double getWIDTH() {
+	return WIDTH;
     }
 
-    public double getHeight() {
-	return height;
-    }
-
-    public double getGroundlevel() {
-	return groundlevel;
+    public double getHEIGHT() {
+	return HEIGHT;
     }
 
     public Player getPlayer1() {
@@ -107,6 +91,14 @@ public class GameBoard
 
     public Projectile getProjectile() {
         return projectile;
+    }
+
+    public int[] getXCoords() {
+        return XCOORDS;
+    }
+
+    public int[] getYCoords() {
+        return YCOORDS;
     }
 
     //---------------------------------------------------//
@@ -198,25 +190,17 @@ public class GameBoard
 
     private double getGradient(double xPos){
         int i = 0;
-        while(xPos >= xCoords.get(i)){
+        while(xPos >= XCOORDS[i]){
             i++;
         }
 
-        double y2 = yCoords.get(i);
-        double y1 = yCoords.get(i-1);
-        double x2 = xCoords.get(i);
-        double x1 = xCoords.get(i-1);
+        double y2 =YCOORDS[i];
+        double y1 = YCOORDS[i-1];
+        double x2 = XCOORDS[i];
+        double x1 = XCOORDS[i-1];
 
         double gradient = (y2-y1)/(x2-x1);
         return gradient;
-    }
-
-    // Work in progress
-    private void addGroundPoint(double xPos, double yPos){
-        int x = (int) xPos;
-        int y = (int) yPos;
-        xCoords.add(x);
-        yCoords.add(y);
     }
 
     public void rotateWeapon(String direction) {
@@ -320,7 +304,8 @@ public class GameBoard
         double obstHeight = obstruction.getHeight();
 
         // Collision with outer walls
-        if ((Objects.equals(direction, "left") && mXPos - moveStep < 0) || (Objects.equals(direction, "right") && mXPos + mWidth + moveStep > width)) {
+        if ((Objects.equals(direction, "left") && mXPos - moveStep < 0) || (Objects.equals(direction, "right") && mXPos + mWidth + moveStep >
+                                                                                                                  WIDTH)) {
             willCollide = true;
         }
 
@@ -346,7 +331,7 @@ public class GameBoard
         double mHeight = moving.getHeight();
 
         // No roof outOfBound so it can still fall down even though it is not visible
-        if (mXPos < 0 || mXPos + mWidth > width || mYPos + mHeight > groundlevel) {
+        if (mXPos < 0 || mXPos + mWidth > WIDTH || mYPos + mHeight > GROUNDLEVEL) {
             return true;
         } else {
             return false;

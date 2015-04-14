@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.geom.AffineTransform;
+
 import static java.lang.Math.toRadians;
 import static java.lang.Math.abs;
 
@@ -91,7 +92,7 @@ public class GameComponent extends JComponent implements Listener
     }
 
     @Override public Dimension getPreferredSize() {
-	return new Dimension((int)gameBoard.getWidth(), (int) gameBoard.getHeight());
+	return new Dimension((int)gameBoard.getWIDTH(), (int) gameBoard.getHEIGHT());
     }
 
     @Override protected void paintComponent(Graphics g) {
@@ -107,7 +108,7 @@ public class GameComponent extends JComponent implements Listener
 	GameBoard gameBoard = this.gameBoard;
 	// Paint the sky
 	g2d.setColor(lightblue);
-	g2d.fillRect(0, 0, (int)gameBoard.getWidth(), (int)gameBoard.getHeight());
+	g2d.fillRect(0, 0, (int)gameBoard.getWIDTH(), (int)gameBoard.getHEIGHT());
 
 	paintGround(g2d);
 
@@ -251,13 +252,11 @@ public class GameComponent extends JComponent implements Listener
     }
 
     private void paintGround(Graphics2D g2d){
-	int width =  (int)gameBoard.getWidth();
-	int height = (int)gameBoard.getHeight();
-	int groundlevel = (int)gameBoard.getGroundlevel();
-	int[] xCoords = { 0, 0, width / 2, width, width };
-	int[] yCoords = { height, groundlevel, groundlevel - 50, groundlevel, height };
+	int[] XCOORDS = gameBoard.getXCoords();
+	int[] YCOORDS = gameBoard.getYCoords();
+
 	g2d.setColor(Color.white);
-	Polygon polygon = new Polygon(xCoords, yCoords,5);
+	Polygon polygon = new Polygon(XCOORDS, YCOORDS,5);
 	g2d.fillPolygon(polygon);
     }
 
