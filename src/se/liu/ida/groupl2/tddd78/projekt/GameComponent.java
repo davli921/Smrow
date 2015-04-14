@@ -135,8 +135,6 @@ public class GameComponent extends JComponent implements Listener
 	Color healthLostColor = HealthBar.HEALTH_LOST_COLOR;
 	double direction = toRadians(player.getDirection());
 
-	/////Affinetransform for players, in progress
-
 	int playerAnchorPointX = (int) player.getXPos() + playerSize / 2;
 	int playerAnchorPointY = (int) player.getYPos() + playerSize / 2;
 

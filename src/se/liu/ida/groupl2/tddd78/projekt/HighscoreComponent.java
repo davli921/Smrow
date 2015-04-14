@@ -10,11 +10,20 @@ public class HighscoreComponent extends JComponent
     final static int HEIGHT = 300;
     private float p1ShotsFired, p1Hits, p2ShotsFired, p2Hits;
 
-    public HighscoreComponent() {
-	this.p1ShotsFired = 10;
-	this.p1Hits = 1;
-	this.p2ShotsFired = 20;
-	this.p2Hits = 6;
+    public void addP1ShotsFired(final float p1ShotsFired) {
+	this.p1ShotsFired += p1ShotsFired;
+    }
+
+    public void addP1Hits(final float p1Hits) {
+	this.p1Hits += p1Hits;
+    }
+
+    public void addP2ShotsFired(final float p2ShotsFired) {
+	this.p2ShotsFired += p2ShotsFired;
+    }
+
+    public void addP2Hits(final float p2Hits) {
+	this.p2Hits += p2Hits;
     }
 
     @Override public Dimension getPreferredSize() {

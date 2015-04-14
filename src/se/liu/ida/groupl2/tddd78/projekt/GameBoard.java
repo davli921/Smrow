@@ -157,6 +157,15 @@ public class GameBoard
             this.projectile = projectile;
             this.chargingWeapon = false;
             this.betweenTurns = true;
+
+            StateList stateList = StateList.getInstance();
+            HighscoreComponent highscoreComponent = stateList.getHighscoreComponent();
+
+            if (currentPlayer == player1) {
+                highscoreComponent.addP1ShotsFired(1);
+            } else {
+                highscoreComponent.addP2ShotsFired(1);
+            }
         }
     }
 
@@ -242,21 +251,28 @@ public class GameBoard
 
             projectile.move();
 
+            StateList stateList = StateList.getInstance();
+            HighscoreComponent highscoreComponent = stateList.getHighscoreComponent();
+
+
             // Projectile out of bounds
             if (outOfBounds(projectile)) {
                 resetProjectile();
             }
+
             // If collision with player, deal damage.
             else if (checkCollision(projectile, player1)) {
                 int currentHp = player1.getHealth();
                 int dmg = projectile.getDmg();
                 player1.setHealth(currentHp - dmg);
                 resetProjectile();
+                highscoreComponent.addP2Hits(1);
             } else if (checkCollision(projectile, player2)) {
                 int currentHp = player2.getHealth();
                 int dmg = projectile.getDmg();
                 player2.setHealth(currentHp - dmg);
                 resetProjectile();
+                highscoreComponent.addP1Hits(1);
             }
         }
     }
