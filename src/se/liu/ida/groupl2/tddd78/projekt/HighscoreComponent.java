@@ -15,6 +15,10 @@ public class HighscoreComponent extends JComponent
     private float p1ShotsFired, p1Hits, p2ShotsFired, p2Hits;
     private String winner;
 
+    public HighscoreComponent() {
+	this.winner = null;
+    }
+
     public void addP1ShotsFired(final float p1ShotsFired) {
 	this.p1ShotsFired += p1ShotsFired;
     }

@@ -32,6 +32,7 @@ public class Player implements Collidable
         this.direction = direction;
         this.health = 100;
         this.healthBar = new HealthBar(this);
+        this.weapon = null;
         // Creates a weapon with method instead of taking it as param and having to construct a weapon in "GameBoard".
         createWeapon(weapon);
 

@@ -52,14 +52,14 @@ public class GameBoard
         // Player construction ------------------------------//
         double playerSize = Player.PLAYER_SIZE;
         // Start values for player1
-        double player1StartXPos = WIDTH / 10 - playerSize;
+        double player1StartXPos = WIDTH / 10.0 - playerSize;
         double player1StartDir = Math.toDegrees(atan(getGradient(player1StartXPos)));
         double player1StartYPos = GROUNDLEVEL - playerSize + (player1StartXPos+playerSize/2)*Math.tan(
                 toRadians(player1StartDir));
         this.player1 = new Player(player1StartXPos, player1StartYPos, player1StartDir, "MissileLauncher");
 
         // Start values for player2
-        double player2StartXPos = WIDTH - WIDTH / 10;
+        double player2StartXPos = WIDTH - WIDTH / 10.0;
         double player2StartDir = Math.toDegrees(atan(getGradient(player2StartXPos)));
         double player2StartYPos = GROUNDLEVEL - playerSize - (WIDTH-(player2StartXPos+playerSize/2))*Math.tan(
                 toRadians(player2StartDir));
@@ -125,10 +125,10 @@ public class GameBoard
         double x2 = XCOORDS[i];
         double x1 = XCOORDS[i-1];
 
-        double k = (y2-y1)/(x2-x1);
-        double m = y2 - k*x2;
+        double gradient = (y2-y1)/(x2-x1);
+        double constant = y2 - gradient*x2;
 
-        double y = k*xPos + m;
+        double y = gradient*xPos + constant;
         return y;
     }
 
@@ -210,6 +210,7 @@ public class GameBoard
             StateList stateList = StateList.getInstance();
             HighscoreComponent highscoreComponent = stateList.getFrame().getHighscoreComponent();
 
+            // Intentional use of pointer comparison
             if (currentPlayer == player1) {
                 highscoreComponent.addP1ShotsFired(1);
             } else {

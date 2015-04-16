@@ -7,5 +7,18 @@ package se.liu.ida.groupl2.tddd78.projekt;
 
 public enum FrameState
 {
-    MENU, GAME, HIGHSCORE
+    /**
+     * "MENU" -> Frame displays the "MenuComponent".
+     */
+    MENU,
+
+    /**
+    * "GAME" -> Frame displays the "GameComponent":
+    */
+    GAME,
+
+    /**
+     * "HIGHSCORE" -> Frame displays the "HighscoreComponent".
+     */
+    HIGHSCORE
 }
