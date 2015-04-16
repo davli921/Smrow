@@ -74,8 +74,17 @@ public class GameFrame extends JFrame
 	//Creates a action listener for the menuitems.
 	final ActionListener actionListener = e -> {
 	    if (e.getSource().equals(restart)) {
-		// Not finished!
-		System.out.println("restartsssss");
+		StateList sList = StateList.getInstance();
+
+		GameBoard gameBoard = new GameBoard();
+		this.gameBoard = gameBoard;
+
+		this.gameComponent = new GameComponent(gameBoard);
+
+		this.gameBoard.addListener(gameComponent);
+
+		sList.setFrameState(FrameState.GAME);
+
 	    } else if (e.getSource().equals(exit)) {
 		System.exit(0);
 	    }

@@ -79,11 +79,6 @@ public class GameComponent extends JComponent implements Listener
 	this.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "Move Weapon Down");
 	this.getActionMap().put("Move Weapon Down", moveWeaponDown);
 
-	/* Fire when pressed
-	this.getInputMap().put(KeyStroke.getKeyStroke("SPACE"), "Shoot");
-	this.getActionMap().put("Shoot", shoot);
-	*/
-
 	// Use to charge the weapon and then fire
 	this.getInputMap().put(KeyStroke.getKeyStroke("SPACE"),"Charge Weapon");
 	this.getActionMap().put("Charge Weapon", chargeWeapon);
@@ -106,6 +101,7 @@ public class GameComponent extends JComponent implements Listener
 	Color lightblue = new Color(0, 0, 182, 89);
 
 	GameBoard gameBoard = this.gameBoard;
+
 	// Paint the sky
 	g2d.setColor(lightblue);
 	g2d.fillRect(0, 0, (int)gameBoard.getWIDTH(), (int)gameBoard.getHEIGHT());

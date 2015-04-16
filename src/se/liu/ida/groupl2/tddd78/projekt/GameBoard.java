@@ -381,14 +381,17 @@ public class GameBoard
     }
 
     public void checkGameOver() {
+        StateList stateList = StateList.getInstance();
+        HighscoreComponent highscoreComponent = stateList.getFrame().getHighscoreComponent();
+
         int currentHpPlayer1 = player1.getHealth();
         int currentHpPlayer2 = player2.getHealth();
 
         if (currentHpPlayer1 <= 0) {
-            System.out.println("Player 2 has won the game!");
+            highscoreComponent.setWinner(player2);
             this.gameOver = true;
         } else if (currentHpPlayer2 <= 0) {
-            System.out.println("Player 1 has won the game!");
+            highscoreComponent.setWinner(player1);
             this.gameOver = true;
         }
         if (gameOver) {
