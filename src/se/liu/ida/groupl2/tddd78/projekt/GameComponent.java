@@ -218,7 +218,7 @@ public class GameComponent extends JComponent implements Listener
 	int angleFieldYPos = 60;
 	int powerFieldYPos = 80;
 	int healthFieldYPos = 100;
-	
+
 	if (currentPlayer == player1) {
 	    String currentPlayerName = "Current player: " + player1Name;
 	    g2d.drawString(currentPlayerName, currentPlayerFieldXPos, currentPlayerFieldYPos);

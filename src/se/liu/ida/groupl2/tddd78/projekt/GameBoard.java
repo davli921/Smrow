@@ -346,12 +346,18 @@ public class GameBoard
         double mYPos = moving.getYPos();
         double mWidth = moving.getWidth();
         double mHeight = moving.getHeight();
-        double minimalYPOS = getYCoord(mXPos);
+        // double minimalYPOS = getYCoord(mXPos);
 
         // No roof outOfBound so it can still fall down even though it is not visible
-        if (mXPos < 0 || mXPos + mWidth > WIDTH || mYPos + mHeight > minimalYPOS) {
+        // Second statement seperate branch because "getYCoords" will not work with x-values
+        // outside the "GameBoard".
+        if (mXPos < 0 || mXPos + mWidth > WIDTH ) {
             return true;
-        } else {
+        }
+        else if (mYPos + mHeight > getYCoord(mXPos)) {
+            return true;
+        }
+        else {
             return false;
         }
     }
