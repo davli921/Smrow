@@ -3,7 +3,9 @@ package se.liu.ida.groupl2.tddd78.projekt;
 import java.awt.Color;
 
 /**
- *
+ * An abstract class which specifies how the projectiles should be implemented.
+ * It contains fields about how it should look, which damage it should give to a Player.
+ * Has methods to set and get positions of the projectile, get the damage and the representation of the projectile.
  */
 
 public abstract class Projectile implements Collidable
@@ -59,7 +61,6 @@ public abstract class Projectile implements Collidable
 
     abstract void move();
 
-    //temporal, maybe different shape later
     abstract double getRadius();
     
     

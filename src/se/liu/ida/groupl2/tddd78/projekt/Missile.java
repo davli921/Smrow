@@ -7,8 +7,8 @@ import static java.lang.Math.toRadians;
 import static java.lang.Math.pow;
 
 /**
- * Created by MissileLauncher and represents a projectile on the GameBoard.
- * Has method for calculating its trajectory.
+ * Created by an Weapon, for now used in MissileLauncher, and represents a projectile on the GameBoard.
+ * The method move() is used for calculating its trajectory.
  */
 
 public class Missile extends Projectile

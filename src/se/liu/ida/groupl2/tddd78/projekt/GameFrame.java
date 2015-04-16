@@ -15,6 +15,9 @@ public class GameFrame extends JFrame
 
     private JComponent component;
 
+    // Gameframe ska ha component fält och setter till detta. Menucomponent i constructor,
+    // den kan skappa ett gameboard och ändra till gamecomponent. Gameboard kollar gameover
+    // och om sann så skapas highscoreComponent osv...
     public GameFrame(final String title) throws HeadlessException {
 	super(title);
 	this.createMenu();
