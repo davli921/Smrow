@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 /**
  * The MenuComponent contains options in the form of buttons which you
- * can use to start,quit, modify player names or access the highscore list.
+ * can use to start,quit, or modify player names.
  */
 
 public class MenuComponent extends JComponent
@@ -20,7 +20,6 @@ public class MenuComponent extends JComponent
 	this.setLayout(new MigLayout());
 
 	JButton start = new JButton("Start");
-	JButton highscore = new JButton("Highscore");
 	JButton quit = new JButton("Quit");
 
 	JLabel textLabel = new JLabel("Player1");
@@ -71,8 +70,7 @@ public class MenuComponent extends JComponent
 	quit.addActionListener(al);
 	enter.addActionListener(al);
 
-	this.add(start);
-	this.add(highscore);
+	this.add(start, "span 2");
 	this.add(quit, "wrap");
 	this.add(textLabel);
 	this.add(textField);

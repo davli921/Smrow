@@ -5,8 +5,9 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 /**
- * The GameFrame contains a GameComponent, is also has a method "createMenu"that creates a menu with the options "Restart" and
- * "Exit" which does what you might imagine. The GameFrame is also non-resizable by default.
+ * GameFrame contains a "Jcomponent"-obj that is either a "menuComponent","gameComponent" or a "highscoreComponent"
+ * that it displays depending on the "frameState". Has methods for changing component "setComponent",
+ * and creating a menu "createMenu".
  */
 
 public class GameFrame extends JFrame
@@ -14,9 +15,6 @@ public class GameFrame extends JFrame
 
     private JComponent component;
 
-    // Gameframe ska ha component fält och setter till detta. Menucomponent i constructor,
-    // den kan skappa ett gameboard och ändra till gamecomponent. Gameboard kollar gameover
-    // och om sann så skapas highscoreComponent osv...
     public GameFrame(final String title) throws HeadlessException {
 	super(title);
 	this.createMenu();
@@ -46,7 +44,7 @@ public class GameFrame extends JFrame
     }
 
     private void createMenu() {
-	final JMenu menu = new JMenu("Alpha");
+	final JMenu menu = new JMenu("Menu");
 	final JMenuItem restart = new JMenuItem("Restart");
 	final JMenuItem exit = new JMenuItem("Exit");
 	menu.add(restart);

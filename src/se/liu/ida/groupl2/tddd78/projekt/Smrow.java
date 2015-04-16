@@ -20,7 +20,7 @@ public final class Smrow
 	StateList sList = StateList.getInstance();
 
 	// Framestate
-	sList.setFrameState(FrameState.GAME);
+	sList.setFrameState(FrameState.MENU);
 
 	// Gameboard
 	GameBoard gameBoard = new GameBoard();

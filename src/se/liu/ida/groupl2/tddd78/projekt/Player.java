@@ -7,8 +7,10 @@ import static java.lang.Math.toRadians;
 import java.awt.Color;
 
 /**
- * The Player class contains information about the objects position and its size. It has a list of listeners which it can notify
- * with the method "notifyStateListener". The methods "moveLeft" and "moveRight" subtracts and adds 1 to the x-position.
+ * "Player" contains information about a "Player"-obj health, position and direction, and also color and size.
+ * It also contains a "Weapon", "HealthBar", and a "name" (in the form of a string).
+ * "Player" has a method for moving "move" that takes a direction as input, also has a method
+ * "createWeapon" that is used in the constructor to create a specific weapon.
  */
 
 public class Player implements Collidable
@@ -22,7 +24,7 @@ public class Player implements Collidable
     private double xPos,yPos,direction;
     private HealthBar healthBar;
     private Weapon weapon;
-    private String name =  "JonhDoe";
+    private String name =  "JohnDoe";
 
     public Player(double xPos, double yPos, double direction, String weapon) {
         this.xPos = xPos;

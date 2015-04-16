@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * HealthBar-objects visually represents the Player-objects current health
+ * HealthBar-objects represents the Player-objects current health. Has fields for its postition,
+ * measurements, and current health-info. Have method for updating the healthbar "updateHealthBar".
  */
 
 public class HealthBar

@@ -1,5 +1,11 @@
 package se.liu.ida.groupl2.tddd78.projekt;
 
+/**
+ * Singleton containing a "FrameState", a "GameBoard", and a version of all three components, and also
+ * a "GameFrame". Have setters and getters for all fields that can be used to access and change the
+ * components used in the game.
+ */
+
 public final class StateList
 {
 

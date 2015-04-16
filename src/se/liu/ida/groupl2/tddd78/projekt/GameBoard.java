@@ -10,8 +10,10 @@ import static java.lang.Math.atan;
 import static java.lang.Math.toRadians;
 
 /**
- * GameBoard contains information about the playing field such as "WIDTH", "HEIGHT", and "GROUNDLEVEL". It also has two
- * Player-object and one Projectile-object. GameBoard has method to change and retrive the current player.
+ * Represents the actual game. Contains fields for 2 "Player"-objects, a "Projectile"-obj.
+ * Also contiains information about the layout in the form of "WIDTH", "HEIGHT", "GROUNDLEVEL" and
+ * 2 list of y-coords and x-coords where change in the gradient of the ground occurs.
+ * GameBoard controls all actions of players and projectiles (i.e movement and firing).
  */
 
 public class GameBoard
@@ -118,6 +120,7 @@ public class GameBoard
         return gradient;
         }
 
+    // Returns the groundlevel y-coords for the x-coord "xPos"
     private double getYCoord(double xPos) {
         int i = 0;
         while(xPos >= XCOORDS[i]){

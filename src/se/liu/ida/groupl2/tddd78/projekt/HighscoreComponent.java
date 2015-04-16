@@ -3,6 +3,10 @@ package se.liu.ida.groupl2.tddd78.projekt;
 import javax.swing.JComponent;
 import java.awt.*;
 
+/**
+ * Displays information about the game after it is finished.
+ */
+
 public class HighscoreComponent extends JComponent
 {
 

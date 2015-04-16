@@ -10,7 +10,7 @@ import static java.lang.Math.abs;
 
 /**
  * GameComponent is the visual representation of the playing field. Contains a GameBoard, the players-objects size, and the
- * projectile-objects size.
+ * projectile-objects size. Listens to the "GameBoard"-obj.
  */
 
 public class GameComponent extends JComponent implements Listener
