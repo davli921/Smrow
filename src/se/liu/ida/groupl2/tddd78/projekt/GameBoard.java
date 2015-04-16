@@ -23,8 +23,9 @@ public class GameBoard
     final static int HEIGHT = 750;
     final static int GROUNDLEVEL = 400;
 
-    final static int[] XCOORDS = {0, 0, WIDTH / 2, WIDTH, WIDTH};
-    final static int[] YCOORDS = {HEIGHT, GROUNDLEVEL, GROUNDLEVEL - 50, GROUNDLEVEL, HEIGHT};
+    final static int[] XCOORDS = {0, 0, 200, WIDTH / 2 -150, WIDTH / 2 +150, WIDTH-200, WIDTH, WIDTH};
+    final static int[] YCOORDS = {HEIGHT, GROUNDLEVEL, GROUNDLEVEL, GROUNDLEVEL - 50, GROUNDLEVEL - 50, GROUNDLEVEL, GROUNDLEVEL, HEIGHT};
+    final static Obstacle[] OBSTACLES = {new Obstacle(WIDTH / 2 -150,GROUNDLEVEL-100,50,50)};
 
     // One projectile at the time since it is turn-based
     private Projectile projectile;
@@ -50,18 +51,19 @@ public class GameBoard
         this.listeners = new ArrayList<>();
 
         // Player construction ------------------------------//
-        double playerSize = Player.PLAYER_SIZE;
+        double playerWidth = Player.PLAYER_WIDTH;
+        double playerHeight = Player.PLAYER_HEIGHT;
         // Start values for player1
-        double player1StartXPos = WIDTH / 10.0 - playerSize;
+        double player1StartXPos = WIDTH / 10.0 - playerWidth;
         double player1StartDir = Math.toDegrees(atan(getGradient(player1StartXPos)));
-        double player1StartYPos = GROUNDLEVEL - playerSize + (player1StartXPos+playerSize/2)*Math.tan(
+        double player1StartYPos = GROUNDLEVEL - playerHeight + (player1StartXPos+playerWidth/2)*Math.tan(
                 toRadians(player1StartDir));
         this.player1 = new Player(player1StartXPos, player1StartYPos, player1StartDir, "MissileLauncher");
 
         // Start values for player2
         double player2StartXPos = WIDTH - WIDTH / 10.0;
         double player2StartDir = Math.toDegrees(atan(getGradient(player2StartXPos)));
-        double player2StartYPos = GROUNDLEVEL - playerSize - (WIDTH-(player2StartXPos+playerSize/2))*Math.tan(
+        double player2StartYPos = GROUNDLEVEL - playerHeight - (WIDTH-(player2StartXPos+playerWidth/2))*Math.tan(
                 toRadians(player2StartDir));
         this.player2 = new Player(player2StartXPos, player2StartYPos, player2StartDir, "MissileLauncher");
         // Set direction so that the players face eachother from the start
@@ -187,9 +189,10 @@ public class GameBoard
     public void shotsFired() {
         if (!betweenTurns) {
             Player currentPlayer = getCurrentPlayer();
-            double playerSize = Player.PLAYER_SIZE;
-            double middleXOfPlayer = currentPlayer.getXPos() + playerSize/2;
-            double middleYOfPlayer = currentPlayer.getYPos() + playerSize/2;
+            double playerWidth = Player.PLAYER_WIDTH;
+            double playerHeight = Player.PLAYER_HEIGHT;
+            double middleXOfPlayer = currentPlayer.getXPos() + playerWidth/2;
+            double middleYOfPlayer = currentPlayer.getYPos() + playerHeight/2;
 
             Weapon weapon = currentPlayer.getWeapon();
             double direction = weapon.getDirection();
@@ -222,7 +225,7 @@ public class GameBoard
     // If String is "right" move right, if "left" ...
     // If invalid string do nothing
     public void moveCurrentPlayer(String horizontalDirection) {
-        double xPos = getCurrentPlayer().getXPos()+Player.PLAYER_SIZE/2;
+        double xPos = getCurrentPlayer().getXPos()+Player.PLAYER_WIDTH/2;
         double gradient = getGradient(xPos);
         double directionRadians = atan(gradient);
         double directionDegrees = Math.toDegrees(directionRadians);

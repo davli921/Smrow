@@ -16,7 +16,8 @@ import java.awt.Color;
 public class Player implements Collidable
 {
 
-    final static double PLAYER_SIZE = 34;
+    final static double PLAYER_WIDTH = 34;
+    final static double PLAYER_HEIGHT = 34;
     final static double MOVE_STEP = 5;
     final static int MAX_HP = 100;
     final static Color COLOR = Color.black;
@@ -83,11 +84,11 @@ public class Player implements Collidable
 
     // These two do the same thing but are seperate so they fit in "Collidable"
     public double getWidth() {
-        return PLAYER_SIZE;
+        return PLAYER_WIDTH;
     }
 
     public double getHeight() {
-        return PLAYER_SIZE;
+        return PLAYER_HEIGHT;
     }
 
     // ------------------------------------------------------------------------//

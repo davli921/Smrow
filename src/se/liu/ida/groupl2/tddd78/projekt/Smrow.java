@@ -19,27 +19,6 @@ public final class Smrow
     public static void main(String[] args) {
 	StateList sList = StateList.getInstance();
 
-	/*
-	// Framestate
-	sList.setFrameState(FrameState.MENU);
-
-	// Gameboard
-	GameBoard gameBoard = new GameBoard();
-	sList.setGameBoard(gameBoard);
-
-	// Components
-	GameComponent gameComponent = new GameComponent(gameBoard);
-	HighscoreComponent highscoreComponent = new HighscoreComponent();
-	MenuComponent menuComponent = new MenuComponent();
-	sList.setGameComponent(gameComponent);
-	sList.setHighscoreComponent(highscoreComponent);
-	sList.setMenuComponent(menuComponent);
-
-	// Frame
-	GameFrame frame = new GameFrame("Smrow");
-	sList.setFrame(frame);
-	*/
-
 	// Adds listener
 	sList.getFrame().getGameBoard().addListener(sList.getFrame().getGameComponent());
 	sList.getFrame().setVisible(true);

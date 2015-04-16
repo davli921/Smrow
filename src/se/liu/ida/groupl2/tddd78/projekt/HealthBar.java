@@ -17,7 +17,7 @@ public class HealthBar
     final static int DIST_ABOVE_PLAYER = 10;
     private List<Rectangle> healthBar;
     private Player player;
-    private int playerSize = (int)Player.PLAYER_SIZE;
+    private int playerWidth = (int)Player.PLAYER_WIDTH;
     private int healthLostLength;
     private int xPos;
     private int yPos;
@@ -30,8 +30,8 @@ public class HealthBar
 	this.healthLostLength = -1;
 
 	this.healthBar = new ArrayList<>();
-	Rectangle fullHp = new Rectangle(xPos - LENGHT / 2 + playerSize / 2, yPos - DIST_ABOVE_PLAYER, LENGHT, 5);
-	Rectangle healthLost = new Rectangle(xPos - LENGHT / 2 + playerSize / 2, yPos - DIST_ABOVE_PLAYER, healthLostLength, 5);
+	Rectangle fullHp = new Rectangle(xPos - LENGHT / 2 + playerWidth / 2, yPos - DIST_ABOVE_PLAYER, LENGHT, 5);
+	Rectangle healthLost = new Rectangle(xPos - LENGHT / 2 + playerWidth / 2, yPos - DIST_ABOVE_PLAYER, healthLostLength, 5);
 	healthBar.add(fullHp);
 	healthBar.add(healthLost);
     }
@@ -56,9 +56,9 @@ public class HealthBar
 	    this.healthLostLength = (int) ((1 - healthChange) * LENGHT);
 	}
 
-	Rectangle fullHp = new Rectangle(xPos - LENGHT / 2 + playerSize / 2, yPos - DIST_ABOVE_PLAYER, LENGHT, 5);
+	Rectangle fullHp = new Rectangle(xPos - LENGHT / 2 + playerWidth / 2, yPos - DIST_ABOVE_PLAYER, LENGHT, 5);
 	Rectangle healthLost =
-		new Rectangle(xPos - LENGHT / 2 + playerSize / 2, yPos - DIST_ABOVE_PLAYER, healthLostLength, 5);
+		new Rectangle(xPos - LENGHT / 2 + playerWidth / 2, yPos - DIST_ABOVE_PLAYER, healthLostLength, 5);
 
 	healthBar.clear();
 	healthBar.add(fullHp);

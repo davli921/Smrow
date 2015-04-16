@@ -114,6 +114,8 @@ public class GameComponent extends JComponent implements Listener
 	paintPlayer(g2d, player2);
 	paintWeapon(g2d, player2);
 
+	paintObstacles(g2d);
+
 	paintProjectile(g2d);
 
 	paintStatusField(g2d);
@@ -126,14 +128,15 @@ public class GameComponent extends JComponent implements Listener
 
 	int x = (int) player.getXPos();
 	int y = (int) player.getYPos();
-	int playerSize = (int)Player.PLAYER_SIZE;
+	int playerWidth = (int)Player.PLAYER_WIDTH;
+	int playerHeight = (int)Player.PLAYER_HEIGHT;
 	Color playerColor = Player.COLOR;
 	Color healthLeftColor = HealthBar.HEALTH_LEFT_COLOR;
 	Color healthLostColor = HealthBar.HEALTH_LOST_COLOR;
 	double direction = toRadians(player.getDirection());
 
-	int playerAnchorPointX = (int) player.getXPos() + playerSize / 2;
-	int playerAnchorPointY = (int) player.getYPos() + playerSize / 2;
+	int playerAnchorPointX = (int) player.getXPos() + playerWidth / 2;
+	int playerAnchorPointY = (int) player.getYPos() + playerHeight / 2;
 
 
 	transformer.setToRotation(direction, playerAnchorPointX, playerAnchorPointY);
@@ -152,7 +155,7 @@ public class GameComponent extends JComponent implements Listener
 	g2d.draw(healthLost);
 
 	g2d.setColor(playerColor);
-	g2d.fillRect(x, y, playerSize, playerSize);
+	g2d.fillRect(x, y, playerWidth, playerHeight);
 
 	g2d.setTransform(oldTransformer);
     }
@@ -162,15 +165,16 @@ public class GameComponent extends JComponent implements Listener
 	AffineTransform oldTransformer = g2d.getTransform();
 	AffineTransform transformer = new AffineTransform();
 
-	int playerSize = (int) Player.PLAYER_SIZE;
+	int playerWidth = (int)Player.PLAYER_WIDTH;
+	int playerHeight = (int)Player.PLAYER_HEIGHT;
 	int playerXPos = (int) player.getXPos();
 	int playerYPos = (int) player.getYPos();
 	Weapon weapon = player.getWeapon();
 	double weaponAngle = weapon.getDirection();
 	int weaponLength = (int) weapon.getLength();
 	int weaponHeight = (int) weapon.getHeight();
-	int weaponPosX = playerXPos + playerSize / 2;
-	int weaponPosY = playerYPos + playerSize / 2 - weaponHeight / 2;
+	int weaponPosX = playerXPos + playerWidth / 2;
+	int weaponPosY = playerYPos + playerHeight / 2 - weaponHeight / 2;
 	int anchorPointX = weaponPosX + 2;
 	int anchorPointY = weaponPosY + weaponHeight / 2;
 	Color color = weapon.getColor();
@@ -197,6 +201,18 @@ public class GameComponent extends JComponent implements Listener
 
 	    g2d.setColor(color);
 	    g2d.fillOval(xPos, yPos, radius * 2, radius * 2);
+	}
+    }
+
+    private void paintObstacles(Graphics2D g2d) {
+	for (int i=0; i<GameBoard.OBSTACLES.length; i++) {
+	    Obstacle obstacle = GameBoard.OBSTACLES[i];
+	    int x = (int)obstacle.getXPos();
+	    int y = (int)obstacle.getYPos();
+	    int width = (int)obstacle.getWidth();
+	    int height = (int)obstacle.getHeight();
+	    g2d.setColor(Color.CYAN);
+	    g2d.fillRect(x,y,width,height);
 	}
     }
 
@@ -250,7 +266,7 @@ public class GameComponent extends JComponent implements Listener
     private void paintGround(Graphics2D g2d){
 
 	g2d.setColor(Color.white);
-	Polygon polygon = new Polygon(GameBoard.XCOORDS, GameBoard.YCOORDS ,5);
+	Polygon polygon = new Polygon(GameBoard.XCOORDS, GameBoard.YCOORDS ,GameBoard.XCOORDS.length);
 	g2d.fillPolygon(polygon);
     }
 
