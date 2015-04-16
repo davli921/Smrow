@@ -1,9 +1,9 @@
 package se.liu.ida.groupl2.tddd78.projekt;
 
 /**
- * Singleton containing a "FrameState", a "GameBoard", and a version of all three components, and also
- * a "GameFrame". Have setters and getters for all fields that can be used to access and change the
- * components used in the game.
+ * Singleton containing a "FrameState", and a "GameFrame".
+ * Have setters and getters for all fields that can be used to access and change the
+ * components used in the game. Using "setFrameState" also changes the current component in the "frame"-obj.
  */
 
 public final class StateList
@@ -11,17 +11,15 @@ public final class StateList
 
     private FrameState frameState;
 
-    private GameBoard gameBoard;
-
-    private GameComponent gameComponent;
-    private HighscoreComponent highscoreComponent;
-    private MenuComponent menuComponent;
-
     private GameFrame frame;
 
     private final static StateList INSTANCE = new StateList();
 
-    private StateList(){}
+    private StateList(){
+        this.frameState = FrameState.MENU;
+
+        this.frame = new GameFrame("Smrow");
+    }
 
     public static StateList getInstance(){
 	return INSTANCE;
@@ -33,45 +31,19 @@ public final class StateList
 
     public void setFrameState(final FrameState frameState) {
 	this.frameState = frameState;
-    }
-
-    public GameBoard getGameBoard() {
-	return gameBoard;
-    }
-
-    public void setGameBoard(final GameBoard gameBoard) {
-	this.gameBoard = gameBoard;
-    }
-
-    public GameComponent getGameComponent() {
-	return gameComponent;
-    }
-
-    public void setGameComponent(final GameComponent gameComponent) {
-	this.gameComponent = gameComponent;
-    }
-
-    public HighscoreComponent getHighscoreComponent() {
-	return highscoreComponent;
-    }
-
-    public void setHighscoreComponent(final HighscoreComponent highscoreComponent) {
-	this.highscoreComponent = highscoreComponent;
-    }
-
-    public MenuComponent getMenuComponent() {
-	return menuComponent;
-    }
-
-    public void setMenuComponent(final MenuComponent menuComponent) {
-	this.menuComponent = menuComponent;
+        if (frameState.equals(FrameState.MENU)) {
+            frame.setCurrentComponent(frame.getMenuComponent());
+        }
+        else if (frameState.equals(FrameState.GAME)) {
+            frame.setCurrentComponent(frame.getGameComponent());
+        }
+        else if (frameState.equals(FrameState.HIGHSCORE)) {
+            frame.setCurrentComponent(frame.getHighscoreComponent());
+        }
     }
 
     public GameFrame getFrame() {
 	return frame;
     }
 
-    public void setFrame(final GameFrame frame) {
-	this.frame = frame;
-    }
 }

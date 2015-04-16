@@ -23,8 +23,8 @@ public class GameBoard
     final static int HEIGHT = 750;
     final static int GROUNDLEVEL = 400;
 
-    final int[] XCOORDS = {0, 0, WIDTH / 2, WIDTH, WIDTH};
-    final int[] YCOORDS = {HEIGHT, GROUNDLEVEL, GROUNDLEVEL - 50, GROUNDLEVEL, HEIGHT};
+    final static int[] XCOORDS = {0, 0, WIDTH / 2, WIDTH, WIDTH};
+    final static int[] YCOORDS = {HEIGHT, GROUNDLEVEL, GROUNDLEVEL - 50, GROUNDLEVEL, HEIGHT};
 
     // One projectile at the time since it is turn-based
     private Projectile projectile;
@@ -95,14 +95,6 @@ public class GameBoard
         return projectile;
     }
 
-    public int[] getXCoords() {
-        return XCOORDS;
-    }
-
-    public int[] getYCoords() {
-        return YCOORDS;
-    }
-
     //---------------------------------------------------//
 
     private double getGradient(double xPos){
@@ -121,6 +113,7 @@ public class GameBoard
         }
 
     // Returns the groundlevel y-coords for the x-coord "xPos"
+    // *Only works for linear groundlevels*
     private double getYCoord(double xPos) {
         int i = 0;
         while(xPos >= XCOORDS[i]){
@@ -168,6 +161,7 @@ public class GameBoard
             if (!betweenTurns && !chargingWeapon) {
                 int up = -1;
                 int down = 1;
+                // Intentional comparison of pointers.
                 if (player == player1) {
                     if (direction.equals("Up")) {
                         weapon.setDirection(currentDirection + up);
@@ -214,7 +208,7 @@ public class GameBoard
             this.betweenTurns = true;
 
             StateList stateList = StateList.getInstance();
-            HighscoreComponent highscoreComponent = stateList.getHighscoreComponent();
+            HighscoreComponent highscoreComponent = stateList.getFrame().getHighscoreComponent();
 
             if (currentPlayer == player1) {
                 highscoreComponent.addP1ShotsFired(1);
@@ -257,7 +251,7 @@ public class GameBoard
             projectile.move();
 
             StateList stateList = StateList.getInstance();
-            HighscoreComponent highscoreComponent = stateList.getHighscoreComponent();
+            HighscoreComponent highscoreComponent = stateList.getFrame().getHighscoreComponent();
 
 
             // Projectile out of bounds
@@ -283,6 +277,7 @@ public class GameBoard
     }
 
     // Collision controllers -------------------- //
+
     // Returns true if there is a collision
     public boolean checkCollision(Collidable moving, Collidable obstruction){
 
@@ -398,7 +393,6 @@ public class GameBoard
         }
         if (gameOver) {
             StateList.getInstance().setFrameState(FrameState.HIGHSCORE);
-            StateList.getInstance().getFrame().setComponent(StateList.getInstance().getHighscoreComponent());
         }
     }
 

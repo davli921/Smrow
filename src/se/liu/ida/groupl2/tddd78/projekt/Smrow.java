@@ -19,6 +19,7 @@ public final class Smrow
     public static void main(String[] args) {
 	StateList sList = StateList.getInstance();
 
+	/*
 	// Framestate
 	sList.setFrameState(FrameState.MENU);
 
@@ -37,9 +38,10 @@ public final class Smrow
 	// Frame
 	GameFrame frame = new GameFrame("Smrow");
 	sList.setFrame(frame);
+	*/
 
 	// Adds listener
-	sList.getGameBoard().addListener(gameComponent);
+	sList.getFrame().getGameBoard().addListener(sList.getFrame().getGameComponent());
 	sList.getFrame().setVisible(true);
 
 	// Timer
@@ -47,7 +49,7 @@ public final class Smrow
 	{
 	    @Override public void actionPerformed(final ActionEvent e) {
 		if(sList.getFrameState().equals(FrameState.GAME)){
-		    sList.getGameBoard().tick();
+		    sList.getFrame().getGameBoard().tick();
 		}
 	    }
 	};

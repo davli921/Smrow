@@ -214,48 +214,47 @@ public class GameComponent extends JComponent implements Listener
 	String player1Name = player1.getName();
 	String player2Name = player2.getName();
 
-	int fieldPlayer1XPos = 40;
-	int fieldPlayer2XPos = 900;
+	int player1FieldXPos = 40;
+	int player2FieldXPos = 900;
 
-	int playerFieldYPos = 40;
+	int currentPlayerFieldYPos = 40;
+	int currentPlayerFieldXPos = 450;
 	int angleFieldYPos = 60;
 	int powerFieldYPos = 80;
 	int healthFieldYPos = 100;
 
 	if (currentPlayer == player1) {
 	    String currentPlayerName = "Current player: " + player1Name;
-	    g2d.drawString(currentPlayerName, 450, playerFieldYPos);
+	    g2d.drawString(currentPlayerName, currentPlayerFieldXPos, currentPlayerFieldYPos);
    	 } else if (currentPlayer == player2) {
 	    String currentPlayerName = "Current player: " + player2Name;
-	    g2d.drawString(currentPlayerName, 450, playerFieldYPos);
+	    g2d.drawString(currentPlayerName, currentPlayerFieldXPos, currentPlayerFieldYPos);
 	}
 
 	int anglePlayer1 = (int) abs(player1.getWeapon().getDirection()) % 360;
 	String powerPlayer1 = "Power: " + player1.getWeapon().getPower();
 	String currentHealthPlayer1 = "Hp: " + player1.getHealth();
 	String weaponAnglePlayer1 = "Angle: " + anglePlayer1;
-	g2d.drawString(currentHealthPlayer1, fieldPlayer1XPos, healthFieldYPos);
-	g2d.drawString(powerPlayer1, fieldPlayer1XPos, powerFieldYPos);
-	g2d.drawString(player1Name, fieldPlayer1XPos, playerFieldYPos);
-	g2d.drawString(weaponAnglePlayer1, fieldPlayer1XPos, angleFieldYPos);
+	g2d.drawString(currentHealthPlayer1, player1FieldXPos, healthFieldYPos);
+	g2d.drawString(powerPlayer1, player1FieldXPos, powerFieldYPos);
+	g2d.drawString(player1Name, player1FieldXPos, currentPlayerFieldYPos);
+	g2d.drawString(weaponAnglePlayer1, player1FieldXPos, angleFieldYPos);
 
 
 	int anglePlayer2 = (int) abs((player2.getWeapon().getDirection()) % 360 - 180);
 	String powerPlayer2 = "Power: " + player2.getWeapon().getPower();
 	String currentHealthPlayer2 = "Hp: " + player2.getHealth();
 	String weaponAnglePlayer2 = "Angle: " + anglePlayer2;
-	g2d.drawString(currentHealthPlayer2, fieldPlayer2XPos, healthFieldYPos);
-	g2d.drawString(powerPlayer2, fieldPlayer2XPos, powerFieldYPos);
-	g2d.drawString(player2Name, fieldPlayer2XPos, playerFieldYPos);
-	g2d.drawString(weaponAnglePlayer2, fieldPlayer2XPos, angleFieldYPos);
+	g2d.drawString(currentHealthPlayer2, player2FieldXPos, healthFieldYPos);
+	g2d.drawString(powerPlayer2, player2FieldXPos, powerFieldYPos);
+	g2d.drawString(player2Name, player2FieldXPos, currentPlayerFieldYPos);
+	g2d.drawString(weaponAnglePlayer2, player2FieldXPos, angleFieldYPos);
     }
 
     private void paintGround(Graphics2D g2d){
-	int[] XCOORDS = gameBoard.getXCoords();
-	int[] YCOORDS = gameBoard.getYCoords();
 
 	g2d.setColor(Color.white);
-	Polygon polygon = new Polygon(XCOORDS, YCOORDS,5);
+	Polygon polygon = new Polygon(GameBoard.XCOORDS, GameBoard.YCOORDS ,5);
 	g2d.fillPolygon(polygon);
     }
 

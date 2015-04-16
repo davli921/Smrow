@@ -5,44 +5,61 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 /**
- * GameFrame contains a "Jcomponent"-obj that is either a "menuComponent","gameComponent" or a "highscoreComponent"
- * that it displays depending on the "frameState". Has methods for changing component "setComponent",
- * and creating a menu "createMenu".
+ * GameFrame contains a "currentComponent" that is either a "menuComponent","gameComponent" or a "highscoreComponent"
+ * that it displays depending on the "frameState". Has methods for changing currentComponent "setCurrentComponent",
+ * and creating a menu "createMenu". All three available components are stored in their own field.
  */
 
 public class GameFrame extends JFrame
 {
 
-    private JComponent component;
+    private GameBoard gameBoard;
 
-    // Gameframe ska ha component fält och setter till detta. Menucomponent i constructor,
-    // den kan skappa ett gameboard och ändra till gamecomponent. Gameboard kollar gameover
-    // och om sann så skapas highscoreComponent osv...
+    private GameComponent gameComponent;
+    private HighscoreComponent highscoreComponent;
+    private MenuComponent menuComponent;
+    private JComponent currentComponent;
+
+
     public GameFrame(final String title) throws HeadlessException {
 	super(title);
 	this.createMenu();
 	this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-	// Add the correct component from StateList
-	StateList sList = StateList.getInstance();
-	if(sList.getFrameState().equals(FrameState.HIGHSCORE)){
-	    this.component = sList.getHighscoreComponent();
-	} else if(sList.getFrameState().equals(FrameState.GAME)){
-	    this.component = sList.getGameComponent();
-	} else if(sList.getFrameState().equals(FrameState.MENU)){
-	    this.component = sList.getMenuComponent();
-	}
-	this.add(component);
+	this.gameBoard = new GameBoard();
+
+	this.gameComponent = new GameComponent(gameBoard);
+	this.highscoreComponent = new HighscoreComponent();
+	this.menuComponent = new MenuComponent();
+	this.currentComponent = menuComponent;
+
+	this.add(currentComponent);
 	// Frame is not resizable
 	this.setResizable(false);
 	this.pack();
     }
 
-    public void setComponent(final JComponent component) {
-	this.remove(this.component);
-	this.component = component;
-	this.add(component);
-	this.component.requestFocus();
+    public GameBoard getGameBoard() {
+	return gameBoard;
+    }
+
+    public GameComponent getGameComponent() {
+	return gameComponent;
+    }
+
+    public HighscoreComponent getHighscoreComponent() {
+	return highscoreComponent;
+    }
+
+    public MenuComponent getMenuComponent() {
+	return menuComponent;
+    }
+
+    public void setCurrentComponent(final JComponent currentComponent) {
+	this.remove(this.currentComponent);
+	this.currentComponent = currentComponent;
+	this.add(currentComponent);
+	this.currentComponent.requestFocus();
 	this.pack();
     }
 

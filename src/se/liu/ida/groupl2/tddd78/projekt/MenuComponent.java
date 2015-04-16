@@ -31,9 +31,8 @@ public class MenuComponent extends JComponent
 	ActionListener al = e -> {
 	    if (e.getSource().equals(start)) {
 		StateList.getInstance().setFrameState(FrameState.GAME);
-		sList.getFrame().setComponent(sList.getGameComponent());
-		StateList.getInstance().getGameBoard().getPlayer1().setName("Player1");
-		StateList.getInstance().getGameBoard().getPlayer2().setName("Player2");
+		StateList.getInstance().getFrame().getGameBoard().getPlayer1().setName("Player1");
+		StateList.getInstance().getFrame().getGameBoard().getPlayer2().setName("Player2");
 	    } else if (e.getSource().equals(quit)) {
 		System.exit(0);
 	    }
@@ -46,9 +45,9 @@ public class MenuComponent extends JComponent
 		textField.requestFocus();
 
 		if (player1Name.isEmpty()) {
-		    StateList.getInstance().getGameBoard().getPlayer1().setName("Player1");
+		    StateList.getInstance().getFrame().getGameBoard().getPlayer1().setName("Player1");
 		} else {
-		StateList.getInstance().getGameBoard().getPlayer1().setName(player1Name);
+		StateList.getInstance().getFrame().getGameBoard().getPlayer1().setName(player1Name);
 		}
 	    }
 
@@ -56,13 +55,12 @@ public class MenuComponent extends JComponent
 		String player2Name = textField.getText();
 
 		if (player2Name.isEmpty()) {
-		    StateList.getInstance().getGameBoard().getPlayer2().setName("Player2");
+		    StateList.getInstance().getFrame().getGameBoard().getPlayer2().setName("Player2");
 		} else {
-		    StateList.getInstance().getGameBoard().getPlayer2().setName(player2Name);
+		    StateList.getInstance().getFrame().getGameBoard().getPlayer2().setName(player2Name);
 		}
 
 		sList.setFrameState(FrameState.GAME);
-		sList.getFrame().setComponent(sList.getGameComponent());
 	    }
 	};
 
