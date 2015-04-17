@@ -1,9 +1,5 @@
 package se.liu.ida.groupl2.tddd78.projekt;
 
-import static java.lang.Math.cos;
-import static java.lang.Math.sin;
-import static java.lang.Math.toRadians;
-
 import java.awt.Color;
 
 /**
