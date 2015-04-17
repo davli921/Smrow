@@ -49,6 +49,14 @@ public class Player implements Collidable
         return yPos;
     }
 
+    public void setXPos(double xPos) {
+        this.xPos = xPos;
+    }
+
+    public void setYPos(double yPos) {
+        this.yPos = yPos;
+    }
+
     public double getDirection() {
         return direction;
     }
@@ -107,19 +115,6 @@ public class Player implements Collidable
     }
 
     // ------------------------------------------------------------------------//
-
-    public void move(String horizontalDirection) {
-        double directionRadians = toRadians(direction);
-        if (horizontalDirection.equals("right")) {
-            xPos += (MOVE_STEP * cos(directionRadians));
-            yPos += (MOVE_STEP * sin(directionRadians));
-            this.healthBar.updateHealthBar();
-        } else if (horizontalDirection.equals("left")) {
-            xPos += (MOVE_STEP * cos(directionRadians+Math.PI));
-            yPos += (MOVE_STEP * sin(directionRadians+Math.PI));
-            this.healthBar.updateHealthBar();
-        }
-    }
 
     private void createWeapon(String weapon){
         switch (weapon){

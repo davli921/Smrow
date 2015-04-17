@@ -8,6 +8,7 @@ import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.atan;
 import static java.lang.Math.toRadians;
+import static java.lang.Math.PI;
 
 /**
  * Represents the actual game. Contains fields for 2 "Player"-objects, a "Projectile"-obj.
@@ -25,7 +26,8 @@ public class GameBoard
 
     final static int[] XCOORDS = {0, 0, 200, WIDTH / 2 -150, WIDTH / 2 +150, WIDTH-200, WIDTH, WIDTH};
     final static int[] YCOORDS = {HEIGHT, GROUNDLEVEL, GROUNDLEVEL, GROUNDLEVEL - 50, GROUNDLEVEL - 50, GROUNDLEVEL, GROUNDLEVEL, HEIGHT};
-    final static Obstacle[] OBSTACLES = {new Obstacle(WIDTH / 2 -150,GROUNDLEVEL-100,50,50)};
+    final static Obstacle[] OBSTACLES = {};
+    //{new Obstacle(WIDTH / 2 -150,GROUNDLEVEL-100,50,50)};
 
     // One projectile at the time since it is turn-based
     private Projectile projectile;
@@ -226,8 +228,9 @@ public class GameBoard
     // If String is "right" move right, if "left" ...
     // If invalid string do nothing
     public void moveCurrentPlayer(String horizontalDirection) {
-        double xPos = getCurrentPlayer().getXPos()+Player.PLAYER_WIDTH/2;
-        double gradient = getGradient(xPos);
+        double xPos = getCurrentPlayer().getXPos();
+        double middleXPos = getCurrentPlayer().getXPos()+Player.PLAYER_WIDTH/2;
+        double gradient = getGradient(middleXPos);
         double directionRadians = atan(gradient);
         double directionDegrees = Math.toDegrees(directionRadians);
         getCurrentPlayer().setDirection(directionDegrees);
@@ -236,16 +239,45 @@ public class GameBoard
 
             Player currentPlayer = getCurrentPlayer();
 
-            // Compares pointers to make sure it is the same object
-            if (currentPlayer == player1) {
-                if (!willCollide(currentPlayer, horizontalDirection, player2)) {
-                    currentPlayer.move(horizontalDirection);
-                }
-            } else if (currentPlayer == player2) {
-                if (!willCollide(currentPlayer, horizontalDirection, player1)) {
-                    currentPlayer.move(horizontalDirection);
+            boolean freeToMove = true;
+
+            // Check collision with obstacles
+            for (Obstacle obstacle : OBSTACLES) {
+                if (willCollide(currentPlayer,horizontalDirection,obstacle)) {
+                    freeToMove = false;
+                    break;
                 }
             }
+
+            // Check collision with the other player
+            // (Compares pointers to make sure it is the same object)
+            if (currentPlayer == player1) {
+                if (willCollide(currentPlayer, horizontalDirection, player2)) {
+                    freeToMove = false;
+                }
+            } else if (currentPlayer == player2) {
+                if (willCollide(currentPlayer, horizontalDirection, player1)) {
+                    freeToMove = false;
+                }
+            }
+
+            // The actual movement
+            if (freeToMove) {
+                if (horizontalDirection.equals("right")) {
+                    xPos += (Player.MOVE_STEP * cos(directionRadians));
+                } else if (horizontalDirection.equals("left")) {
+                    xPos += (Player.MOVE_STEP * cos(directionRadians+PI));
+                }
+
+                // New fields so the y-coords is calculated correctly with the current xPos.
+                double newMiddleXPos = xPos + Player.PLAYER_WIDTH/2;
+                double yPos = getYCoord(newMiddleXPos);
+                currentPlayer.setXPos(xPos);
+                currentPlayer.setYPos(yPos - Player.PLAYER_HEIGHT);
+                
+                currentPlayer.getHealthBar().updateHealthBar();
+            }
+
         }
         notifyListener();
     }
@@ -258,26 +290,38 @@ public class GameBoard
             StateList stateList = StateList.getInstance();
             HighscoreComponent highscoreComponent = stateList.getFrame().getHighscoreComponent();
 
+            boolean collision = false;
+
+            for (Obstacle obstacle : OBSTACLES) {
+                if (checkCollision(projectile, obstacle)) {
+                    collision = true;
+                    break;
+                }
+            }
 
             // Projectile out of bounds
             if (outOfBounds(projectile)) {
-                resetProjectile();
+                collision = true;
             }
-
             // If collision with player, deal damage.
             else if (checkCollision(projectile, player1)) {
                 int currentHp = player1.getHealth();
                 int dmg = projectile.getDmg();
                 player1.setHealth(currentHp - dmg);
-                resetProjectile();
+                collision = true;
                 highscoreComponent.addP2Hits(1);
             } else if (checkCollision(projectile, player2)) {
                 int currentHp = player2.getHealth();
                 int dmg = projectile.getDmg();
                 player2.setHealth(currentHp - dmg);
-                resetProjectile();
+                collision = true;
                 highscoreComponent.addP1Hits(1);
             }
+
+            if (collision) {
+                resetProjectile();
+            }
+
         }
     }
 

@@ -143,8 +143,8 @@ public class GameComponent extends JComponent implements Listener
 	AffineTransform oldTransformer = g2d.getTransform();
 	AffineTransform transformer = new AffineTransform();
 
-	int x = (int) player.getXPos();
-	int y = (int) player.getYPos();
+	double xPos = player.getXPos();
+	double yPos = player.getYPos();
 	int playerWidth = (int)Player.PLAYER_WIDTH;
 	int playerHeight = (int)Player.PLAYER_HEIGHT;
 	Color playerColor = Player.COLOR;
@@ -152,8 +152,8 @@ public class GameComponent extends JComponent implements Listener
 	Color healthLostColor = HealthBar.HEALTH_LOST_COLOR;
 	double direction = toRadians(player.getDirection());
 
-	int playerAnchorPointX = (int) player.getXPos() + playerWidth / 2;
-	int playerAnchorPointY = (int) player.getYPos() + playerHeight / 2;
+	double playerAnchorPointX = player.getXPos() + playerWidth / 2.0;
+	double playerAnchorPointY = player.getYPos() + playerHeight / 2.0;
 
 
 	transformer.setToRotation(direction, playerAnchorPointX, playerAnchorPointY);
@@ -172,7 +172,7 @@ public class GameComponent extends JComponent implements Listener
 	g2d.draw(healthLost);
 
 	g2d.setColor(playerColor);
-	g2d.fillRect(x, y, playerWidth, playerHeight);
+	g2d.fillRect((int)xPos, (int)yPos, playerWidth, playerHeight);
 
 	g2d.setTransform(oldTransformer);
     }
@@ -235,6 +235,7 @@ public class GameComponent extends JComponent implements Listener
 
     private void paintStatusField(Graphics g2d) {
 	// Shows information about the players.
+	g2d.setColor(Color.black);
 	Player currentPlayer = gameBoard.getCurrentPlayer();
 
 	Player player1 = gameBoard.getPlayer1();
