@@ -26,8 +26,7 @@ public class GameBoard
 
     final static int[] XCOORDS = {0, 0, 200, WIDTH / 2 -150, WIDTH / 2 +150, WIDTH-200, WIDTH, WIDTH};
     final static int[] YCOORDS = {HEIGHT, GROUNDLEVEL, GROUNDLEVEL, GROUNDLEVEL - 50, GROUNDLEVEL - 50, GROUNDLEVEL, GROUNDLEVEL, HEIGHT};
-    final static Obstacle[] OBSTACLES = {};
-    //{new Obstacle(WIDTH / 2 -150,GROUNDLEVEL-100,50,50)};
+    final static Obstacle[] OBSTACLES = {new Obstacle(WIDTH / 2 -150,GROUNDLEVEL-100,50,50)};
 
     // One projectile at the time since it is turn-based
     private Projectile projectile;
