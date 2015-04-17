@@ -31,7 +31,7 @@ public class Player implements Collidable
         this.xPos = xPos;
         this.yPos = yPos;
         this.direction = direction;
-        this.health = 100;
+        this.health = MAX_HP;
         this.healthBar = new HealthBar(this);
         this.weapon = null;
         // Creates a weapon with method instead of taking it as param and having to construct a weapon in "GameBoard".
@@ -91,6 +91,21 @@ public class Player implements Collidable
         return PLAYER_HEIGHT;
     }
 
+    public void changeWeapon(String weapon) {
+        double weaponDirection = this.weapon.getDirection();
+
+        switch (weapon) {
+            case "MissileLauncher":
+                this.weapon = new MissileLauncher(weaponDirection);
+                break;
+            case "RocketLauncher":
+                this.weapon = new RocketLauncher(weaponDirection);
+                break;
+            default:
+                break;
+        }
+    }
+
     // ------------------------------------------------------------------------//
 
     public void move(String horizontalDirection) {
@@ -110,6 +125,9 @@ public class Player implements Collidable
         switch (weapon){
             case "MissileLauncher":
                 this.weapon = new MissileLauncher(direction);
+                break;
+            case "RocketLauncher":
+                this.weapon = new RocketLauncher(direction);
                 break;
             default:
                 break;

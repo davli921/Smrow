@@ -38,6 +38,7 @@ public class GameBoard
 
     private List<Listener> listeners;
 
+
     public GameBoard() {
         this.projectile = null;
 

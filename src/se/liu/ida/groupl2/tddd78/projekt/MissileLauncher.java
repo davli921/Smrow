@@ -24,6 +24,4 @@ public class MissileLauncher extends Weapon
         Projectile missile = new Missile(DMG, speed, direction);
         return missile;
     }
-
-
 }

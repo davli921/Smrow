@@ -67,6 +67,17 @@ public class GameComponent extends JComponent implements Listener
 	    }
 	};
 
+	Action changeWeapon = new AbstractAction()
+	{
+	    @Override public void actionPerformed(final ActionEvent e) {
+		String weapon = this.getValue(e.getActionCommand()).toString();
+		gameBoard.getCurrentPlayer().changeWeapon(weapon);
+	    }
+
+	};
+	changeWeapon.putValue("1", "MissileLauncher");
+	changeWeapon.putValue("2", "RocketLauncher");
+
 	this.getInputMap().put(KeyStroke.getKeyStroke("LEFT"), "Move Left");
 	this.getActionMap().put("Move Left", moveLeft);
 
@@ -84,6 +95,12 @@ public class GameComponent extends JComponent implements Listener
 	this.getActionMap().put("Charge Weapon", chargeWeapon);
 	this.getInputMap().put(KeyStroke.getKeyStroke("released SPACE"),"Shoot");
 	this.getActionMap().put("Shoot", shoot);
+
+	// Use to change between weapons
+	this.getInputMap().put(KeyStroke.getKeyStroke("1"), "Weapon1");
+	this.getActionMap().put("Weapon1", changeWeapon);
+	this.getInputMap().put(KeyStroke.getKeyStroke("2"), "Weapon2");
+	this.getActionMap().put("Weapon2", changeWeapon);
     }
 
     @Override public Dimension getPreferredSize() {
@@ -235,6 +252,7 @@ public class GameComponent extends JComponent implements Listener
 	int powerFieldYPos = 80;
 	int healthFieldYPos = 100;
 
+	// Intentional comparison of pointers.
 	if (currentPlayer == player1) {
 	    String currentPlayerName = "Current player: " + player1Name;
 	    g2d.drawString(currentPlayerName, currentPlayerFieldXPos, currentPlayerFieldYPos);
