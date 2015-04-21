@@ -121,7 +121,7 @@ public class GameComponent extends JComponent implements Listener
 
 	// Paint the sky
 	g2d.setColor(lightblue);
-	g2d.fillRect(0, 0, (int)gameBoard.getWIDTH(), (int)gameBoard.getHEIGHT());
+	g2d.fillRect(0, 0, (int) gameBoard.getWIDTH(), (int) gameBoard.getHEIGHT());
 
 	paintGround(g2d);
 
@@ -139,151 +139,34 @@ public class GameComponent extends JComponent implements Listener
     }
 
     private void paintPlayer(Graphics2D g2d, Player player) {
-
-	AffineTransform oldTransformer = g2d.getTransform();
-	AffineTransform transformer = new AffineTransform();
-
-	double xPos = player.getXPos();
-	double yPos = player.getYPos();
-	int playerWidth = (int)Player.PLAYER_WIDTH;
-	int playerHeight = (int)Player.PLAYER_HEIGHT;
-	Color playerColor = Player.COLOR;
-	Color healthLeftColor = HealthBar.HEALTH_LEFT_COLOR;
-	Color healthLostColor = HealthBar.HEALTH_LOST_COLOR;
-	double direction = toRadians(player.getDirection());
-
-	double playerAnchorPointX = player.getXPos() + playerWidth / 2.0;
-	double playerAnchorPointY = player.getYPos() + playerHeight / 2.0;
-
-
-	transformer.setToRotation(direction, playerAnchorPointX, playerAnchorPointY);
-	g2d.setTransform(transformer);
-
-	HealthBar healthBar = player.getHealthBar();
-	Rectangle healthLeft = healthBar.getHealthLeft();
-	Rectangle healthLost = healthBar.getHealthLost();
-
-	g2d.setColor(healthLeftColor);
-	g2d.fill(healthLeft);
-	g2d.draw(healthLeft);
-
-	g2d.setColor(healthLostColor);
-	g2d.fill(healthLost);
-	g2d.draw(healthLost);
-
-	g2d.setColor(playerColor);
-	g2d.fillRect((int)xPos, (int)yPos, playerWidth, playerHeight);
-
-	g2d.setTransform(oldTransformer);
+	player.draw(g2d, player);
     }
 
     private void paintWeapon(Graphics2D g2d, Player player) {
-
-	AffineTransform oldTransformer = g2d.getTransform();
-	AffineTransform transformer = new AffineTransform();
-
-	int playerWidth = (int)Player.PLAYER_WIDTH;
-	int playerHeight = (int)Player.PLAYER_HEIGHT;
-	int playerXPos = (int) player.getXPos();
-	int playerYPos = (int) player.getYPos();
 	Weapon weapon = player.getWeapon();
-	double weaponAngle = weapon.getDirection();
-	int weaponLength = (int) weapon.getLength();
-	int weaponHeight = (int) weapon.getHeight();
-	int weaponPosX = playerXPos + playerWidth / 2;
-	int weaponPosY = playerYPos + playerHeight / 2 - weaponHeight / 2;
-	int anchorPointX = weaponPosX + 2;
-	int anchorPointY = weaponPosY + weaponHeight / 2;
-	Color color = weapon.getColor();
-	g2d.setColor(color);
-
-	// Rotates the weapon around two anchor points.
-	transformer.setToRotation(toRadians(weaponAngle), anchorPointX, anchorPointY);
-	g2d.setTransform(transformer);
-
-	Shape weaponShape = new Rectangle(weaponPosX, weaponPosY, weaponLength, weaponHeight);
-	g2d.draw(weaponShape);
-	g2d.fill(weaponShape);
-
-	g2d.setTransform(oldTransformer);
+	weapon.draw(g2d, player);
     }
 
-    private void paintProjectile(Graphics g2d) {
+    private void paintProjectile(Graphics2D g2d) {
 	Projectile projectile = gameBoard.getProjectile();
-	if (projectile != null) {
-	    Color color = projectile.getColor();
-	    int radius = (int) projectile.getRadius();
-	    int xPos = (int) projectile.getXPos();
-	    int yPos = (int) projectile.getYPos();
-
-	    g2d.setColor(color);
-	    g2d.fillOval(xPos, yPos, radius * 2, radius * 2);
-	}
+	if (projectile != null) {projectile.draw(g2d, gameBoard.getCurrentPlayer());}
     }
 
     private void paintObstacles(Graphics2D g2d) {
-	for (int i=0; i<GameBoard.OBSTACLES.length; i++) {
+	for (int i = 0; i < GameBoard.OBSTACLES.length; i++) {
 	    Obstacle obstacle = GameBoard.OBSTACLES[i];
-	    int x = (int)obstacle.getXPos();
-	    int y = (int)obstacle.getYPos();
-	    int width = (int)obstacle.getWidth();
-	    int height = (int)obstacle.getHeight();
-	    g2d.setColor(Color.CYAN);
-	    g2d.fillRect(x,y,width,height);
+	    obstacle.draw(g2d, gameBoard.getCurrentPlayer());
 	}
     }
 
-    private void paintStatusField(Graphics g2d) {
-	// Shows information about the players.
-	g2d.setColor(Color.black);
+    private void paintStatusField(Graphics2D g2d) {
+	StatusField statusField = new StatusField(player1, player2);
 	Player currentPlayer = gameBoard.getCurrentPlayer();
 
-	Player player1 = gameBoard.getPlayer1();
-	Player player2 = gameBoard.getPlayer2();
-
-	String player1Name = player1.getName();
-	String player2Name = player2.getName();
-
-	int player1FieldXPos = 40;
-	int player2FieldXPos = 900;
-
-	int currentPlayerFieldYPos = 40;
-	int currentPlayerFieldXPos = 450;
-	int angleFieldYPos = 60;
-	int powerFieldYPos = 80;
-	int healthFieldYPos = 100;
-
-	// Intentional comparison of pointers.
-	if (currentPlayer == player1) {
-	    String currentPlayerName = "Current player: " + player1Name;
-	    g2d.drawString(currentPlayerName, currentPlayerFieldXPos, currentPlayerFieldYPos);
-   	 } else if (currentPlayer == player2) {
-	    String currentPlayerName = "Current player: " + player2Name;
-	    g2d.drawString(currentPlayerName, currentPlayerFieldXPos, currentPlayerFieldYPos);
-	}
-
-	int anglePlayer1 = (int) abs(player1.getWeapon().getDirection()) % 360;
-	String powerPlayer1 = "Power: " + player1.getWeapon().getPower();
-	String currentHealthPlayer1 = "Hp: " + player1.getHealth();
-	String weaponAnglePlayer1 = "Angle: " + anglePlayer1;
-	g2d.drawString(currentHealthPlayer1, player1FieldXPos, healthFieldYPos);
-	g2d.drawString(powerPlayer1, player1FieldXPos, powerFieldYPos);
-	g2d.drawString(player1Name, player1FieldXPos, currentPlayerFieldYPos);
-	g2d.drawString(weaponAnglePlayer1, player1FieldXPos, angleFieldYPos);
-
-
-	int anglePlayer2 = (int) abs((player2.getWeapon().getDirection()) % 360 - 180);
-	String powerPlayer2 = "Power: " + player2.getWeapon().getPower();
-	String currentHealthPlayer2 = "Hp: " + player2.getHealth();
-	String weaponAnglePlayer2 = "Angle: " + anglePlayer2;
-	g2d.drawString(currentHealthPlayer2, player2FieldXPos, healthFieldYPos);
-	g2d.drawString(powerPlayer2, player2FieldXPos, powerFieldYPos);
-	g2d.drawString(player2Name, player2FieldXPos, currentPlayerFieldYPos);
-	g2d.drawString(weaponAnglePlayer2, player2FieldXPos, angleFieldYPos);
+	statusField.draw(g2d, currentPlayer);
     }
 
     private void paintGround(Graphics2D g2d){
-
 	g2d.setColor(Color.white);
 	Polygon polygon = new Polygon(GameBoard.XCOORDS, GameBoard.YCOORDS ,GameBoard.XCOORDS.length);
 	g2d.fillPolygon(polygon);

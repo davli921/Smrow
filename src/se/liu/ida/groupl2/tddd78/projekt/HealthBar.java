@@ -7,9 +7,11 @@ import java.util.List;
 /**
  * HealthBar-objects represents the Player-objects current health. Has fields for its postition,
  * measurements, and current health-info. Have method for updating the healthbar "updateHealthBar".
+ *
+ * The draw function is used by the player to draw the healthbar.
  */
 
-public class HealthBar
+public class HealthBar implements Drawable
 {
     final static Color HEALTH_LEFT_COLOR = Color.green;
     final static Color HEALTH_LOST_COLOR = Color.red;
@@ -63,5 +65,21 @@ public class HealthBar
 	healthBar.clear();
 	healthBar.add(fullHp);
 	healthBar.add(healthLost);
+    }
+
+    public void draw(Graphics2D g2d, Player player) {
+	Color healthLeftColor = HealthBar.HEALTH_LEFT_COLOR;
+	Color healthLostColor = HealthBar.HEALTH_LOST_COLOR;
+
+	Rectangle healthLeft = this.getHealthLeft();
+	Rectangle healthLost = this.getHealthLost();
+
+	g2d.setColor(healthLeftColor);
+	g2d.fill(healthLeft);
+	g2d.draw(healthLeft);
+
+	g2d.setColor(healthLostColor);
+	g2d.fill(healthLost);
+	g2d.draw(healthLost);
     }
 }

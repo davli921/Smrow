@@ -1,6 +1,9 @@
 package se.liu.ida.groupl2.tddd78.projekt;
 
-import java.awt.Color;
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+
+import static java.lang.Math.toRadians;
 
 /**
  * An abstract class that describes how the weapon should work.  For now it's implemented in MissileLauncher.
@@ -10,7 +13,7 @@ import java.awt.Color;
  * The shoot function is realised in the subclass and is where the weapon creates an projectile and gives the properties to the projectile.
  */
 
-public abstract class Weapon
+public abstract class Weapon implements Drawable
 {
 
     protected double length, height,power;
@@ -58,4 +61,31 @@ public abstract class Weapon
 
     abstract Projectile shoot();
 
+    public void draw(Graphics2D g2d, Player player) {
+        AffineTransform oldTransformer = g2d.getTransform();
+        AffineTransform transformer = new AffineTransform();
+
+        int playerWidth = (int) Player.PLAYER_WIDTH;
+        int playerHeight = (int) Player.PLAYER_HEIGHT;
+        int playerXPos = (int) player.getXPos();
+        int playerYPos = (int) player.getYPos();
+        double weaponAngle = (int) direction;
+        int weaponLength = (int) length;
+        int weaponHeight = (int) height;
+        int weaponPosX = playerXPos + playerWidth / 2;
+        int weaponPosY = playerYPos + playerHeight / 2 - weaponHeight / 2;
+        int anchorPointX = weaponPosX + 2;
+        int anchorPointY = weaponPosY + weaponHeight / 2;
+        g2d.setColor(color);
+
+        // Rotates the weapon around two anchor points.
+        transformer.setToRotation(toRadians(weaponAngle), anchorPointX, anchorPointY);
+        g2d.setTransform(transformer);
+
+        Shape weaponShape = new Rectangle(weaponPosX, weaponPosY, weaponLength, weaponHeight);
+        g2d.draw(weaponShape);
+        g2d.fill(weaponShape);
+
+        g2d.setTransform(oldTransformer);
+    }
 }

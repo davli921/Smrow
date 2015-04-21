@@ -1,6 +1,9 @@
 package se.liu.ida.groupl2.tddd78.projekt;
 
-import java.awt.Color;
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+
+import static java.lang.Math.toRadians;
 
 /**
  * "Player" contains information about a "Player"-obj health, position and direction, and also color and size.
@@ -9,7 +12,7 @@ import java.awt.Color;
  * "createWeapon" that is used in the constructor to create a specific weapon.
  */
 
-public class Player implements Collidable
+public class Player implements Collidable, Drawable
 {
 
     final static double PLAYER_WIDTH = 34;
@@ -123,6 +126,33 @@ public class Player implements Collidable
             default:
                 break;
         }
+    }
+
+    public void draw(Graphics2D g2d, Player player) {
+
+        AffineTransform oldTransformer = g2d.getTransform();
+        AffineTransform transformer = new AffineTransform();
+
+        double xPos = this.xPos;
+        double yPos = this.yPos;
+        int playerWidth = (int) Player.PLAYER_WIDTH;
+        int playerHeight = (int) Player.PLAYER_HEIGHT;
+        Color playerColor = Player.COLOR;
+        double direction = toRadians(this.direction);
+
+        double playerAnchorPointX = this.xPos + playerWidth / 2.0;
+        double playerAnchorPointY = this.yPos + playerHeight / 2.0;
+
+        transformer.setToRotation(direction, playerAnchorPointX, playerAnchorPointY);
+        g2d.setTransform(transformer);
+
+        HealthBar healthBar = this.healthBar;
+        healthBar.draw(g2d, this);
+
+        g2d.setColor(playerColor);
+        g2d.fillRect((int) xPos, (int) yPos, playerWidth, playerHeight);
+
+        g2d.setTransform(oldTransformer);
     }
 
 }
