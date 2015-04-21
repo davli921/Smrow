@@ -1,5 +1,6 @@
 package se.liu.ida.groupl2.tddd78.projekt;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -17,7 +18,7 @@ import static java.lang.Math.PI;
  * GameBoard controls all actions of players and projectiles (i.e movement and firing).
  */
 
-public class GameBoard
+public class GameBoard implements Drawable
 {
 
     final static int WIDTH = 1000;
@@ -449,6 +450,42 @@ public class GameBoard
         if (gameOver) {
             StateList.getInstance().setFrameState(FrameState.HIGHSCORE);
         }
+    }
+
+    public void draw(Graphics2D g2d, Player player) {
+        // Colors
+        Color lightblue = new Color(0, 0, 182, 89);
+
+        GameBoard gameBoard = this;
+
+        // Paint the sky
+        g2d.setColor(lightblue);
+        g2d.fillRect(0, 0, (int) gameBoard.getWIDTH(), (int) gameBoard.getHEIGHT());
+
+        g2d.setColor(Color.white);
+        Polygon polygon = new Polygon(GameBoard.XCOORDS, GameBoard.YCOORDS, GameBoard.XCOORDS.length);
+        g2d.fillPolygon(polygon);
+
+        player1.draw(g2d, player1);
+        player2.draw(g2d, player2);
+
+        Weapon weapon = player1.getWeapon();
+        weapon.draw(g2d, player1);
+
+        Weapon weapon2 = player2.getWeapon();
+        weapon2.draw(g2d, player2);
+
+        for (int i = 0; i < OBSTACLES.length; i++) {
+            Obstacle obstacle = OBSTACLES[i];
+            obstacle.draw(g2d, this.getCurrentPlayer());
+        }
+
+        if (projectile != null) {projectile.draw(g2d, gameBoard.getCurrentPlayer());}
+
+        StatusField statusField = new StatusField(player1, player2);
+        Player currentPlayer = this.getCurrentPlayer();
+
+        statusField.draw(g2d, currentPlayer);
     }
 
     public void tick() {
