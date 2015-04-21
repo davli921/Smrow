@@ -2,6 +2,10 @@ package se.liu.ida.groupl2.tddd78.projekt;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import javax.imageio.ImageIO;
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 import static java.lang.Math.toRadians;
 
@@ -23,21 +27,30 @@ public abstract class Weapon implements Drawable
     // Chargetime in milliseconds
     protected static final long CHARGE_TIME = 50;
 
+    private BufferedImage imgRight,imgLeft,currentImg;
+
     protected Weapon(final double length, final double height, final Color color, final double direction) {
         this.length = length;
         this.height = height;
         this.color = color;
         this.direction = direction;
         this.power = 0;
+
+        try {
+            this.imgRight  = ImageIO.read(this.getClass().getResourceAsStream("resources/weaponLeft.png"));
+            this.imgLeft = ImageIO.read(this.getClass().getResourceAsStream("resources/weaponLeft.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        this.currentImg = imgRight;
+
     }
 
     public double getLength() {
         return length;
     }
 
-    public double getHeight() {
-        return height;
-    }
 
     public Color getColor() {
         return color;
@@ -65,26 +78,27 @@ public abstract class Weapon implements Drawable
         AffineTransform oldTransformer = g2d.getTransform();
         AffineTransform transformer = new AffineTransform();
 
-        int playerWidth = (int) Player.PLAYER_WIDTH;
-        int playerHeight = (int) Player.PLAYER_HEIGHT;
         int playerXPos = (int) player.getXPos();
         int playerYPos = (int) player.getYPos();
         double weaponAngle = (int) direction;
-        int weaponLength = (int) length;
-        int weaponHeight = (int) height;
-        int weaponPosX = playerXPos + playerWidth / 2;
-        int weaponPosY = playerYPos + playerHeight / 2 - weaponHeight / 2;
-        int anchorPointX = weaponPosX + 2;
-        int anchorPointY = weaponPosY + weaponHeight / 2;
+
+        int weaponPosX;
+        int weaponPosY;
+
+        if (direction<90) {
+            weaponPosX = playerXPos + 45;
+            weaponPosY = playerYPos + 8;
+        } else {
+            weaponPosX = playerXPos + 29;
+            weaponPosY = playerYPos + 10;
+        }
         g2d.setColor(color);
 
         // Rotates the weapon around two anchor points.
-        transformer.setToRotation(toRadians(weaponAngle), anchorPointX, anchorPointY);
+        transformer.setToRotation(toRadians(weaponAngle), weaponPosX, weaponPosY);
         g2d.setTransform(transformer);
 
-        Shape weaponShape = new Rectangle(weaponPosX, weaponPosY, weaponLength, weaponHeight);
-        g2d.draw(weaponShape);
-        g2d.fill(weaponShape);
+        g2d.drawImage(currentImg,weaponPosX,weaponPosY,null);
 
         g2d.setTransform(oldTransformer);
     }

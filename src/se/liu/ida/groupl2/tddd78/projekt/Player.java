@@ -1,6 +1,9 @@
 package se.liu.ida.groupl2.tddd78.projekt;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.awt.geom.AffineTransform;
 
 import static java.lang.Math.toRadians;
@@ -15,16 +18,18 @@ import static java.lang.Math.toRadians;
 public class Player implements Collidable, Drawable
 {
 
-    final static double PLAYER_WIDTH = 34;
-    final static double PLAYER_HEIGHT = 34;
+    final static double PLAYER_WIDTH = 75;
+    final static double PLAYER_HEIGHT = 46;
     final static double MOVE_STEP = 5;
     final static int MAX_HP = 100;
-    final static Color COLOR = Color.black;
+
     private int health;
     private double xPos,yPos,direction;
     private HealthBar healthBar;
     private Weapon weapon;
     private String name =  "JohnDoe";
+
+    private BufferedImage imgRight,imgLeft,currentImg;
 
     public Player(double xPos, double yPos, double direction, String weapon) {
         this.xPos = xPos;
@@ -35,6 +40,16 @@ public class Player implements Collidable, Drawable
         this.weapon = null;
         // Creates a weapon with method instead of taking it as param and having to construct a weapon in "GameBoard".
         createWeapon(weapon);
+
+
+        try {
+            this.imgRight = ImageIO.read(this.getClass().getResourceAsStream("resources/tankRight.png"));
+            this.imgLeft = ImageIO.read(this.getClass().getResourceAsStream("resources/tankLeft.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.currentImg = imgRight;
+
 
     }
 
@@ -56,12 +71,16 @@ public class Player implements Collidable, Drawable
         this.yPos = yPos;
     }
 
-    public double getDirection() {
-        return direction;
-    }
-
     public void setDirection(final double direction) {
         this.direction = direction;
+    }
+
+    public void updateImg(String horizontalDirection) {
+        if (horizontalDirection.equals("right")) {
+            currentImg = imgRight;
+        } else if (horizontalDirection.equals("left")) {
+            currentImg = imgLeft;
+        }
     }
 
     public Weapon getWeapon() {
@@ -98,22 +117,22 @@ public class Player implements Collidable, Drawable
         return PLAYER_HEIGHT;
     }
 
-    public void changeWeapon(String weapon) {
-        double weaponDirection = this.weapon.getDirection();
-
-        switch (weapon) {
-            case "MissileLauncher":
-                this.weapon = new MissileLauncher(weaponDirection);
-                break;
-            case "RocketLauncher":
-                this.weapon = new RocketLauncher(weaponDirection);
-                break;
-            default:
-                break;
-        }
-    }
-
     // ------------------------------------------------------------------------//
+
+    public void changeWeapon(String weapon) {
+            double weaponDirection = this.weapon.getDirection();
+
+            switch (weapon) {
+                case "MissileLauncher":
+                    this.weapon = new MissileLauncher(weaponDirection);
+                    break;
+                case "RocketLauncher":
+                    this.weapon = new RocketLauncher(weaponDirection);
+                    break;
+                default:
+                    break;
+            }
+        }
 
     private void createWeapon(String weapon){
         switch (weapon){
@@ -133,15 +152,10 @@ public class Player implements Collidable, Drawable
         AffineTransform oldTransformer = g2d.getTransform();
         AffineTransform transformer = new AffineTransform();
 
-        double xPos = this.xPos;
-        double yPos = this.yPos;
-        int playerWidth = (int) Player.PLAYER_WIDTH;
-        int playerHeight = (int) Player.PLAYER_HEIGHT;
-        Color playerColor = Player.COLOR;
         double direction = toRadians(this.direction);
 
-        double playerAnchorPointX = this.xPos + playerWidth / 2.0;
-        double playerAnchorPointY = this.yPos + playerHeight / 2.0;
+        double playerAnchorPointX = this.xPos + PLAYER_WIDTH / 2.0;
+        double playerAnchorPointY = this.yPos + PLAYER_HEIGHT / 2.0;
 
         transformer.setToRotation(direction, playerAnchorPointX, playerAnchorPointY);
         g2d.setTransform(transformer);
@@ -149,8 +163,7 @@ public class Player implements Collidable, Drawable
         HealthBar healthBar = this.healthBar;
         healthBar.draw(g2d, this);
 
-        g2d.setColor(playerColor);
-        g2d.fillRect((int) xPos, (int) yPos, playerWidth, playerHeight);
+        g2d.drawImage(currentImg,(int)xPos,(int)yPos,null);
 
         g2d.setTransform(oldTransformer);
     }

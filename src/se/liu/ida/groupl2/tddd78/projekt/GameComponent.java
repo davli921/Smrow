@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 
 import static java.lang.Math.toRadians;
 import static java.lang.Math.abs;

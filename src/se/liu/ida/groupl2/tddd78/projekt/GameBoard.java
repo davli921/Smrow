@@ -70,6 +70,7 @@ public class GameBoard
         this.player2 = new Player(player2StartXPos, player2StartYPos, player2StartDir, "MissileLauncher");
         // Set direction so that the players face eachother from the start
         player2.getWeapon().setDirection(180 + player2StartDir);
+        player2.updateImg("left");
         // -------------------------------------------------//
     }
 
@@ -233,6 +234,7 @@ public class GameBoard
         double directionRadians = atan(gradient);
         double directionDegrees = Math.toDegrees(directionRadians);
         getCurrentPlayer().setDirection(directionDegrees);
+        getCurrentPlayer().updateImg(horizontalDirection );
 
         if (!betweenTurns && !chargingWeapon) {
 
