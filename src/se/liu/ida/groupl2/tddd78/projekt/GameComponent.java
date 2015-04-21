@@ -114,6 +114,9 @@ public class GameComponent extends JComponent implements Listener
     }
 
     private void paintBoard(Graphics2D g2d) {
+	gameBoard.draw(g2d, gameBoard.getCurrentPlayer());
+
+	/*
 	// Colors
 	Color lightblue = new Color(0, 0, 182, 89);
 
@@ -136,6 +139,7 @@ public class GameComponent extends JComponent implements Listener
 	paintProjectile(g2d);
 
 	paintStatusField(g2d);
+	*/
     }
 
     private void paintPlayer(Graphics2D g2d, Player player) {
