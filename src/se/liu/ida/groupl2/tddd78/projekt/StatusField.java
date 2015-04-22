@@ -21,13 +21,14 @@ public class StatusField implements Drawable
 	this.player2 = player2;
     }
 
-    public void draw(Graphics2D g2d, Player player) {
-	// Used to differentiate between the players and the currentPlayer.
-	Player currentPlayer = player;
+    //-------- WORK IN PROGRESS -------------//
 
+    public void draw(Graphics2D g2d, Player player) {
 	g2d.setColor(Color.black);
+	/*
 	int player1FieldXPos = 40;
 	int player2FieldXPos = 900;
+	*/
 
 	int currentPlayerFieldYPos = 40;
 	int currentPlayerFieldXPos = 450;
@@ -35,32 +36,66 @@ public class StatusField implements Drawable
 	int powerFieldYPos = 80;
 	int healthFieldYPos = 100;
 
-	// Intentional comparison of pointers.
-	if (currentPlayer == player1) {
+	// Player 1 stats.
+	int anglePlayer1 = (int) abs(player1.getWeapon().getDirection()) % 360;
+	String weaponAnglePlayer1 = "Angle: " + anglePlayer1;
+	String powerPlayer1 = "Power: " + player1.getWeapon().getPower();
+	String currentHealthPlayer1 = "Hp: " + player1.getHealth();
+
+	// Player 2 stats.
+	int anglePlayer2 = (int) abs((player2.getWeapon().getDirection()) % 360 - 180);
+	String weaponAnglePlayer2 = "Angle: " + anglePlayer2;
+	String powerPlayer2 = "Power: " + player2.getWeapon().getPower();
+	String currentHealthPlayer2 = "Hp: " + player2.getHealth();
+
+	int fieldX;
+	int angleY = 60;
+	int powerY = 80;
+	int healthY = 100;
+
+	int angle;
+
+	if (player == player1) {
+	    fieldX = 40;
+	    angle = (int) abs(player.getWeapon().getDirection() % 360);
+	} else if (player == player2) {
+	    fieldX = 900;
+	    angle = (int) abs(player.getWeapon().getDirection() % 360 - 180);
+	}
+
+	String weaponAngle = "Angle: " + angle;
+	String power = "Power: " + player.getWeapon().getPower();
+	String currentHP = "HP: " + player.getHealth();
+
+	g2d.drawString(player1Name, player1FieldXPos, currentPlayerFieldYPos);
+	g2d.drawString(weaponAnglePlayer1, player1FieldXPos, angleFieldYPos);
+	g2d.drawString(powerPlayer1, player1FieldXPos, powerFieldYPos);
+	g2d.drawString(currentHealthPlayer1, player1FieldXPos, healthFieldYPos);
+
+	/*
+	// Draw current players name.
+	// (Intentional comparison of pointers)
+	if (player == player1) {
 	    String currentPlayerName = "Current player: " + player1Name;
 	    g2d.drawString(currentPlayerName, currentPlayerFieldXPos, currentPlayerFieldYPos);
-	} else if (currentPlayer == player2) {
+	} else if (player == player2) {
 	    String currentPlayerName = "Current player: " + player2Name;
 	    g2d.drawString(currentPlayerName, currentPlayerFieldXPos, currentPlayerFieldYPos);
 	}
 
-	int anglePlayer1 = (int) abs(player1.getWeapon().getDirection()) % 360;
-	String powerPlayer1 = "Power: " + player1.getWeapon().getPower();
-	String currentHealthPlayer1 = "Hp: " + player1.getHealth();
-	String weaponAnglePlayer1 = "Angle: " + anglePlayer1;
-	g2d.drawString(currentHealthPlayer1, player1FieldXPos, healthFieldYPos);
-	g2d.drawString(powerPlayer1, player1FieldXPos, powerFieldYPos);
+
+	// Draw player1 stats.
 	g2d.drawString(player1Name, player1FieldXPos, currentPlayerFieldYPos);
 	g2d.drawString(weaponAnglePlayer1, player1FieldXPos, angleFieldYPos);
+	g2d.drawString(powerPlayer1, player1FieldXPos, powerFieldYPos);
+	g2d.drawString(currentHealthPlayer1, player1FieldXPos, healthFieldYPos);
 
-
-	int anglePlayer2 = (int) abs((player2.getWeapon().getDirection()) % 360 - 180);
-	String powerPlayer2 = "Power: " + player2.getWeapon().getPower();
-	String currentHealthPlayer2 = "Hp: " + player2.getHealth();
-	String weaponAnglePlayer2 = "Angle: " + anglePlayer2;
-	g2d.drawString(currentHealthPlayer2, player2FieldXPos, healthFieldYPos);
-	g2d.drawString(powerPlayer2, player2FieldXPos, powerFieldYPos);
+	// Draw player2 stats.
 	g2d.drawString(player2Name, player2FieldXPos, currentPlayerFieldYPos);
 	g2d.drawString(weaponAnglePlayer2, player2FieldXPos, angleFieldYPos);
+	g2d.drawString(powerPlayer2, player2FieldXPos, powerFieldYPos);
+	g2d.drawString(currentHealthPlayer2, player2FieldXPos, healthFieldYPos);
+	*/
+
     }
 }
