@@ -20,19 +20,17 @@ import static java.lang.Math.toRadians;
 public abstract class Weapon implements Drawable
 {
 
-    protected double length, height,power;
+    protected double power;
+    final static double LENGTH = 40;
+    // direction in degrees
     protected double direction;
-    protected Color color;
     protected static final int MAX_POWER = 100;
     // Chargetime in milliseconds
     protected static final long CHARGE_TIME = 50;
 
     private BufferedImage imgRight,imgLeft,currentImg;
 
-    protected Weapon(final double length, final double height, final Color color, final double direction) {
-        this.length = length;
-        this.height = height;
-        this.color = color;
+    protected Weapon(double direction) {
         this.direction = direction;
         this.power = 0;
 
@@ -43,17 +41,12 @@ public abstract class Weapon implements Drawable
             e.printStackTrace();
         }
 
-        this.currentImg = imgRight;
+        if (direction<90) {
+            this.currentImg = imgRight;
+        } else if (direction> 90) {
+            this.currentImg = imgLeft;
+        }
 
-    }
-
-    public double getLength() {
-        return length;
-    }
-
-
-    public Color getColor() {
-        return color;
     }
 
     public double getDirection() {
@@ -62,6 +55,7 @@ public abstract class Weapon implements Drawable
 
     public void setDirection(final double direction) {
         this.direction = direction;
+        updateImg();
     }
 
     public double getPower() {
@@ -70,6 +64,14 @@ public abstract class Weapon implements Drawable
 
     public void setPower(int power) {
         this.power = power;
+    }
+
+    private void updateImg() {
+        if (direction<90) {
+            this.currentImg = imgRight;
+        } else if (direction> 90) {
+            this.currentImg = imgLeft;
+        }
     }
 
     abstract Projectile shoot();
@@ -92,7 +94,6 @@ public abstract class Weapon implements Drawable
             weaponPosX = playerXPos + 29;
             weaponPosY = playerYPos + 10;
         }
-        g2d.setColor(color);
 
         // Rotates the weapon around two anchor points.
         transformer.setToRotation(toRadians(weaponAngle), weaponPosX, weaponPosY);

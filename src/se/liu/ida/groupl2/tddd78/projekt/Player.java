@@ -23,7 +23,11 @@ public class Player implements Collidable, Drawable
     final static double MOVE_STEP = 5;
     final static int MAX_HP = 100;
 
+    // Tillfällig lösning
+    private double weaponJointX, weaponJointY;
+
     private int health;
+    // Direction in degrees
     private double xPos,yPos,direction;
     private HealthBar healthBar;
     private Weapon weapon;
@@ -31,7 +35,7 @@ public class Player implements Collidable, Drawable
 
     private BufferedImage imgRight,imgLeft,currentImg;
 
-    public Player(double xPos, double yPos, double direction, String weapon) {
+    public Player(double xPos, double yPos, double direction, String weapon, String hD) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.direction = direction;
@@ -48,7 +52,17 @@ public class Player implements Collidable, Drawable
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.currentImg = imgRight;
+
+        if (hD.equals("right")) {
+            this.currentImg = imgRight;
+            this.weaponJointX = xPos + 45;
+            this.weaponJointY = yPos + 8;
+        } else if (hD.equals("left")) {
+            this.currentImg = imgLeft;
+            this.weaponJointX = xPos + 29;
+            this.weaponJointY = yPos + 10;
+        }
+
 
 
     }
@@ -75,11 +89,16 @@ public class Player implements Collidable, Drawable
         this.direction = direction;
     }
 
+    // Updates the image and set the joint of the weapon at appropriate coords.
     public void updateImg(String horizontalDirection) {
         if (horizontalDirection.equals("right")) {
             currentImg = imgRight;
+            weaponJointX = xPos + 45;
+            weaponJointY = yPos + 8;
         } else if (horizontalDirection.equals("left")) {
             currentImg = imgLeft;
+            weaponJointX = xPos + 29;
+            weaponJointY = yPos + 10;
         }
     }
 
@@ -106,6 +125,14 @@ public class Player implements Collidable, Drawable
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public double getWeaponJointX() {
+        return weaponJointX;
+    }
+
+    public double getWeaponJointY() {
+        return weaponJointY;
     }
 
     // These two do the same thing but are seperate so they fit in "Collidable"

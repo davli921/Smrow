@@ -61,17 +61,16 @@ public class GameBoard implements Drawable
         double player1StartDir = Math.toDegrees(atan(getGradient(player1StartXPos)));
         double player1StartYPos = GROUNDLEVEL - playerHeight + (player1StartXPos+playerWidth/2)*Math.tan(
                 toRadians(player1StartDir));
-        this.player1 = new Player(player1StartXPos, player1StartYPos, player1StartDir, "MissileLauncher");
+        this.player1 = new Player(player1StartXPos, player1StartYPos, player1StartDir, "MissileLauncher","right");
 
         // Start values for player2
         double player2StartXPos = WIDTH - WIDTH / 10.0;
         double player2StartDir = Math.toDegrees(atan(getGradient(player2StartXPos)));
         double player2StartYPos = GROUNDLEVEL - playerHeight - (WIDTH-(player2StartXPos+playerWidth/2))*Math.tan(
                 toRadians(player2StartDir));
-        this.player2 = new Player(player2StartXPos, player2StartYPos, player2StartDir, "MissileLauncher");
+        this.player2 = new Player(player2StartXPos, player2StartYPos, player2StartDir, "MissileLauncher","left");
         // Set direction so that the players face eachother from the start
         player2.getWeapon().setDirection(180 + player2StartDir);
-        player2.updateImg("left");
         // -------------------------------------------------//
     }
 
@@ -193,19 +192,14 @@ public class GameBoard implements Drawable
     public void shotsFired() {
         if (!betweenTurns) {
             Player currentPlayer = getCurrentPlayer();
-            double playerWidth = Player.PLAYER_WIDTH;
-            double playerHeight = Player.PLAYER_HEIGHT;
-            double middleXOfPlayer = currentPlayer.getXPos() + playerWidth/2;
-            double middleYOfPlayer = currentPlayer.getYPos() + playerHeight/2;
 
             Weapon weapon = currentPlayer.getWeapon();
             double direction = weapon.getDirection();
-            double weaponLenght = weapon.getLength();
 
             Projectile projectile = weapon.shoot();
 
-            double x = middleXOfPlayer + weaponLenght * cos(toRadians(direction));
-            double y = middleYOfPlayer + weaponLenght * sin(toRadians(direction));
+            double x = currentPlayer.getWeaponJointX() + Weapon.LENGTH * cos(toRadians(direction));
+            double y = currentPlayer.getWeaponJointY() + Weapon.LENGTH * sin(toRadians(direction));
 
             // Create it where the player is
             projectile.setXPos(x);
@@ -235,7 +229,15 @@ public class GameBoard implements Drawable
         double directionRadians = atan(gradient);
         double directionDegrees = Math.toDegrees(directionRadians);
         getCurrentPlayer().setDirection(directionDegrees);
-        getCurrentPlayer().updateImg(horizontalDirection );
+
+        // Enables the player to turn on the spot.
+        getCurrentPlayer().updateImg(horizontalDirection);
+        if (horizontalDirection.equals("right")) {
+            getCurrentPlayer().getWeapon().setDirection(directionDegrees);
+        } else if (horizontalDirection.equals("left")) {
+            getCurrentPlayer().getWeapon().setDirection(180+directionDegrees);
+        }
+
 
         if (!betweenTurns && !chargingWeapon) {
 

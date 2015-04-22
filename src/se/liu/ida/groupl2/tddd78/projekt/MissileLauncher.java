@@ -9,14 +9,11 @@ import java.awt.Color;
 public class MissileLauncher extends Weapon
 {
 
-    final static double LENGTH = 50;
-    final static double HEIGHT = 10;
     final static int DMG = 20;
-    final static Color COLOR = Color.RED;
     final static int SPEED_CONSTANT = 10;
 
     public MissileLauncher(double direction) {
-        super(LENGTH, HEIGHT, COLOR, direction);
+        super(direction);
     }
 
     public Projectile shoot() {
