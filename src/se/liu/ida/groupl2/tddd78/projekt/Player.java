@@ -9,9 +9,9 @@ import java.awt.geom.AffineTransform;
 import static java.lang.Math.toRadians;
 
 /**
- * "Player" contains information about a "Player"-obj health, position and direction, and also color and size.
+ * "Player" contains information about a "Player"-obj health, position and angle, and also color and size.
  * It also contains a "Weapon", "HealthBar", and a "name" (in the form of a string).
- * "Player" has a method for moving "move" that takes a direction as input, also has a method
+ * "Player" has a method for moving "move" that takes a angle as input, also has a method
  * "createWeapon" that is used in the constructor to create a specific weapon.
  */
 
@@ -23,10 +23,18 @@ public class Player implements Collidable, Drawable
     final static double MOVE_STEP = 5;
     final static int MAX_HP = 100;
 
-    private int health;
+    private final static int WEAPONJOINTX_R = 45;
+    private final static int WEAPONJOINTY_R = 8;
+
+    private final static int WEAPONJOINTX_L =28;
+    private final static int WEAPONJOINTY_L =13;
 
     // Direction in degrees
-    private double xPos,yPos,direction,weaponJointX, weaponJointY;
+    private double xPos,yPos, angle,weaponJointX, weaponJointY;
+
+    private int health;
+
+    private Direction direction;
 
     private HealthBar healthBar;
 
@@ -36,12 +44,17 @@ public class Player implements Collidable, Drawable
 
     private BufferedImage imgRight,imgLeft,currentImg;
 
-    public Player(double xPos, double yPos, double direction, String weapon, Direction horizontalDirection) {
+    public Player(double xPos, double yPos, double angle, String weapon, Direction direction) {
         this.xPos = xPos;
         this.yPos = yPos;
-        this.direction = direction;
+        this.angle = angle;
+
         this.health = MAX_HP;
+
+        this.direction = direction;
+
         this.healthBar = new HealthBar(this);
+
         this.weapon = null;
         // Creates a weapon with method instead of taking it as param and having to construct a weapon in "GameBoard".
         createWeapon(weapon);
@@ -54,8 +67,8 @@ public class Player implements Collidable, Drawable
             e.printStackTrace();
         }
 
-        // Assigns correct image to "currentImg".
-        updateImg(horizontalDirection);
+        // Assigns correct image to "currentImg" and values to the weaponjoints..
+        updateImg(direction);
 
     }
 
@@ -77,8 +90,8 @@ public class Player implements Collidable, Drawable
         this.yPos = yPos;
     }
 
-    public void setDirection(final double direction) {
-        this.direction = direction;
+    public void setAngle(final double angle) {
+        this.angle = angle;
     }
 
     public Weapon getWeapon() {
@@ -92,6 +105,14 @@ public class Player implements Collidable, Drawable
     public void setHealth(final int health) {
         this.health = health;
         this.healthBar.updateHealthBar();
+    }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 
     public HealthBar getHealthBar() {
@@ -126,20 +147,20 @@ public class Player implements Collidable, Drawable
     // ------------------------------------------------------------------------//
 
     // Updates the image and set the joint of the weapon at appropriate coords.
-        public void updateImg(Direction horizontalDirection) {
-            if (horizontalDirection.equals(Direction.RIGHT)) {
+        public void updateImg(Direction direction) {
+            if (direction.equals(Direction.RIGHT)) {
                 currentImg = imgRight;
-                weaponJointX = xPos + 45;
-                weaponJointY = yPos + 8;
-            } else if (horizontalDirection.equals(Direction.LEFT)) {
+                weaponJointX = xPos + WEAPONJOINTX_R;
+                weaponJointY = yPos + WEAPONJOINTY_R;
+            } else if (direction.equals(Direction.LEFT)) {
                 currentImg = imgLeft;
-                weaponJointX = xPos + 29;
-                weaponJointY = yPos + 10;
+                weaponJointX = xPos + WEAPONJOINTX_L;
+                weaponJointY = yPos + WEAPONJOINTY_L;
             }
         }
 
     public void changeWeapon(String weapon) {
-            double weaponDirection = this.weapon.getDirection();
+            double weaponDirection = this.weapon.getAngle();
 
             switch (weapon) {
                 case "MissileLauncher":
@@ -156,10 +177,10 @@ public class Player implements Collidable, Drawable
     private void createWeapon(String weapon){
         switch (weapon){
             case "MissileLauncher":
-                this.weapon = new MissileLauncher(direction);
+                this.weapon = new MissileLauncher(angle);
                 break;
             case "RocketLauncher":
-                this.weapon = new RocketLauncher(direction);
+                this.weapon = new RocketLauncher(angle);
                 break;
             default:
                 break;
@@ -170,17 +191,17 @@ public class Player implements Collidable, Drawable
             AffineTransform oldTransformer = g2d.getTransform();
             AffineTransform transformer = new AffineTransform();
 
-            double weaponAngle = (int) weapon.getDirection();
+            double weaponAngle = (int) weapon.getAngle();
 
             int weaponPosX;
             int weaponPosY;
 
             if (weaponAngle<90) {
-                weaponPosX = (int) (xPos +45);
-                weaponPosY = (int) (yPos +8);
+                weaponPosX = (int) (xPos +WEAPONJOINTX_R);
+                weaponPosY = (int) (yPos +WEAPONJOINTY_R);
             } else {
-                weaponPosX = (int) (xPos +28);
-                weaponPosY = (int) (yPos +13);
+                weaponPosX = (int) (xPos +WEAPONJOINTX_L);
+                weaponPosY = (int) (yPos +WEAPONJOINTY_L);
             }
 
             // Rotates the weapon around two anchor points.
@@ -197,12 +218,12 @@ public class Player implements Collidable, Drawable
         AffineTransform oldTransformer = g2d.getTransform();
         AffineTransform transformer = new AffineTransform();
 
-        double direction = toRadians(this.direction);
+        double angle = toRadians(this.angle);
 
         double playerAnchorPointX = this.xPos + WIDTH / 2.0;
         double playerAnchorPointY = this.yPos + HEIGHT / 2.0;
 
-        transformer.setToRotation(direction, playerAnchorPointX, playerAnchorPointY);
+        transformer.setToRotation(angle, playerAnchorPointX, playerAnchorPointY);
         g2d.setTransform(transformer);
 
         HealthBar healthBar = this.healthBar;

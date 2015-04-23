@@ -36,10 +36,10 @@ public class StatusField implements Drawable
 	// (Uses pointer comparison to make sure you've got the right object)
 	if (player == player1) {
 	    fieldX = 40;
-	    angle = (int) abs(player.getWeapon().getDirection() % 360);
+	    angle = (int) abs(player.getWeapon().getAngle() % 180);
 	} else {
 	    fieldX = 880;
-	    angle = (int) abs(player.getWeapon().getDirection() % 360 - 180);
+	    angle = (int) abs(player.getWeapon().getAngle() % 180 );
 	}
 
 	String weaponAngle = "Angle: " + angle;

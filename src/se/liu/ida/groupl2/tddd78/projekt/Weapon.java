@@ -20,14 +20,14 @@ public abstract class Weapon //implements Drawable
     protected static final long CHARGE_TIME = 50;
     final static double LENGTH = 40;
 
-    // direction in degrees
-    protected double power,direction;
+    // angle in degrees
+    protected double power, angle;
 
     private BufferedImage imgRight,imgLeft,currentImg;
 
-    protected Weapon(double direction) {
+    protected Weapon(double angle) {
         this.power = 0;
-        this.direction = direction;
+        this.angle = angle;
 
         try {
             this.imgRight  = ImageIO.read(this.getClass().getResourceAsStream("resources/weaponLeft.png"));
@@ -41,13 +41,13 @@ public abstract class Weapon //implements Drawable
 
     }
 
-    public double getDirection() {
-        return direction;
+    public double getAngle() {
+        return angle;
     }
 
     // Updates image aswell.
-    public void setDirection(final double direction) {
-        this.direction = direction;
+    public void setAngle(final double angle) {
+        this.angle = angle;
         updateImg();
     }
 
@@ -64,9 +64,9 @@ public abstract class Weapon //implements Drawable
     }
 
     private void updateImg() {
-        if (direction<90) {
+        if (angle <90) {
             this.currentImg = imgRight;
-        } else if (direction> 90) {
+        } else if (angle > 90) {
             this.currentImg = imgLeft;
         }
     }

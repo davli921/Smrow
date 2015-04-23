@@ -1,18 +1,28 @@
 package se.liu.ida.groupl2.tddd78.projekt;
 
 /**
- * Used to discern what way the player is facing.
+ * Direction that a weapon or player can move.
  */
 
 public enum Direction
 {
     /**
-     * RIGHT -> Faces right...
+     * UP -> Moving up.
+     */
+    UP,
+
+    /**
+     * DOWN -> Moving down.
+     */
+    DOWN,
+
+    /**
+     * RIGHT -> Moving right.
      */
     RIGHT,
 
     /**
-     * LEFT -> Faces left...
+     * LEFT -> Moving left.
      */
     LEFT
 }

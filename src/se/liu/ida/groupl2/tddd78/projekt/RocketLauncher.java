@@ -16,7 +16,7 @@ public class RocketLauncher extends Weapon
 
     public Projectile shoot() {
         double speed = power / SPEED_CONSTANT;
-        Projectile rocket = new Rocket(DMG, speed, direction);
+        Projectile rocket = new Rocket(DMG, speed, angle);
 	return rocket;
     }
 

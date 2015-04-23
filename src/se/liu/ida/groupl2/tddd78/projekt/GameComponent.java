@@ -35,21 +35,21 @@ public class GameComponent extends JComponent implements Listener
 	Action moveWeaponUp = new AbstractAction()
 	{
 	    @Override public void actionPerformed(final ActionEvent e) {
-		gameBoard.rotateWeapon("Up");
+		gameBoard.rotateWeapon(Direction.UP);
 	    }
 	};
 
 	Action moveWeaponDown = new AbstractAction()
 	{
 	    @Override public void actionPerformed(final ActionEvent e) {
-		gameBoard.rotateWeapon("Down");
+		gameBoard.rotateWeapon(Direction.DOWN);
 	    }
 	};
 
 	Action chargeWeapon = new AbstractAction()
 	{
 	    @Override public void actionPerformed(final ActionEvent e) {
-		gameBoard.setChargingWeapon(true);
+		gameBoard.setIsChargingWeapon(true);
 	    }
 	};
 
@@ -97,7 +97,7 @@ public class GameComponent extends JComponent implements Listener
     }
 
     @Override public Dimension getPreferredSize() {
-	return new Dimension((int)gameBoard.getWIDTH(), (int) gameBoard.getHEIGHT());
+	return new Dimension(GameBoard.WIDTH, GameBoard.HEIGHT);
     }
 
     @Override protected void paintComponent(Graphics g) {

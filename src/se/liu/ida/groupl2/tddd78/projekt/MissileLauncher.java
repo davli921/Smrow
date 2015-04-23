@@ -16,7 +16,7 @@ public class MissileLauncher extends Weapon
 
     public Projectile shoot() {
         double speed = power / SPEED_CONSTANT;
-        Projectile missile = new Missile(DMG, speed, direction);
+        Projectile missile = new Missile(DMG, speed, angle);
         return missile;
     }
 }

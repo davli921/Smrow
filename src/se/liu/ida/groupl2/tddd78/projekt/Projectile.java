@@ -47,10 +47,6 @@ public abstract class Projectile implements Collidable, Drawable
         this.yPos = yPos;
     }
 
-    public Color getColor() {
-        return color;
-    }
-
     @Override public double getWidth() {
         return width;
     }

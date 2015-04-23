@@ -15,6 +15,9 @@ public class MenuComponent extends JComponent
 
     public MenuComponent() {
 
+	final int textFieldWidth = 105;
+	final int textFieldHeight = 10;
+
 	this.setLayout(new MigLayout());
 
 	JButton start = new JButton("Start");
@@ -22,7 +25,7 @@ public class MenuComponent extends JComponent
 
 	JLabel textLabel = new JLabel("Player1");
 	JTextField textField = new JTextField();
-	Dimension textDim = new Dimension(105, 10);
+	Dimension textDim = new Dimension(textFieldWidth, textFieldHeight);
 	textField.setPreferredSize(textDim);
 	JButton enter = new JButton("Enter");
 
