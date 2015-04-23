@@ -29,14 +29,14 @@ public class GameComponent extends JComponent implements Listener
 	Action moveLeft = new AbstractAction()
 	{
 	    @Override public void actionPerformed(final ActionEvent e) {
-		gameBoard.moveCurrentPlayer("left");
+		gameBoard.moveCurrentPlayer(Direction.LEFT);
 	    }
 	};
 
 	Action moveRight = new AbstractAction()
 	{
 	    @Override public void actionPerformed(final ActionEvent e) {
-		gameBoard.moveCurrentPlayer("right");
+		gameBoard.moveCurrentPlayer(Direction.RIGHT);
 	    }
 	};
 
@@ -115,66 +115,7 @@ public class GameComponent extends JComponent implements Listener
     }
 
     private void paintBoard(Graphics2D g2d) {
-	gameBoard.draw(g2d, gameBoard.getCurrentPlayer());
-
-	/*
-	// Colors
-	Color lightblue = new Color(0, 0, 182, 89);
-
-	GameBoard gameBoard = this.gameBoard;
-
-	// Paint the sky
-	g2d.setColor(lightblue);
-	g2d.fillRect(0, 0, (int) gameBoard.getWIDTH(), (int) gameBoard.getHEIGHT());
-
-	paintGround(g2d);
-
-	paintPlayer(g2d, player1);
-	paintWeapon(g2d, player1);
-
-	paintPlayer(g2d, player2);
-	paintWeapon(g2d, player2);
-
-	paintObstacles(g2d);
-
-	paintProjectile(g2d);
-
-	paintStatusField(g2d);
-	*/
-    }
-
-    private void paintPlayer(Graphics2D g2d, Player player) {
-	player.draw(g2d, player);
-    }
-
-    private void paintWeapon(Graphics2D g2d, Player player) {
-	Weapon weapon = player.getWeapon();
-	weapon.draw(g2d, player);
-    }
-
-    private void paintProjectile(Graphics2D g2d) {
-	Projectile projectile = gameBoard.getProjectile();
-	if (projectile != null) {projectile.draw(g2d, gameBoard.getCurrentPlayer());}
-    }
-
-    private void paintObstacles(Graphics2D g2d) {
-	for (int i = 0; i < GameBoard.OBSTACLES.length; i++) {
-	    Obstacle obstacle = GameBoard.OBSTACLES[i];
-	    obstacle.draw(g2d, gameBoard.getCurrentPlayer());
-	}
-    }
-
-    private void paintStatusField(Graphics2D g2d) {
-	StatusField statusField = new StatusField(player1, player2);
-	Player currentPlayer = gameBoard.getCurrentPlayer();
-
-	statusField.draw(g2d, currentPlayer);
-    }
-
-    private void paintGround(Graphics2D g2d){
-	g2d.setColor(Color.white);
-	Polygon polygon = new Polygon(GameBoard.XCOORDS, GameBoard.YCOORDS ,GameBoard.XCOORDS.length);
-	g2d.fillPolygon(polygon);
+	gameBoard.draw(g2d);
     }
 
     public void update() {

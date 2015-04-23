@@ -35,7 +35,7 @@ public class Obstacle implements Collidable, Drawable
 	return this.height;
     }
 
-    public void draw(Graphics2D g2d, Player player) {
+    public void draw(Graphics2D g2d) {
         int x = (int) this.xPos;
         int y = (int) this.yPos;
         int width = (int) this.width;

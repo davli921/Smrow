@@ -17,22 +17,22 @@ import static java.lang.Math.toRadians;
  * The shoot function is realised in the subclass and is where the weapon creates an projectile and gives the properties to the projectile.
  */
 
-public abstract class Weapon implements Drawable
+public abstract class Weapon //implements Drawable
 {
 
-    protected double power;
-    final static double LENGTH = 40;
-    // direction in degrees
-    protected double direction;
     protected static final int MAX_POWER = 100;
     // Chargetime in milliseconds
     protected static final long CHARGE_TIME = 50;
+    final static double LENGTH = 40;
+
+    // direction in degrees
+    protected double power,direction;
 
     private BufferedImage imgRight,imgLeft,currentImg;
 
     protected Weapon(double direction) {
-        this.direction = direction;
         this.power = 0;
+        this.direction = direction;
 
         try {
             this.imgRight  = ImageIO.read(this.getClass().getResourceAsStream("resources/weaponLeft.png"));
@@ -41,11 +41,8 @@ public abstract class Weapon implements Drawable
             e.printStackTrace();
         }
 
-        if (direction<90) {
-            this.currentImg = imgRight;
-        } else if (direction> 90) {
-            this.currentImg = imgLeft;
-        }
+        // Assign the correct img to "currentImg":
+        updateImg();
 
     }
 
@@ -53,6 +50,7 @@ public abstract class Weapon implements Drawable
         return direction;
     }
 
+    // Updates image aswell.
     public void setDirection(final double direction) {
         this.direction = direction;
         updateImg();
@@ -66,6 +64,10 @@ public abstract class Weapon implements Drawable
         this.power = power;
     }
 
+    public BufferedImage getCurrentImg() {
+        return currentImg;
+    }
+
     private void updateImg() {
         if (direction<90) {
             this.currentImg = imgRight;
@@ -76,31 +78,4 @@ public abstract class Weapon implements Drawable
 
     abstract Projectile shoot();
 
-    public void draw(Graphics2D g2d, Player player) {
-        AffineTransform oldTransformer = g2d.getTransform();
-        AffineTransform transformer = new AffineTransform();
-
-        int playerXPos = (int) player.getXPos();
-        int playerYPos = (int) player.getYPos();
-        double weaponAngle = (int) direction;
-
-        int weaponPosX;
-        int weaponPosY;
-
-        if (direction<90) {
-            weaponPosX = playerXPos + 45;
-            weaponPosY = playerYPos + 8;
-        } else {
-            weaponPosX = playerXPos + 29;
-            weaponPosY = playerYPos + 10;
-        }
-
-        // Rotates the weapon around two anchor points.
-        transformer.setToRotation(toRadians(weaponAngle), weaponPosX, weaponPosY);
-        g2d.setTransform(transformer);
-
-        g2d.drawImage(currentImg,weaponPosX,weaponPosY,null);
-
-        g2d.setTransform(oldTransformer);
-    }
 }

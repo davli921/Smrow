@@ -15,14 +15,15 @@ public class HealthBar implements Drawable
 {
     final static Color HEALTH_LEFT_COLOR = Color.green;
     final static Color HEALTH_LOST_COLOR = Color.red;
-    final static int LENGHT = 20;
+    final static int LENGHT = 30;
     final static int DIST_ABOVE_PLAYER = 10;
-    private List<Rectangle> healthBar;
+
+    private int xPos,yPos,healthLostLength,playerWidth;
+
     private Player player;
-    private int playerWidth = (int)Player.PLAYER_WIDTH;
-    private int healthLostLength;
-    private int xPos;
-    private int yPos;
+
+    private List<Rectangle> healthBar;
+
 
     public HealthBar(Player player) {
 	this.player = player;
@@ -30,6 +31,7 @@ public class HealthBar implements Drawable
 	this.yPos = (int) player.getYPos();
 	// Length -1 so that it doesnt get painted.
 	this.healthLostLength = -1;
+	this.playerWidth = (int) Player.WIDTH;
 
 	this.healthBar = new ArrayList<>();
 	Rectangle fullHp = new Rectangle(xPos - LENGHT / 2 + playerWidth / 2, yPos - DIST_ABOVE_PLAYER, LENGHT, 5);
@@ -67,7 +69,7 @@ public class HealthBar implements Drawable
 	healthBar.add(healthLost);
     }
 
-    public void draw(Graphics2D g2d, Player player) {
+    public void draw(Graphics2D g2d) {
 	Color healthLeftColor = HealthBar.HEALTH_LEFT_COLOR;
 	Color healthLostColor = HealthBar.HEALTH_LOST_COLOR;
 

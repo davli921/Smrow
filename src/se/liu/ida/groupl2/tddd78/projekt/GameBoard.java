@@ -27,19 +27,24 @@ public class GameBoard implements Drawable
 
     final static int[] XCOORDS = {0, 0, 200, WIDTH / 2 -150, WIDTH / 2 +150, WIDTH-200, WIDTH, WIDTH};
     final static int[] YCOORDS = {HEIGHT, GROUNDLEVEL, GROUNDLEVEL, GROUNDLEVEL - 50, GROUNDLEVEL - 50, GROUNDLEVEL, GROUNDLEVEL, HEIGHT};
-    final static Obstacle[] OBSTACLES = {new Obstacle(WIDTH / 2 -150,GROUNDLEVEL-100,50,50)};
+
+    //final static Obstacle[] OBSTACLES = {new Box(WIDTH / 2 -150,GROUNDLEVEL-Box.HEIGHT*2 -5)};
 
     // One projectile at the time since it is turn-based
     private Projectile projectile;
 
     private Player player1;
     private Player player2;
+
+    private StatusField statusField;
+
     private boolean player1Turn, betweenTurns,chargingWeapon,gameOver;
 
     private long startTime;
 
     private List<Listener> listeners;
 
+    private List<Obstacle> obstacles;
 
     public GameBoard() {
         this.projectile = null;
@@ -53,24 +58,36 @@ public class GameBoard implements Drawable
 
         this.listeners = new ArrayList<>();
 
+        this.obstacles = new ArrayList<>();
+        int boxXPos = WIDTH/2 -150;
+        addBox(boxXPos,getYCoord(boxXPos)-Box.HEIGHT);
+        boxXPos = WIDTH/2 -150 + (int)Box.WIDTH;
+        addBox(boxXPos,getYCoord(boxXPos)-Box.HEIGHT);
+        boxXPos = WIDTH/2 -150 + (int)Box.WIDTH/2;
+        addBox(boxXPos,getYCoord(boxXPos)-Box.HEIGHT*2);
+        boxXPos = WIDTH/2 +100;
+        addBox(boxXPos, getYCoord(boxXPos)-Box.HEIGHT);
+
         // Player construction ------------------------------//
-        double playerWidth = Player.PLAYER_WIDTH;
-        double playerHeight = Player.PLAYER_HEIGHT;
+        double playerWidth = Player.WIDTH;
+        double playerHeight = Player.HEIGHT;
         // Start values for player1
         double player1StartXPos = WIDTH / 10.0 - playerWidth;
         double player1StartDir = Math.toDegrees(atan(getGradient(player1StartXPos)));
         double player1StartYPos = GROUNDLEVEL - playerHeight + (player1StartXPos+playerWidth/2)*Math.tan(
                 toRadians(player1StartDir));
-        this.player1 = new Player(player1StartXPos, player1StartYPos, player1StartDir, "MissileLauncher","right");
+        this.player1 = new Player(player1StartXPos, player1StartYPos, player1StartDir, "MissileLauncher",Direction.RIGHT);
 
         // Start values for player2
         double player2StartXPos = WIDTH - WIDTH / 10.0;
         double player2StartDir = Math.toDegrees(atan(getGradient(player2StartXPos)));
         double player2StartYPos = GROUNDLEVEL - playerHeight - (WIDTH-(player2StartXPos+playerWidth/2))*Math.tan(
                 toRadians(player2StartDir));
-        this.player2 = new Player(player2StartXPos, player2StartYPos, player2StartDir, "MissileLauncher","left");
+        this.player2 = new Player(player2StartXPos, player2StartYPos, player2StartDir, "MissileLauncher",Direction.LEFT);
         // Set direction so that the players face eachother from the start
         player2.getWeapon().setDirection(180 + player2StartDir);
+
+        this.statusField = new StatusField(player1, player2);
         // -------------------------------------------------//
     }
 
@@ -96,9 +113,9 @@ public class GameBoard implements Drawable
 	if (player1Turn) {return player1;} else {return player2;}
     }
 
-    public Projectile getProjectile() {
-        return projectile;
-    }
+    public void setChargingWeapon(final boolean chargingWeapon) {
+            this.chargingWeapon = chargingWeapon;
+        }
 
     //---------------------------------------------------//
 
@@ -135,10 +152,6 @@ public class GameBoard implements Drawable
 
         double y = gradient*xPos + constant;
         return y;
-    }
-
-    public void setChargingWeapon(final boolean chargingWeapon) {
-        this.chargingWeapon = chargingWeapon;
     }
 
     public void chargeWeapon(){
@@ -220,21 +233,20 @@ public class GameBoard implements Drawable
         }
     }
 
-    // If String is "right" move right, if "left" ...
-    // If invalid string do nothing
-    public void moveCurrentPlayer(String horizontalDirection) {
+    public void moveCurrentPlayer(Direction horizontalDirection) {
         double xPos = getCurrentPlayer().getXPos();
-        double middleXPos = getCurrentPlayer().getXPos()+Player.PLAYER_WIDTH/2;
+        double middleXPos = getCurrentPlayer().getXPos()+Player.WIDTH /2;
         double gradient = getGradient(middleXPos);
         double directionRadians = atan(gradient);
         double directionDegrees = Math.toDegrees(directionRadians);
+
         getCurrentPlayer().setDirection(directionDegrees);
 
         // Enables the player to turn on the spot.
         getCurrentPlayer().updateImg(horizontalDirection);
-        if (horizontalDirection.equals("right")) {
+        if (horizontalDirection.equals(Direction.RIGHT)) {
             getCurrentPlayer().getWeapon().setDirection(directionDegrees);
-        } else if (horizontalDirection.equals("left")) {
+        } else if (horizontalDirection.equals(Direction.LEFT)) {
             getCurrentPlayer().getWeapon().setDirection(180+directionDegrees);
         }
 
@@ -246,7 +258,7 @@ public class GameBoard implements Drawable
             boolean freeToMove = true;
 
             // Check collision with obstacles
-            for (Obstacle obstacle : OBSTACLES) {
+            for (Obstacle obstacle : obstacles) {
                 if (willCollide(currentPlayer,horizontalDirection,obstacle)) {
                     freeToMove = false;
                     break;
@@ -267,17 +279,17 @@ public class GameBoard implements Drawable
 
             // The actual movement
             if (freeToMove) {
-                if (horizontalDirection.equals("right")) {
+                if (horizontalDirection.equals(Direction.RIGHT)) {
                     xPos += (Player.MOVE_STEP * cos(directionRadians));
-                } else if (horizontalDirection.equals("left")) {
+                } else if (horizontalDirection.equals(Direction.LEFT)) {
                     xPos += (Player.MOVE_STEP * cos(directionRadians+PI));
                 }
 
                 // New fields so the y-coords is calculated correctly with the current xPos.
-                double newMiddleXPos = xPos + Player.PLAYER_WIDTH/2;
+                double newMiddleXPos = xPos + Player.WIDTH /2;
                 double yPos = getYCoord(newMiddleXPos);
                 currentPlayer.setXPos(xPos);
-                currentPlayer.setYPos(yPos - Player.PLAYER_HEIGHT);
+                currentPlayer.setYPos(yPos - Player.HEIGHT);
                 
                 currentPlayer.getHealthBar().updateHealthBar();
             }
@@ -296,7 +308,7 @@ public class GameBoard implements Drawable
 
             boolean collision = false;
 
-            for (Obstacle obstacle : OBSTACLES) {
+            for (Obstacle obstacle : obstacles) {
                 if (checkCollision(projectile, obstacle)) {
                     collision = true;
                     break;
@@ -357,7 +369,7 @@ public class GameBoard implements Drawable
         }
     }
 
-    private boolean willCollide(Collidable moving, String direction, Collidable obstruction) {
+    private boolean willCollide(Collidable moving, Direction horizontalDirection, Collidable obstruction) {
 
         boolean willCollide = false;
 
@@ -373,7 +385,7 @@ public class GameBoard implements Drawable
         double obstHeight = obstruction.getHeight();
 
         // Collision with outer walls
-        if ((Objects.equals(direction, "left") && mXPos - moveStep < 0) || (Objects.equals(direction, "right") && mXPos + mWidth + moveStep >
+        if ((Objects.equals(horizontalDirection, Direction.LEFT) && mXPos - moveStep < 0) || (Objects.equals(horizontalDirection, Direction.RIGHT) && mXPos + mWidth + moveStep >
                                                                                                                   WIDTH)) {
             willCollide = true;
         }
@@ -382,11 +394,11 @@ public class GameBoard implements Drawable
         // (Different statements with identical branches because of increased readability)
         else if ((mYPos + mHeight >= obstYPos && mYPos <= obstYPos + obstHeight)) {
             // Collision if moving takes a step to the right
-            if (Objects.equals(direction, "right") && mXPos + mWidth <= obstXPos && mXPos + mWidth + moveStep > obstXPos) {
+            if (Objects.equals(horizontalDirection, Direction.RIGHT) && mXPos + mWidth <= obstXPos && mXPos + mWidth + moveStep > obstXPos) {
                 willCollide = true;
             }
             // Collision if moving takes a step to the left
-            else if (Objects.equals(direction, "left") && mXPos >= obstXPos + obstWidth && mXPos - moveStep < obstXPos + obstWidth) {
+            else if (Objects.equals(horizontalDirection, Direction.LEFT) && mXPos >= obstXPos + obstWidth && mXPos - moveStep < obstXPos + obstWidth) {
                 willCollide = true;
             }
         }
@@ -417,6 +429,11 @@ public class GameBoard implements Drawable
         getCurrentPlayer().getWeapon().setPower(0);
         this.betweenTurns = false;
         nextTurn();
+    }
+
+    private void addBox(double xPos, double yPos) {
+        Box box = new Box(xPos,yPos);
+        this.obstacles.add(box);
     }
 
     public void nextTurn() {
@@ -454,40 +471,29 @@ public class GameBoard implements Drawable
         }
     }
 
-    public void draw(Graphics2D g2d, Player player) {
+    public void draw(Graphics2D g2d) {
         // Colors
         Color lightblue = new Color(0, 0, 182, 89);
 
-        GameBoard gameBoard = this;
-
         // Paint the sky
         g2d.setColor(lightblue);
-        g2d.fillRect(0, 0, (int) gameBoard.getWIDTH(), (int) gameBoard.getHEIGHT());
+        g2d.fillRect(0, 0, WIDTH, HEIGHT);
 
         g2d.setColor(Color.white);
         Polygon polygon = new Polygon(GameBoard.XCOORDS, GameBoard.YCOORDS, GameBoard.XCOORDS.length);
         g2d.fillPolygon(polygon);
 
-        player1.draw(g2d, player1);
-        player2.draw(g2d, player2);
+        player1.draw(g2d);
+        player2.draw(g2d);
 
-        Weapon weapon = player1.getWeapon();
-        weapon.draw(g2d, player1);
-
-        Weapon weapon2 = player2.getWeapon();
-        weapon2.draw(g2d, player2);
-
-        for (int i = 0; i < OBSTACLES.length; i++) {
-            Obstacle obstacle = OBSTACLES[i];
-            obstacle.draw(g2d, this.getCurrentPlayer());
+        for (Obstacle obstacle : obstacles) {
+            obstacle.draw(g2d);
         }
 
-        if (projectile != null) {projectile.draw(g2d, gameBoard.getCurrentPlayer());}
+        if (projectile != null) {projectile.draw(g2d);}
 
-        StatusField statusField = new StatusField(player1, player2);
-        Player currentPlayer = this.getCurrentPlayer();
-
-        statusField.draw(g2d, currentPlayer);
+        statusField.draw(g2d);
+        statusField.draw(g2d);
     }
 
     public void tick() {

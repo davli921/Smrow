@@ -63,7 +63,7 @@ public abstract class Projectile implements Collidable, Drawable
 
     abstract double getRadius();
 
-    public void draw(Graphics2D g2d, Player player) {
+    public void draw(Graphics2D g2d) {
         int radius = (int) this.getRadius();
         int xPos = (int) this.xPos;
         int yPos = (int) this.yPos;
@@ -71,6 +71,5 @@ public abstract class Projectile implements Collidable, Drawable
         g2d.setColor(color);
         g2d.fillOval(xPos, yPos, radius * 2, radius * 2);
     }
-    
     
 }

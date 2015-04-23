@@ -18,24 +18,25 @@ import static java.lang.Math.toRadians;
 public class Player implements Collidable, Drawable
 {
 
-    final static double PLAYER_WIDTH = 75;
-    final static double PLAYER_HEIGHT = 46;
+    final static double WIDTH = 75;
+    final static double HEIGHT = 46;
     final static double MOVE_STEP = 5;
     final static int MAX_HP = 100;
 
-    // Tillfällig lösning
-    private double weaponJointX, weaponJointY;
-
     private int health;
+
     // Direction in degrees
-    private double xPos,yPos,direction;
+    private double xPos,yPos,direction,weaponJointX, weaponJointY;
+
     private HealthBar healthBar;
+
     private Weapon weapon;
+
     private String name =  "JohnDoe";
 
     private BufferedImage imgRight,imgLeft,currentImg;
 
-    public Player(double xPos, double yPos, double direction, String weapon, String hD) {
+    public Player(double xPos, double yPos, double direction, String weapon, Direction horizontalDirection) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.direction = direction;
@@ -53,17 +54,8 @@ public class Player implements Collidable, Drawable
             e.printStackTrace();
         }
 
-        if (hD.equals("right")) {
-            this.currentImg = imgRight;
-            this.weaponJointX = xPos + 45;
-            this.weaponJointY = yPos + 8;
-        } else if (hD.equals("left")) {
-            this.currentImg = imgLeft;
-            this.weaponJointX = xPos + 29;
-            this.weaponJointY = yPos + 10;
-        }
-
-
+        // Assigns correct image to "currentImg".
+        updateImg(horizontalDirection);
 
     }
 
@@ -87,19 +79,6 @@ public class Player implements Collidable, Drawable
 
     public void setDirection(final double direction) {
         this.direction = direction;
-    }
-
-    // Updates the image and set the joint of the weapon at appropriate coords.
-    public void updateImg(String horizontalDirection) {
-        if (horizontalDirection.equals("right")) {
-            currentImg = imgRight;
-            weaponJointX = xPos + 45;
-            weaponJointY = yPos + 8;
-        } else if (horizontalDirection.equals("left")) {
-            currentImg = imgLeft;
-            weaponJointX = xPos + 29;
-            weaponJointY = yPos + 10;
-        }
     }
 
     public Weapon getWeapon() {
@@ -137,14 +116,27 @@ public class Player implements Collidable, Drawable
 
     // These two do the same thing but are seperate so they fit in "Collidable"
     public double getWidth() {
-        return PLAYER_WIDTH;
+        return WIDTH;
     }
 
     public double getHeight() {
-        return PLAYER_HEIGHT;
+        return HEIGHT;
     }
 
     // ------------------------------------------------------------------------//
+
+    // Updates the image and set the joint of the weapon at appropriate coords.
+        public void updateImg(Direction horizontalDirection) {
+            if (horizontalDirection.equals(Direction.RIGHT)) {
+                currentImg = imgRight;
+                weaponJointX = xPos + 45;
+                weaponJointY = yPos + 8;
+            } else if (horizontalDirection.equals(Direction.LEFT)) {
+                currentImg = imgLeft;
+                weaponJointX = xPos + 29;
+                weaponJointY = yPos + 10;
+            }
+        }
 
     public void changeWeapon(String weapon) {
             double weaponDirection = this.weapon.getDirection();
@@ -174,25 +166,54 @@ public class Player implements Collidable, Drawable
         }
     }
 
-    public void draw(Graphics2D g2d, Player player) {
+    private void drawWeapon(Graphics2D g2d) {
+            AffineTransform oldTransformer = g2d.getTransform();
+            AffineTransform transformer = new AffineTransform();
+
+            double weaponAngle = (int) weapon.getDirection();
+
+            int weaponPosX;
+            int weaponPosY;
+
+            if (weaponAngle<90) {
+                weaponPosX = (int) (xPos +45);
+                weaponPosY = (int) (yPos +8);
+            } else {
+                weaponPosX = (int) (xPos +28);
+                weaponPosY = (int) (yPos +13);
+            }
+
+            // Rotates the weapon around two anchor points.
+            transformer.setToRotation(toRadians(weaponAngle), weaponPosX, weaponPosY);
+            g2d.setTransform(transformer);
+
+            g2d.drawImage(weapon.getCurrentImg(),weaponPosX,weaponPosY,null);
+
+            g2d.setTransform(oldTransformer);
+        }
+
+    public void draw(Graphics2D g2d) {
 
         AffineTransform oldTransformer = g2d.getTransform();
         AffineTransform transformer = new AffineTransform();
 
         double direction = toRadians(this.direction);
 
-        double playerAnchorPointX = this.xPos + PLAYER_WIDTH / 2.0;
-        double playerAnchorPointY = this.yPos + PLAYER_HEIGHT / 2.0;
+        double playerAnchorPointX = this.xPos + WIDTH / 2.0;
+        double playerAnchorPointY = this.yPos + HEIGHT / 2.0;
 
         transformer.setToRotation(direction, playerAnchorPointX, playerAnchorPointY);
         g2d.setTransform(transformer);
 
         HealthBar healthBar = this.healthBar;
-        healthBar.draw(g2d, this);
+        healthBar.draw(g2d);
 
         g2d.drawImage(currentImg,(int)xPos,(int)yPos,null);
 
         g2d.setTransform(oldTransformer);
+
+        drawWeapon(g2d);
+
     }
 
 }
