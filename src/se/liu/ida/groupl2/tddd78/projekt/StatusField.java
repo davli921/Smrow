@@ -36,14 +36,14 @@ public class StatusField implements Drawable
 	// (Uses pointer comparison to make sure you've got the right object)
 	if (player == player1) {
 	    fieldX = 40;
-	    angle = (int) abs(player.getWeapon().getAngle() % 180);
+	    angle = (int) abs(player.getCurrentWeapon().getAngle() % 180);
 	} else {
 	    fieldX = 880;
-	    angle = (int) abs(player.getWeapon().getAngle() % 180 );
+	    angle = (int) abs(player.getCurrentWeapon().getAngle() % 180 );
 	}
 
 	String weaponAngle = "Angle: " + angle;
-	String power = "Power: " + player.getWeapon().getPower();
+	String power = "Power: " + player.getCurrentWeapon().getPower();
 	String currentHP = "HP: " + player.getHealth();
 
 	g2d.drawString(player.getName(), fieldX, nameY);

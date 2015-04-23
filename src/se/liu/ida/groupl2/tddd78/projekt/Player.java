@@ -12,7 +12,7 @@ import static java.lang.Math.toRadians;
  * "Player" contains information about a "Player"-obj health, position and angle, and also color and size.
  * It also contains a "Weapon", "HealthBar", and a "name" (in the form of a string).
  * "Player" has a method for moving "move" that takes a angle as input, also has a method
- * "createWeapon" that is used in the constructor to create a specific weapon.
+ * "createArsenal" that is used in the constructor to create a specific currentWeapon.
  */
 
 public class Player implements Collidable, Drawable
@@ -38,13 +38,15 @@ public class Player implements Collidable, Drawable
 
     private HealthBar healthBar;
 
-    private Weapon weapon;
+    private MissileLauncher missileLauncher;
+    private RocketLauncher rocketLauncher;
+    private Weapon currentWeapon;
 
     private String name =  "JohnDoe";
 
     private BufferedImage imgRight,imgLeft,currentImg;
 
-    public Player(double xPos, double yPos, double angle, String weapon, Direction direction) {
+    public Player(double xPos, double yPos, double angle, Direction direction) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.angle = angle;
@@ -55,10 +57,9 @@ public class Player implements Collidable, Drawable
 
         this.healthBar = new HealthBar(this);
 
-        this.weapon = null;
-        // Creates a weapon with method instead of taking it as param and having to construct a weapon in "GameBoard".
-        createWeapon(weapon);
-
+        this.missileLauncher = new MissileLauncher(0);
+        this.rocketLauncher = new RocketLauncher(0);
+        this.currentWeapon = missileLauncher;
 
         try {
             this.imgRight = ImageIO.read(this.getClass().getResourceAsStream("resources/tankRight.png"));
@@ -94,8 +95,8 @@ public class Player implements Collidable, Drawable
         this.angle = angle;
     }
 
-    public Weapon getWeapon() {
-	return weapon;
+    public Weapon getCurrentWeapon() {
+	return currentWeapon;
     }
 
     public int getHealth() {
@@ -135,7 +136,6 @@ public class Player implements Collidable, Drawable
         return weaponJointY;
     }
 
-    // These two do the same thing but are seperate so they fit in "Collidable"
     public double getWidth() {
         return WIDTH;
     }
@@ -146,41 +146,26 @@ public class Player implements Collidable, Drawable
 
     // ------------------------------------------------------------------------//
 
-    // Updates the image and set the joint of the weapon at appropriate coords.
-        public void updateImg(Direction direction) {
-            if (direction.equals(Direction.RIGHT)) {
-                currentImg = imgRight;
-                weaponJointX = xPos + WEAPONJOINTX_R;
-                weaponJointY = yPos + WEAPONJOINTY_R;
-            } else if (direction.equals(Direction.LEFT)) {
-                currentImg = imgLeft;
-                weaponJointX = xPos + WEAPONJOINTX_L;
-                weaponJointY = yPos + WEAPONJOINTY_L;
-            }
+    // Updates the image and set the joint of the currentWeapon at appropriate coords.
+    public void updateImg(Direction direction) {
+        if (direction.equals(Direction.RIGHT)) {
+            currentImg = imgRight;
+            weaponJointX = xPos + WEAPONJOINTX_R;
+            weaponJointY = yPos + WEAPONJOINTY_R;
+        } else if (direction.equals(Direction.LEFT)) {
+            currentImg = imgLeft;
+            weaponJointX = xPos + WEAPONJOINTX_L;
+            weaponJointY = yPos + WEAPONJOINTY_L;
         }
+    }
 
-    public void changeWeapon(String weapon) {
-            double weaponDirection = this.weapon.getAngle();
-
-            switch (weapon) {
-                case "MissileLauncher":
-                    this.weapon = new MissileLauncher(weaponDirection);
-                    break;
-                case "RocketLauncher":
-                    this.weapon = new RocketLauncher(weaponDirection);
-                    break;
-                default:
-                    break;
-            }
-        }
-
-    private void createWeapon(String weapon){
-        switch (weapon){
-            case "MissileLauncher":
-                this.weapon = new MissileLauncher(angle);
+    public void changeWeapon(WeaponType weapon) {
+        switch (weapon) {
+            case MISSILE_LAUNCHER:
+                currentWeapon = missileLauncher;
                 break;
-            case "RocketLauncher":
-                this.weapon = new RocketLauncher(angle);
+            case ROCKET_LAUNCHER:
+                currentWeapon = rocketLauncher;
                 break;
             default:
                 break;
@@ -188,30 +173,30 @@ public class Player implements Collidable, Drawable
     }
 
     private void drawWeapon(Graphics2D g2d) {
-            AffineTransform oldTransformer = g2d.getTransform();
-            AffineTransform transformer = new AffineTransform();
+        AffineTransform oldTransformer = g2d.getTransform();
+        AffineTransform transformer = new AffineTransform();
 
-            double weaponAngle = (int) weapon.getAngle();
+        double weaponAngle = (int) currentWeapon.getAngle();
 
-            int weaponPosX;
-            int weaponPosY;
+        int weaponPosX;
+        int weaponPosY;
 
-            if (weaponAngle<90) {
-                weaponPosX = (int) (xPos +WEAPONJOINTX_R);
-                weaponPosY = (int) (yPos +WEAPONJOINTY_R);
-            } else {
-                weaponPosX = (int) (xPos +WEAPONJOINTX_L);
-                weaponPosY = (int) (yPos +WEAPONJOINTY_L);
-            }
-
-            // Rotates the weapon around two anchor points.
-            transformer.setToRotation(toRadians(weaponAngle), weaponPosX, weaponPosY);
-            g2d.setTransform(transformer);
-
-            g2d.drawImage(weapon.getCurrentImg(),weaponPosX,weaponPosY,null);
-
-            g2d.setTransform(oldTransformer);
+        if (weaponAngle<90) {
+            weaponPosX = (int) (xPos +WEAPONJOINTX_R);
+            weaponPosY = (int) (yPos +WEAPONJOINTY_R);
+        } else {
+            weaponPosX = (int) (xPos +WEAPONJOINTX_L);
+            weaponPosY = (int) (yPos +WEAPONJOINTY_L);
         }
+
+        // Rotates the currentWeapon around two anchor points.
+        transformer.setToRotation(toRadians(weaponAngle), weaponPosX, weaponPosY);
+        g2d.setTransform(transformer);
+
+        g2d.drawImage(currentWeapon.getCurrentImg(), weaponPosX, weaponPosY, null);
+
+        g2d.setTransform(oldTransformer);
+    }
 
     public void draw(Graphics2D g2d) {
 
@@ -234,7 +219,6 @@ public class Player implements Collidable, Drawable
         g2d.setTransform(oldTransformer);
 
         drawWeapon(g2d);
-
     }
 
 }

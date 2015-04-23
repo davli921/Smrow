@@ -94,7 +94,7 @@ public class GameBoard implements Drawable
         final double player1StartYPos = GROUNDLEVEL -Player.HEIGHT + (player1StartXPos +Player.WIDTH/2)*Math.tan(
                 toRadians(player1StartAngle));
 
-        this.player1 = new Player(player1StartXPos, player1StartYPos, player1StartAngle, "MissileLauncher",Direction.RIGHT);
+        this.player1 = new Player(player1StartXPos, player1StartYPos, player1StartAngle,Direction.RIGHT);
 
         // Start values for player2
         final double player2StartXPos = WIDTH - WIDTH / 10.0;
@@ -102,10 +102,10 @@ public class GameBoard implements Drawable
         final double player2StartYPos = GROUNDLEVEL -Player.HEIGHT -(WIDTH-(player2StartXPos +Player.WIDTH/2))*Math.tan(
                 toRadians(player2StartAngle));
 
-        this.player2 = new Player(player2StartXPos, player2StartYPos, player2StartAngle, "MissileLauncher",Direction.LEFT);
+        this.player2 = new Player(player2StartXPos, player2StartYPos, player2StartAngle, Direction.LEFT);
 
         // Set angle so that the players face eachother from the start
-        player2.getWeapon().setAngle(180 + player2StartAngle);
+        player2.getCurrentWeapon().setAngle(180 + player2StartAngle);
 
         this.statusField = new StatusField(player1, player2);
         // -------------------------------------------------//
@@ -170,7 +170,7 @@ public class GameBoard implements Drawable
     //Increases current players weapons power up to the weapons "MAX_POWER".
     public void chargeWeapon(){
         if(!isBetweenTurns) {
-            Weapon currentWeapon = getCurrentPlayer().getWeapon();
+            Weapon currentWeapon = getCurrentPlayer().getCurrentWeapon();
             int currentPower = (int) currentWeapon.getPower();
             long currentTime = System.currentTimeMillis();
             long deltaTime = currentTime - startTime;
@@ -187,7 +187,7 @@ public class GameBoard implements Drawable
 
     // Changes the weapon angle.
     public void rotateWeapon(Direction direction) {
-            Weapon weapon = getCurrentPlayer().getWeapon();
+            Weapon weapon = getCurrentPlayer().getCurrentWeapon();
             Double angle = weapon.getAngle();
 
             if (!isBetweenTurns && !isChargingWeapon) {
@@ -217,7 +217,7 @@ public class GameBoard implements Drawable
         if (!isBetweenTurns) {
             Player currentPlayer = getCurrentPlayer();
 
-            Weapon weapon = currentPlayer.getWeapon();
+            Weapon weapon = currentPlayer.getCurrentWeapon();
             double angle = weapon.getAngle();
 
             Projectile projectile = weapon.shoot();
@@ -257,9 +257,9 @@ public class GameBoard implements Drawable
         // Enables the player to turn on the spot.
         getCurrentPlayer().updateImg(direction);
         if (direction.equals(Direction.RIGHT)) {
-            getCurrentPlayer().getWeapon().setAngle(angleInDegrees);
+            getCurrentPlayer().getCurrentWeapon().setAngle(angleInDegrees);
         } else if (direction.equals(Direction.LEFT)) {
-            getCurrentPlayer().getWeapon().setAngle(180 + angleInDegrees);
+            getCurrentPlayer().getCurrentWeapon().setAngle(180 + angleInDegrees);
         }
 
 
@@ -438,7 +438,7 @@ public class GameBoard implements Drawable
     // Reset projectile, isBetweenTurns, and change turns. Also resets the power on the weapon
     private void resetProjectile() {
         this.projectile = null;
-        getCurrentPlayer().getWeapon().setPower(0);
+        getCurrentPlayer().getCurrentWeapon().setPower(0);
         this.isBetweenTurns = false;
         nextTurn();
     }

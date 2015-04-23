@@ -63,7 +63,7 @@ public abstract class Weapon //implements Drawable
         return currentImg;
     }
 
-    private void updateImg() {
+    public void updateImg() {
         if (angle <90) {
             this.currentImg = imgRight;
         } else if (angle > 90) {

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>se.liu.ida.groupl2.tddd78.projekt</OriginalElement>
+  <nodes>
+    <node x="492.1515151515151" y="98.0">se.liu.ida.groupl2.tddd78.projekt.Obstacle</node>
+    <node x="122.0" y="98.0">se.liu.ida.groupl2.tddd78.projekt.HealthBar</node>
+    <node x="288.9015151515151" y="0.0">se.liu.ida.groupl2.tddd78.projekt.Drawable</node>
+    <node x="319.4015151515151" y="176.0">se.liu.ida.groupl2.tddd78.projekt.Rocket</node>
+    <node x="358.0" y="249.0">se.liu.ida.groupl2.tddd78.projekt.Listener</node>
+    <node x="236.0" y="98.0">se.liu.ida.groupl2.tddd78.projekt.GameBoard</node>
+    <node x="101.0" y="249.0">se.liu.ida.groupl2.tddd78.projekt.Weapon</node>
+    <node x="212.0" y="400.0">se.liu.ida.groupl2.tddd78.projekt.resources</node>
+    <node x="0.0" y="546.0">se.liu.ida.groupl2.tddd78.projekt.Direction</node>
+    <node x="511.4015151515151" y="0.0">se.liu.ida.groupl2.tddd78.projekt.Collidable</node>
+    <node x="0.0" y="473.0">se.liu.ida.groupl2.tddd78.projekt.MenuComponent</node>
+    <node x="0.0" y="400.0">se.liu.ida.groupl2.tddd78.projekt.HighscoreComponent</node>
+    <node x="329.0" y="327.0">se.liu.ida.groupl2.tddd78.projekt.GameComponent</node>
+    <node x="153.0" y="327.0">se.liu.ida.groupl2.tddd78.projekt.MissileLauncher</node>
+    <node x="0.0" y="327.0">se.liu.ida.groupl2.tddd78.projekt.RocketLauncher</node>
+    <node x="335.0" y="473.0">se.liu.ida.groupl2.tddd78.projekt.FrameState</node>
+    <node x="599.1515151515151" y="98.0">se.liu.ida.groupl2.tddd78.projekt.Player</node>
+    <node x="133.0" y="546.0">se.liu.ida.groupl2.tddd78.projekt.StateList</node>
+    <node x="0.0" y="98.0">se.liu.ida.groupl2.tddd78.projekt.StatusField</node>
+    <node x="361.0" y="98.0">se.liu.ida.groupl2.tddd78.projekt.Projectile</node>
+    <node x="508.6515151515151" y="176.0">se.liu.ida.groupl2.tddd78.projekt.Box</node>
+    <node x="183.0" y="473.0">se.liu.ida.groupl2.tddd78.projekt.GameFrame</node>
+    <node x="414.4015151515151" y="176.0">se.liu.ida.groupl2.tddd78.projekt.Missile</node>
+    <node x="265.0" y="546.0">se.liu.ida.groupl2.tddd78.projekt.Smrow</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="se.liu.ida.groupl2.tddd78.projekt.RocketLauncher" target="se.liu.ida.groupl2.tddd78.projekt.Weapon">
+      <point x="0.0" y="-14.0" />
+      <point x="66.5" y="302.0" />
+      <point x="121.75" y="302.0" />
+      <point x="-20.75" y="14.0" />
+    </edge>
+    <edge source="se.liu.ida.groupl2.tddd78.projekt.MissileLauncher" target="se.liu.ida.groupl2.tddd78.projekt.Weapon">
+      <point x="0.0" y="-14.0" />
+      <point x="218.5" y="302.0" />
+      <point x="163.25" y="302.0" />
+      <point x="20.75" y="14.0" />
+    </edge>
+    <edge source="se.liu.ida.groupl2.tddd78.projekt.Player" target="se.liu.ida.groupl2.tddd78.projekt.Collidable">
+      <point x="17.5" y="-14.0" />
+      <point x="651.6515151515151" y="48.0" />
+      <point x="588.0681818181818" y="48.0" />
+      <point x="30.66666666666663" y="14.0" />
+    </edge>
+    <edge source="se.liu.ida.groupl2.tddd78.projekt.GameComponent" target="se.liu.ida.groupl2.tddd78.projekt.Listener">
+      <point x="0.0" y="-14.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="se.liu.ida.groupl2.tddd78.projekt.Box" target="se.liu.ida.groupl2.tddd78.projekt.Obstacle">
+      <point x="0.0" y="-14.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="se.liu.ida.groupl2.tddd78.projekt.Projectile" target="se.liu.ida.groupl2.tddd78.projekt.Drawable">
+      <point x="-22.5" y="-14.0" />
+      <point x="383.5" y="78.0" />
+      <point x="341.4015151515151" y="78.0" />
+      <point x="7.5" y="14.0" />
+    </edge>
+    <edge source="se.liu.ida.groupl2.tddd78.projekt.Obstacle" target="se.liu.ida.groupl2.tddd78.projekt.Collidable">
+      <point x="21.75" y="-14.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="se.liu.ida.groupl2.tddd78.projekt.Player" target="se.liu.ida.groupl2.tddd78.projekt.Drawable">
+      <point x="-17.5" y="-14.0" />
+      <point x="616.6515151515151" y="58.0" />
+      <point x="371.4015151515151" y="58.0" />
+      <point x="37.5" y="14.0" />
+    </edge>
+    <edge source="se.liu.ida.groupl2.tddd78.projekt.HealthBar" target="se.liu.ida.groupl2.tddd78.projekt.Drawable">
+      <point x="0.0" y="-14.0" />
+      <point x="169.0" y="68.0" />
+      <point x="311.4015151515151" y="68.0" />
+      <point x="-22.5" y="14.0" />
+    </edge>
+    <edge source="se.liu.ida.groupl2.tddd78.projekt.Missile" target="se.liu.ida.groupl2.tddd78.projekt.Projectile">
+      <point x="0.0" y="-14.0" />
+      <point x="450.9015151515151" y="151.0" />
+      <point x="428.5" y="151.0" />
+      <point x="22.5" y="14.0" />
+    </edge>
+    <edge source="se.liu.ida.groupl2.tddd78.projekt.StatusField" target="se.liu.ida.groupl2.tddd78.projekt.Drawable">
+      <point x="0.0" y="-14.0" />
+      <point x="51.0" y="58.0" />
+      <point x="296.4015151515151" y="58.0" />
+      <point x="-37.5" y="14.0" />
+    </edge>
+    <edge source="se.liu.ida.groupl2.tddd78.projekt.Obstacle" target="se.liu.ida.groupl2.tddd78.projekt.Drawable">
+      <point x="-21.75" y="-14.0" />
+      <point x="513.9015151515151" y="68.0" />
+      <point x="356.4015151515151" y="68.0" />
+      <point x="22.5" y="14.0" />
+    </edge>
+    <edge source="se.liu.ida.groupl2.tddd78.projekt.Projectile" target="se.liu.ida.groupl2.tddd78.projekt.Collidable">
+      <point x="22.5" y="-14.0" />
+      <point x="428.5" y="78.0" />
+      <point x="526.7348484848485" y="78.0" />
+      <point x="-30.66666666666663" y="14.0" />
+    </edge>
+    <edge source="se.liu.ida.groupl2.tddd78.projekt.Rocket" target="se.liu.ida.groupl2.tddd78.projekt.Projectile">
+      <point x="0.0" y="-14.0" />
+      <point x="356.9015151515151" y="151.0" />
+      <point x="383.5" y="151.0" />
+      <point x="-22.5" y="14.0" />
+    </edge>
+    <edge source="se.liu.ida.groupl2.tddd78.projekt.GameBoard" target="se.liu.ida.groupl2.tddd78.projekt.Drawable">
+      <point x="0.0" y="-14.0" />
+      <point x="288.5" y="78.0" />
+      <point x="326.4015151515151" y="78.0" />
+      <point x="-7.5" y="14.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="335.5" y="127.0" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

@@ -63,13 +63,13 @@ public class GameComponent extends JComponent implements Listener
 	Action changeWeapon = new AbstractAction()
 	{
 	    @Override public void actionPerformed(final ActionEvent e) {
-		String weapon = this.getValue(e.getActionCommand()).toString();
+		WeaponType weapon = (WeaponType) this.getValue(e.getActionCommand());
 		gameBoard.getCurrentPlayer().changeWeapon(weapon);
 	    }
 
 	};
-	changeWeapon.putValue("1", "MissileLauncher");
-	changeWeapon.putValue("2", "RocketLauncher");
+	changeWeapon.putValue("1", WeaponType.MISSILE_LAUNCHER);
+	changeWeapon.putValue("2", WeaponType.ROCKET_LAUNCHER);
 
 	this.getInputMap().put(KeyStroke.getKeyStroke("LEFT"), "Move Left");
 	this.getActionMap().put("Move Left", moveLeft);
