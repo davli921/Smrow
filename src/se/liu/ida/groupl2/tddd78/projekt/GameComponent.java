@@ -3,11 +3,6 @@ package se.liu.ida.groupl2.tddd78.projekt;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-
-import static java.lang.Math.toRadians;
-import static java.lang.Math.abs;
 
 /**
  * GameComponent is the visual representation of the playing field. Contains a GameBoard, the players-objects size, and the
@@ -18,12 +13,9 @@ public class GameComponent extends JComponent implements Listener
 {
 
     private GameBoard gameBoard;
-    private Player player1,player2;
 
     public GameComponent(final GameBoard gameBoard) {
 	this.gameBoard = gameBoard;
-	this.player1 = gameBoard.getPlayer1();
-	this.player2 = gameBoard.getPlayer2();
 
 	// Event Handling
 	Action moveLeft = new AbstractAction()

@@ -5,6 +5,10 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+/**
+ * Subclass of Obstacle that visually represents a box on the map.
+ */
+
 public class Box extends Obstacle
 {
 

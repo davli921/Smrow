@@ -1,7 +1,5 @@
 package se.liu.ida.groupl2.tddd78.projekt;
 
-import java.awt.Color;
-
 /**
  * MissileLauncher subclass of Weapon, "shoot()" returns a missile.
  */

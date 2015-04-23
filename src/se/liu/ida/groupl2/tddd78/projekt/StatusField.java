@@ -11,6 +11,9 @@ import static java.lang.Math.abs;
 
 public class StatusField implements Drawable
 {
+
+    final static Color TEXTCOLOR = Color.BLACK;
+
     private Player player1, player2;
 
     public StatusField(Player player1, Player player2) {
@@ -24,12 +27,13 @@ public class StatusField implements Drawable
 	int fieldX;
 	int angle;
 
-	int nameY = 40;
-	int angleY = 60;
-	int powerY = 80;
-	int healthY = 100;
+	final int nameY = 40;
+	final int angleY = 60;
+	final int powerY = 80;
+	final int healthY = 100;
 
 	// Places player1 stats to the far left and player2 stats to the far right.
+	// (Uses pointer comparison to make sure you've got the right object)
 	if (player == player1) {
 	    fieldX = 40;
 	    angle = (int) abs(player.getWeapon().getDirection() % 360);
@@ -49,7 +53,7 @@ public class StatusField implements Drawable
     }
 
     public void draw(Graphics2D g2d) {
-	g2d.setColor(Color.black);
+	g2d.setColor(TEXTCOLOR);
 
 	drawPlayerStats(g2d,player1);
 	drawPlayerStats(g2d,player2);

@@ -1,6 +1,7 @@
 package se.liu.ida.groupl2.tddd78.projekt;
 
-import java.awt.Color;
+import java.awt.*;
+
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.toRadians;
@@ -17,6 +18,7 @@ public class Missile extends Projectile
     final static double WIDTH = 2.0;
     final static double HEIGHT = 2.0;
     final static double RADIUS = 2.0;
+
     private long timeOfBirth;
 
     public Missile(int dmg, double speed, double direction) {
@@ -46,9 +48,7 @@ public class Missile extends Projectile
 
         this.xPos = newXPos;
         this.yPos = newYPos;
-
     }
-
 
 }
 

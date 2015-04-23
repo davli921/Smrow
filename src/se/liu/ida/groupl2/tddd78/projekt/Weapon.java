@@ -1,13 +1,8 @@
 package se.liu.ida.groupl2.tddd78.projekt;
 
-import java.awt.*;
-import java.awt.geom.AffineTransform;
 import javax.imageio.ImageIO;
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
-import static java.lang.Math.toRadians;
 
 /**
  * An abstract class that describes how the weapon should work.  For now it's implemented in MissileLauncher.

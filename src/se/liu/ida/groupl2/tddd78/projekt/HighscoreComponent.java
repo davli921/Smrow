@@ -54,12 +54,11 @@ public class HighscoreComponent extends JComponent
     private void paintStats(Graphics2D g2d){
 	float p1Accuracy = p1Hits/p1ShotsFired *100;
 	float p2Accuracy = p2Hits/p2ShotsFired *100;
-	int xPosAccStat = 30;
 
-	int winneryPos = 30;
-
-	int p1yPosAccStat = 60;
-	int p2yPosAccStat = 90;
+	final int xPosAccStat = 30;
+	final int winneryPos = 30;
+	final int p1yPosAccStat = 60;
+	final int p2yPosAccStat = 90;
 
 	g2d.setColor(Color.black);
 	g2d.drawString("Player: " + this.winner + " has won the game!", xPosAccStat, winneryPos);

@@ -14,5 +14,5 @@ public enum Direction
     /**
      * LEFT -> Faces left...
      */
-    LEFT;
+    LEFT
 }

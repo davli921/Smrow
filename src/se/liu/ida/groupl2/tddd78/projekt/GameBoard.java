@@ -28,7 +28,8 @@ public class GameBoard implements Drawable
     final static int[] XCOORDS = {0, 0, 200, WIDTH / 2 -150, WIDTH / 2 +150, WIDTH-200, WIDTH, WIDTH};
     final static int[] YCOORDS = {HEIGHT, GROUNDLEVEL, GROUNDLEVEL, GROUNDLEVEL - 50, GROUNDLEVEL - 50, GROUNDLEVEL, GROUNDLEVEL, HEIGHT};
 
-    //final static Obstacle[] OBSTACLES = {new Box(WIDTH / 2 -150,GROUNDLEVEL-Box.HEIGHT*2 -5)};
+    final static Color SKYCOLOR = new Color(0, 0, 182, 89);
+    final static Color GROUNDCOLOR = Color.WHITE;
 
     // One projectile at the time since it is turn-based
     private Projectile projectile;
@@ -59,29 +60,30 @@ public class GameBoard implements Drawable
         this.listeners = new ArrayList<>();
 
         this.obstacles = new ArrayList<>();
-        int boxXPos = WIDTH/2 -150;
-        addBox(boxXPos,getYCoord(boxXPos)-Box.HEIGHT);
-        boxXPos = WIDTH/2 -150 + (int)Box.WIDTH;
-        addBox(boxXPos,getYCoord(boxXPos)-Box.HEIGHT);
-        boxXPos = WIDTH/2 -150 + (int)Box.WIDTH/2;
-        addBox(boxXPos,getYCoord(boxXPos)-Box.HEIGHT*2);
-        boxXPos = WIDTH/2 +100;
-        addBox(boxXPos, getYCoord(boxXPos)-Box.HEIGHT);
+        final int boxXPos1 = WIDTH/2 -150;
+        addBox(boxXPos1,getYCoord(boxXPos1)-Box.HEIGHT);
+        final int boxXPos2 = WIDTH/2 -150 + (int)Box.WIDTH;
+        addBox(boxXPos2,getYCoord(boxXPos2)-Box.HEIGHT);
+        final int boxXPos3 = WIDTH/2 -150 + (int)Box.WIDTH/2;
+        addBox(boxXPos3,getYCoord(boxXPos3)-Box.HEIGHT*2);
+        final int boxXPos4 = WIDTH/2 +100;
+        addBox(boxXPos4, getYCoord(boxXPos4)-Box.HEIGHT);
+        addBox(boxXPos4, getYCoord(boxXPos4)-Box.HEIGHT*2);
 
         // Player construction ------------------------------//
-        double playerWidth = Player.WIDTH;
-        double playerHeight = Player.HEIGHT;
+        final double playerWidth = Player.WIDTH;
+        final double playerHeight = Player.HEIGHT;
         // Start values for player1
-        double player1StartXPos = WIDTH / 10.0 - playerWidth;
-        double player1StartDir = Math.toDegrees(atan(getGradient(player1StartXPos)));
-        double player1StartYPos = GROUNDLEVEL - playerHeight + (player1StartXPos+playerWidth/2)*Math.tan(
+        final double player1StartXPos = WIDTH / 10.0 - playerWidth;
+        final double player1StartDir = Math.toDegrees(atan(getGradient(player1StartXPos)));
+        final double player1StartYPos = GROUNDLEVEL - playerHeight + (player1StartXPos+playerWidth/2)*Math.tan(
                 toRadians(player1StartDir));
         this.player1 = new Player(player1StartXPos, player1StartYPos, player1StartDir, "MissileLauncher",Direction.RIGHT);
 
         // Start values for player2
-        double player2StartXPos = WIDTH - WIDTH / 10.0;
-        double player2StartDir = Math.toDegrees(atan(getGradient(player2StartXPos)));
-        double player2StartYPos = GROUNDLEVEL - playerHeight - (WIDTH-(player2StartXPos+playerWidth/2))*Math.tan(
+        final double player2StartXPos = WIDTH - WIDTH / 10.0;
+        final double player2StartDir = Math.toDegrees(atan(getGradient(player2StartXPos)));
+        final double player2StartYPos = GROUNDLEVEL - playerHeight - (WIDTH-(player2StartXPos+playerWidth/2))*Math.tan(
                 toRadians(player2StartDir));
         this.player2 = new Player(player2StartXPos, player2StartYPos, player2StartDir, "MissileLauncher",Direction.LEFT);
         // Set direction so that the players face eachother from the start
@@ -472,14 +474,12 @@ public class GameBoard implements Drawable
     }
 
     public void draw(Graphics2D g2d) {
-        // Colors
-        Color lightblue = new Color(0, 0, 182, 89);
-
         // Paint the sky
-        g2d.setColor(lightblue);
+        g2d.setColor(SKYCOLOR);
         g2d.fillRect(0, 0, WIDTH, HEIGHT);
 
-        g2d.setColor(Color.white);
+        // Paint ground
+        g2d.setColor(GROUNDCOLOR);
         Polygon polygon = new Polygon(GameBoard.XCOORDS, GameBoard.YCOORDS, GameBoard.XCOORDS.length);
         g2d.fillPolygon(polygon);
 
