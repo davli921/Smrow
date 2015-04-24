@@ -67,7 +67,7 @@ public class GameBoard implements Drawable
     public GameBoard() {
         this.projectile = null;
 
-        this.isPlayer1Turn = true;
+        //this.isPlayer1Turn = true;
         this.isBetweenTurns = false;
         this.isChargingWeapon = false;
         this.isGameOver = false;
@@ -114,6 +114,8 @@ public class GameBoard implements Drawable
         this.players.add(player1);
         this.players.add(player2);
 
+        players.get(0).setActive(true);
+
         this.statusField = new StatusField(player1, player2);
         // -------------------------------------------------//
     }
@@ -129,7 +131,14 @@ public class GameBoard implements Drawable
     }
 
     public Player getCurrentPlayer() {
-	if (isPlayer1Turn) {return player1;} else {return player2;}
+       	/*if (isPlayer1Turn) {return player1;} else {return player2;}*/
+        Player currentPlayer = null;
+        for (Player player : players) {
+            if (player.isActive()) {
+                currentPlayer = player;
+            }
+        }
+        return currentPlayer;
     }
 
     public void setIsChargingWeapon(final boolean isChargingWeapon) {
@@ -336,6 +345,7 @@ public class GameBoard implements Drawable
             if (outOfBounds(projectile)) {
                 collision = true;
             }
+            /*
             // If collision with player, deal damage.
             else if (checkCollision(projectile, player1)) {
                 int currentHp = player1.getHealth();
@@ -350,6 +360,7 @@ public class GameBoard implements Drawable
                 collision = true;
                 highscoreComponent.addP1Hits(1);
             }
+            */
 
             for (Player player : players) {
                 if (checkCollision(projectile,player)) {
@@ -362,6 +373,7 @@ public class GameBoard implements Drawable
 
             if (collision) {
                 resetProjectile();
+                nextTurn();
             }
 
         }
@@ -454,7 +466,6 @@ public class GameBoard implements Drawable
         this.projectile = null;
         getCurrentPlayer().getCurrentWeapon().setPower(0);
         this.isBetweenTurns = false;
-        nextTurn();
     }
 
     private void addBox(double xPos, double yPos) {
@@ -463,11 +474,18 @@ public class GameBoard implements Drawable
     }
 
     public void nextTurn() {
-	if (isPlayer1Turn) {
-	    isPlayer1Turn = false;
-	} else {
-	    isPlayer1Turn = true;
-	}
+        for (int i=0; i<players.size(); i++) {
+            if (players.get(i).isActive()) {
+                if (i==players.size()-1) {
+                    players.get(i).setActive(false);
+                    players.get(0).setActive(true);
+                } else {
+                    players.get(i).setActive(false);
+                    players.get(i+1).setActive(true);
+                }
+                break;
+            }
+        }
     }
 
     public void addListener(Listener listener) {
@@ -485,6 +503,7 @@ public class GameBoard implements Drawable
         int currentHpPlayer1 = player1.getHealth();
         int currentHpPlayer2 = player2.getHealth();
 
+        /*
         if (currentHpPlayer1 <= 0) {
             highscoreComponent.setWinner(player2);
             this.isGameOver = true;
@@ -492,6 +511,14 @@ public class GameBoard implements Drawable
             highscoreComponent.setWinner(player1);
             this.isGameOver = true;
         }
+        */
+
+        for (Player player : players) {
+            if (player.getHealth()==0) {
+                this.isGameOver = true;
+            }
+        }
+
         if (isGameOver) {
             StateList.getInstance().setFrameState(FrameState.HIGHSCORE);
         }
@@ -507,8 +534,9 @@ public class GameBoard implements Drawable
         Polygon polygon = new Polygon(XCOORDS, YCOORDS, XCOORDS.length);
         g2d.fillPolygon(polygon);
 
-        player1.draw(g2d);
-        player2.draw(g2d);
+        for (Player player : players) {
+            player.draw(g2d);
+        }
 
         for (Obstacle obstacle : obstacles) {
             obstacle.draw(g2d);

@@ -34,6 +34,8 @@ public class Player implements Collidable, Drawable
 
     private int health;
 
+    private boolean isActive;
+
     private Direction direction;
 
     private HealthBar healthBar;
@@ -52,6 +54,8 @@ public class Player implements Collidable, Drawable
         this.angle = angle;
 
         this.health = MAX_HP;
+
+        this.isActive = false;
 
         this.direction = direction;
 
@@ -106,6 +110,14 @@ public class Player implements Collidable, Drawable
     public void setHealth(final int health) {
         this.health = health;
         this.healthBar.updateHealthBar(this.health, this.xPos, this.yPos);
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(final boolean isActive) {
+        this.isActive = isActive;
     }
 
     public Direction getDirection() {
