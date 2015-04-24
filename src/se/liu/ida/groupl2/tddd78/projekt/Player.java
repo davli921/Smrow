@@ -144,9 +144,6 @@ public class Player implements Collidable, Drawable
         return HEIGHT;
     }
 
-    public double getAngle() {
-        return angle;
-    }
     // ------------------------------------------------------------------------//
 
     // Updates the image and set the joint of the currentWeapon at appropriate coords.
