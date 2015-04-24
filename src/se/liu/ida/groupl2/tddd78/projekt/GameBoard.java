@@ -248,6 +248,7 @@ public class GameBoard implements Drawable
         double xPos = getCurrentPlayer().getXPos();
         double middleXPos = getCurrentPlayer().getXPos()+Player.WIDTH /2;
         double gradient = getGradient(middleXPos);
+
         double angleInRadians = atan(gradient);
         double angleInDegrees = Math.toDegrees(angleInRadians);
 

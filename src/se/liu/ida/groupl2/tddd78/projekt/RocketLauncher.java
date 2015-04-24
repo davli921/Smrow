@@ -10,8 +10,9 @@ public class RocketLauncher extends Weapon
     final static int DMG = 30;
     final static int SPEED_CONSTANT = 20;
 
+
     public RocketLauncher(double direction) {
-	super(direction);
+        super(direction, "RocketLauncher");
     }
 
     public Projectile shoot() {

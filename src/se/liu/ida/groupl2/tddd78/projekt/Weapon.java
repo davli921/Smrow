@@ -23,11 +23,15 @@ public abstract class Weapon //implements Drawable
     // angle in degrees
     protected double power, angle;
 
+
+    protected String weaponName;
+
     private BufferedImage imgRight,imgLeft,currentImg;
 
-    protected Weapon(double angle) {
+    protected Weapon(double angle, String weaponName) {
         this.power = 0;
         this.angle = angle;
+        this.weaponName = weaponName;
 
         try {
             this.imgRight  = ImageIO.read(this.getClass().getResourceAsStream("resources/weaponLeft.png"));
@@ -39,6 +43,10 @@ public abstract class Weapon //implements Drawable
         // Assign the correct img to "currentImg":
         updateImg();
 
+    }
+
+    public String getWeaponName() {
+        return weaponName;
     }
 
     public double getAngle() {

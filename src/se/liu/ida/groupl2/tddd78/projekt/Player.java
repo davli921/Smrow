@@ -30,7 +30,7 @@ public class Player implements Collidable, Drawable
     private final static int WEAPONJOINTY_L =13;
 
     // Direction in degrees
-    private double xPos,yPos, angle,weaponJointX, weaponJointY;
+    private double xPos, yPos, angle, weaponJointX, weaponJointY;
 
     private int health;
 
@@ -144,6 +144,9 @@ public class Player implements Collidable, Drawable
         return HEIGHT;
     }
 
+    public double getAngle() {
+        return angle;
+    }
     // ------------------------------------------------------------------------//
 
     // Updates the image and set the joint of the currentWeapon at appropriate coords.

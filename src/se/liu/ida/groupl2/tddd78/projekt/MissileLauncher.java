@@ -11,7 +11,7 @@ public class MissileLauncher extends Weapon
     final static int SPEED_CONSTANT = 10;
 
     public MissileLauncher(double direction) {
-        super(direction);
+        super(direction, "MissileLauncher");
     }
 
     public Projectile shoot() {

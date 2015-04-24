@@ -31,6 +31,7 @@ public class StatusField implements Drawable
 	final int angleY = 60;
 	final int powerY = 80;
 	final int healthY = 100;
+	final int weaponY = 120;
 
 	// Places player1 stats to the far left and player2 stats to the far right.
 	// (Uses pointer comparison to make sure you've got the right object)
@@ -38,18 +39,21 @@ public class StatusField implements Drawable
 	    fieldX = 40;
 	    angle = (int) abs(player.getCurrentWeapon().getAngle() % 180);
 	} else {
-	    fieldX = 880;
+	    fieldX = 840;
 	    angle = (int) abs(player.getCurrentWeapon().getAngle() % 180 );
 	}
 
 	String weaponAngle = "Angle: " + angle;
 	String power = "Power: " + player.getCurrentWeapon().getPower();
 	String currentHP = "HP: " + player.getHealth();
+	String weapon = "Weapon: " + player.getCurrentWeapon().getWeaponName();
 
 	g2d.drawString(player.getName(), fieldX, nameY);
 	g2d.drawString(weaponAngle, fieldX, angleY);
 	g2d.drawString(power, fieldX, powerY);
 	g2d.drawString(currentHP, fieldX, healthY);
+	g2d.drawString(weapon, fieldX, weaponY);
+
     }
 
     public void draw(Graphics2D g2d) {
