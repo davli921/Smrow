@@ -20,22 +20,20 @@ public class HealthBar implements Drawable
 
     private int xPos,yPos,healthLostLength,playerWidth;
 
-    private Player player;
-
     private List<Rectangle> healthBar;
 
 
-    public HealthBar(Player player) {
-	this.player = player;
-	this.xPos = (int) player.getXPos();
-	this.yPos = (int) player.getYPos();
+    public HealthBar(double xPos, double yPos) {
+	this.xPos = (int) xPos;
+	this.yPos = (int) yPos;
 	// Length -1 so that it doesnt get painted.
 	this.healthLostLength = -1;
 	this.playerWidth = (int) Player.WIDTH;
 
 	this.healthBar = new ArrayList<>();
-	Rectangle fullHp = new Rectangle(xPos - LENGHT / 2 + playerWidth / 2, yPos - DIST_ABOVE_PLAYER, LENGHT, 5);
-	Rectangle healthLost = new Rectangle(xPos - LENGHT / 2 + playerWidth / 2, yPos - DIST_ABOVE_PLAYER, healthLostLength, 5);
+	Rectangle fullHp = new Rectangle(this.xPos - LENGHT / 2 + playerWidth / 2, this.yPos - DIST_ABOVE_PLAYER, LENGHT, 5);
+	Rectangle healthLost =
+		new Rectangle(this.xPos - LENGHT / 2 + playerWidth / 2, this.yPos - DIST_ABOVE_PLAYER, healthLostLength, 5);
 	healthBar.add(fullHp);
 	healthBar.add(healthLost);
     }
@@ -48,11 +46,10 @@ public class HealthBar implements Drawable
 	return healthBar.get(1);
     }
 
-    public void updateHealthBar() {
+    public void updateHealthBar(int health, double xPos, double yPos) {
 	int maxHp = Player.MAX_HP;
-	int health = player.getHealth();
-	this.xPos = (int) player.getXPos();
-	this.yPos = (int) player.getYPos();
+	this.xPos = (int) xPos;
+	this.yPos = (int) yPos;
 
 	double healthChange = (double) health / maxHp;
 
@@ -60,9 +57,9 @@ public class HealthBar implements Drawable
 	    this.healthLostLength = (int) ((1 - healthChange) * LENGHT);
 	}
 
-	Rectangle fullHp = new Rectangle(xPos - LENGHT / 2 + playerWidth / 2, yPos - DIST_ABOVE_PLAYER, LENGHT, 5);
+	Rectangle fullHp = new Rectangle(this.xPos - LENGHT / 2 + playerWidth / 2, this.yPos - DIST_ABOVE_PLAYER, LENGHT, 5);
 	Rectangle healthLost =
-		new Rectangle(xPos - LENGHT / 2 + playerWidth / 2, yPos - DIST_ABOVE_PLAYER, healthLostLength, 5);
+		new Rectangle(this.xPos - LENGHT / 2 + playerWidth / 2, this.yPos - DIST_ABOVE_PLAYER, healthLostLength, 5);
 
 	healthBar.clear();
 	healthBar.add(fullHp);

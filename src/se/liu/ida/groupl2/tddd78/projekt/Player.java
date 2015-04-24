@@ -55,7 +55,7 @@ public class Player implements Collidable, Drawable
 
         this.direction = direction;
 
-        this.healthBar = new HealthBar(this);
+        this.healthBar = new HealthBar(this.xPos, this.yPos);
 
         this.missileLauncher = new MissileLauncher(0);
         this.rocketLauncher = new RocketLauncher(0);
@@ -105,7 +105,7 @@ public class Player implements Collidable, Drawable
 
     public void setHealth(final int health) {
         this.health = health;
-        this.healthBar.updateHealthBar();
+        this.healthBar.updateHealthBar(this.health, this.xPos, this.yPos);
     }
 
     public Direction getDirection() {

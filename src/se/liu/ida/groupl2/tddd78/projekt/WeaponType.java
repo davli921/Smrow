@@ -6,5 +6,14 @@ package se.liu.ida.groupl2.tddd78.projekt;
 
 public enum WeaponType
 {
-    MISSILE_LAUNCHER, ROCKET_LAUNCHER
+    /**
+     * MissileLauncher
+     */
+    MISSILE_LAUNCHER,
+
+    /**
+     * RocketLauncher
+     */
+
+    ROCKET_LAUNCHER
 }

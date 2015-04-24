@@ -303,8 +303,9 @@ public class GameBoard implements Drawable
                 double yPos = getYCoord(newMiddleXPos);
                 currentPlayer.setXPos(xPos);
                 currentPlayer.setYPos(yPos - Player.HEIGHT);
-                
-                currentPlayer.getHealthBar().updateHealthBar();
+
+                currentPlayer.getHealthBar()
+                        .updateHealthBar(currentPlayer.getHealth(), currentPlayer.getXPos(), currentPlayer.getYPos());
             }
 
         }
