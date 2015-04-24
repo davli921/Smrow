@@ -61,6 +61,7 @@ public class GameBoard implements Drawable
 
     private List<Listener> listeners;
 
+    private List<Player> players;
     private List<Obstacle> obstacles;
 
     public GameBoard() {
@@ -76,6 +77,7 @@ public class GameBoard implements Drawable
         this.listeners = new ArrayList<>();
 
         this.obstacles = new ArrayList<>();
+        /*
         final int boxXPos1 = WIDTH/2 -150;
         addBox(boxXPos1,getYCoord(boxXPos1)-Box.HEIGHT);
         final int boxXPos2 = WIDTH/2 -150 + (int)Box.WIDTH;
@@ -85,8 +87,10 @@ public class GameBoard implements Drawable
         final int boxXPos4 = WIDTH/2 +100;
         addBox(boxXPos4, getYCoord(boxXPos4)-Box.HEIGHT);
         addBox(boxXPos4, getYCoord(boxXPos4)-Box.HEIGHT*2);
+        */
 
         // Player construction ------------------------------//
+        this.players = new ArrayList<>();
 
         // Start values for player1
         final double player1StartXPos = WIDTH / 10.0 - Player.WIDTH;
@@ -106,6 +110,9 @@ public class GameBoard implements Drawable
 
         // Set angle so that the players face eachother from the start
         player2.getCurrentWeapon().setAngle(180 + player2StartAngle);
+
+        this.players.add(player1);
+        this.players.add(player2);
 
         this.statusField = new StatusField(player1, player2);
         // -------------------------------------------------//
@@ -278,14 +285,10 @@ public class GameBoard implements Drawable
                 }
             }
 
-            // Check collision with the other player
+            // Check collision with the other players
             // (Compares pointers to make sure it is the same object)
-            if (currentPlayer == player1) {
-                if (willCollide(currentPlayer, direction, player2)) {
-                    freeToMove = false;
-                }
-            } else if (currentPlayer == player2) {
-                if (willCollide(currentPlayer, direction, player1)) {
+            for (int i=0;i<players.size();i++) {
+                if (players.get(i)!=currentPlayer && willCollide(currentPlayer,direction,players.get(i))) {
                     freeToMove = false;
                 }
             }
@@ -346,6 +349,15 @@ public class GameBoard implements Drawable
                 player2.setHealth(currentHp - dmg);
                 collision = true;
                 highscoreComponent.addP1Hits(1);
+            }
+
+            for (Player player : players) {
+                if (checkCollision(projectile,player)) {
+                    int currentHp = player.getHealth();
+                    int dmg = projectile.getDmg();
+                    player.setHealth(currentHp-dmg);
+                    collision = true;
+                }
             }
 
             if (collision) {
