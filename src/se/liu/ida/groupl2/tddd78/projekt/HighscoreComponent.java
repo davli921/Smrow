@@ -55,14 +55,14 @@ public class HighscoreComponent extends JComponent
 	float p1Accuracy = p1Hits/p1ShotsFired *100;
 	float p2Accuracy = p2Hits/p2ShotsFired *100;
 
-	final int xPosAccStat = 30;
+	final int xPosStat = 30;
 	final int winneryPos = 30;
 	final int p1yPosAccStat = 60;
 	final int p2yPosAccStat = 90;
 
 	g2d.setColor(Color.black);
-	g2d.drawString("Player: " + this.winner + " has won the game!", xPosAccStat, winneryPos);
-	g2d.drawString("Player1 Accuracy: " + p1Accuracy + "%",xPosAccStat,p1yPosAccStat);
-	g2d.drawString("Player2 Accuracy; " + p2Accuracy + "%", xPosAccStat,p2yPosAccStat);
+	g2d.drawString("Player: " + this.winner + " has won the game!", xPosStat, winneryPos);
+	g2d.drawString("Player1 Accuracy: " + p1Accuracy + "%",xPosStat,p1yPosAccStat);
+	g2d.drawString("Player2 Accuracy; " + p2Accuracy + "%", xPosStat,p2yPosAccStat);
     }
 }

@@ -55,7 +55,7 @@ public class GameBoard implements Drawable
 
     private StatusField statusField;
 
-    private boolean isPlayer1Turn, isBetweenTurns, isChargingWeapon, isGameOver;
+    private boolean isBetweenTurns, isChargingWeapon, isGameOver;
 
     private long startTime;
 
@@ -67,7 +67,6 @@ public class GameBoard implements Drawable
     public GameBoard() {
         this.projectile = null;
 
-        //this.isPlayer1Turn = true;
         this.isBetweenTurns = false;
         this.isChargingWeapon = false;
         this.isGameOver = false;
@@ -131,7 +130,6 @@ public class GameBoard implements Drawable
     }
 
     public Player getCurrentPlayer() {
-       	/*if (isPlayer1Turn) {return player1;} else {return player2;}*/
         Player currentPlayer = null;
         for (Player player : players) {
             if (player.isActive()) {
@@ -316,14 +314,15 @@ public class GameBoard implements Drawable
                 currentPlayer.setXPos(xPos);
                 currentPlayer.setYPos(yPos - Player.HEIGHT);
 
-                currentPlayer.getHealthBar()
-                        .updateHealthBar(currentPlayer.getHealth(), currentPlayer.getXPos(), currentPlayer.getYPos());
+                currentPlayer.getHealthBar().updateHealthBar(
+                        currentPlayer.getHealth(), currentPlayer.getXPos(), currentPlayer.getYPos());
             }
 
         }
         notifyListener();
     }
-    
+
+    // FIXA MED SKOTTLAGRING
     public void moveProjectile() {
         if (projectile != null) {
 
@@ -496,6 +495,7 @@ public class GameBoard implements Drawable
         listeners.forEach(Listener::update);
     }
 
+    // FIXA MED VEM SOM ÄR VINNARE
     public void checkGameOver() {
         StateList stateList = StateList.getInstance();
         HighscoreComponent highscoreComponent = stateList.getFrame().getHighscoreComponent();
@@ -516,8 +516,10 @@ public class GameBoard implements Drawable
         for (Player player : players) {
             if (player.getHealth()==0) {
                 this.isGameOver = true;
+
             }
         }
+        
 
         if (isGameOver) {
             StateList.getInstance().setFrameState(FrameState.HIGHSCORE);
