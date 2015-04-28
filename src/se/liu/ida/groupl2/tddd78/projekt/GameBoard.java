@@ -73,7 +73,7 @@ public class GameBoard implements Drawable
         this.listeners = new ArrayList<>();
 
         this.obstacles = new ArrayList<>();
-
+    /*
         final int boxXPos1 = WIDTH/2 -150;
         addBox(boxXPos1,getYCoord(boxXPos1)-Box.HEIGHT);
         final int boxXPos2 = WIDTH/2 -150 + (int)Box.WIDTH;
@@ -83,7 +83,7 @@ public class GameBoard implements Drawable
         final int boxXPos4 = WIDTH/2 +100;
         addBox(boxXPos4, getYCoord(boxXPos4)-Box.HEIGHT);
         addBox(boxXPos4, getYCoord(boxXPos4)-Box.HEIGHT*2);
-
+    */
 
         // Player construction ------------------------------//
         this.players = new ArrayList<>();
@@ -242,12 +242,7 @@ public class GameBoard implements Drawable
             StateList stateList = StateList.getInstance();
             HighscoreComponent highscoreComponent = stateList.getFrame().getHighscoreComponent();
 
-            // Intentional use of pointer comparison
-            if (currentPlayer == players.get(0)) {
-                highscoreComponent.addP1ShotsFired(1);
-            } else {
-                highscoreComponent.addP2ShotsFired(1);
-            }
+            highscoreComponent.addShotsFired(currentPlayer, 1);
         }
     }
 
@@ -359,7 +354,7 @@ public class GameBoard implements Drawable
                     int dmg = projectile.getDmg();
                     player.setHealth(currentHp-dmg);
                     collision = true;
-                    System.out.println(getCurrentPlayer().getName());
+                    highscoreComponent.addHits(this.getCurrentPlayer(), 1);
                 }
             }
 

@@ -2,6 +2,8 @@ package se.liu.ida.groupl2.tddd78.projekt;
 
 import javax.swing.JComponent;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Displays information about the game after it is finished.
@@ -12,27 +14,31 @@ public class HighscoreComponent extends JComponent
 
     final static int WIDTH = 300;
     final static int HEIGHT = 300;
-    private float p1ShotsFired, p1Hits, p2ShotsFired, p2Hits;
     private String winner;
+    private List<Player> players;
 
-    public HighscoreComponent() {
+    private HashMap<Player, Float> shotsFired = new HashMap<>();
+    private HashMap<Player, Float> hits = new HashMap<>();
+
+
+    public HighscoreComponent(List<Player> players) {
 	this.winner = null;
+	this.players = players;
+	for (Player player : players) {
+	    shotsFired.put(player, 0f);
+	    hits.put(player, 0f);
+	}
+
     }
 
-    public void addP1ShotsFired(final float p1ShotsFired) {
-	this.p1ShotsFired += p1ShotsFired;
+    public void addShotsFired(Player player, float shotsFired) {
+	float sumShotsFired = this.shotsFired.get(player) + shotsFired;
+	this.shotsFired.put(player, sumShotsFired);
     }
 
-    public void addP1Hits(final float p1Hits) {
-	this.p1Hits += p1Hits;
-    }
-
-    public void addP2ShotsFired(final float p2ShotsFired) {
-	this.p2ShotsFired += p2ShotsFired;
-    }
-
-    public void addP2Hits(final float p2Hits) {
-	this.p2Hits += p2Hits;
+    public void addHits(Player player, float hits) {
+	float sumHits = this.hits.get(player) + hits;
+	this.hits.put(player, sumHits);
     }
 
     public void setWinner(Player player) {
@@ -52,17 +58,20 @@ public class HighscoreComponent extends JComponent
     }
 
     private void paintStats(Graphics2D g2d){
-	float p1Accuracy = p1Hits/p1ShotsFired *100;
-	float p2Accuracy = p2Hits/p2ShotsFired *100;
-
 	final int xPosStat = 30;
 	final int winneryPos = 30;
-	final int p1yPosAccStat = 60;
-	final int p2yPosAccStat = 90;
 
 	g2d.setColor(Color.black);
 	g2d.drawString("Player: " + this.winner + " has won the game!", xPosStat, winneryPos);
-	g2d.drawString("Player1 Accuracy: " + p1Accuracy + "%",xPosStat,p1yPosAccStat);
-	g2d.drawString("Player2 Accuracy; " + p2Accuracy + "%", xPosStat,p2yPosAccStat);
+
+	for (int i = 0; i < players.size(); i++) {
+	    Player player = players.get(i);
+	    int yPosAccStat = 60 + 30 * i;
+	    String playerName = player.getName();
+	    float accuracy = 100 * (hits.get(player) / shotsFired.get(player));
+
+
+	    g2d.drawString("Player: " + playerName + " " + accuracy + "%", xPosStat, yPosAccStat);
+	}
     }
 }

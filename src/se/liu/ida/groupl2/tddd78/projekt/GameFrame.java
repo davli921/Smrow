@@ -29,7 +29,7 @@ public class GameFrame extends JFrame
 	this.gameBoard = new GameBoard();
 
 	this.gameComponent = new GameComponent(gameBoard);
-	this.highscoreComponent = new HighscoreComponent();
+	this.highscoreComponent = new HighscoreComponent(gameBoard.getPlayers());
 	this.menuComponent = new MenuComponent();
 	this.currentComponent = menuComponent;
 
