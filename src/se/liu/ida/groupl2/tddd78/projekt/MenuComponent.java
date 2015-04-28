@@ -59,13 +59,11 @@ public class MenuComponent extends JComponent
 		} else {
 		    stateList.getFrame().getGameBoard().getPlayers().get(playerNumber).setName(playerName);
 		}
-
-		}
 		this.playerNumber++;
-	    	if (playerNumber ==stateList.getFrame().getGameBoard().getPlayers().size()) {
-	    		    stateList.setFrameState(FrameState.GAME);
+		if (playerNumber ==stateList.getFrame().getGameBoard().getPlayers().size()) {
+		    stateList.setFrameState(FrameState.GAME);
+	    	}
 	    }
-
 	};
 
 	start.addActionListener(al);

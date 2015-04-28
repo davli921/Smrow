@@ -91,14 +91,14 @@ public class GameBoard implements Drawable
         // Start values for player1
         final double player1StartXPos = WIDTH / 10.0 - Player.WIDTH;
         final double player1StartAngle = Math.toDegrees(atan(getGradient(player1StartXPos)));
-        final double player1StartYPos = getYCoord(player1StartXPos) - Player.HEIGHT;
+        final double player1StartYPos = getYCoord(player1StartXPos+Player.WIDTH/2) - Player.HEIGHT;
 
         Player player1 = new Player(player1StartXPos, player1StartYPos, player1StartAngle,Direction.RIGHT);
 
         // Start values for player2
         final double player2StartXPos = WIDTH - WIDTH / 10.0;
         final double player2StartAngle = Math.toDegrees(atan(getGradient(player2StartXPos)));
-        final double player2StartYPos = getYCoord(player2StartXPos) -Player.HEIGHT;
+        final double player2StartYPos = getYCoord(player2StartXPos+Player.WIDTH/2) -Player.HEIGHT;
 
         Player player2 = new Player(player2StartXPos, player2StartYPos, player2StartAngle, Direction.LEFT);
 
@@ -108,7 +108,7 @@ public class GameBoard implements Drawable
         this.players.add(player1);
         this.players.add(player2);
 
-        players.get(0).setActive(true);
+        players.get(0).setIsActive(true);
 
         this.statusField = new StatusField(players);
         // -------------------------------------------------//
@@ -119,7 +119,7 @@ public class GameBoard implements Drawable
     public Player getCurrentPlayer() {
         Player currentPlayer = null;
         for (Player player : players) {
-            if (player.isActive()) {
+            if (player.getIsActive()) {
                 currentPlayer = player;
             }
         }
@@ -449,13 +449,13 @@ public class GameBoard implements Drawable
 
     public void nextTurn() {
         for (int i=0; i<players.size(); i++) {
-            if (players.get(i).isActive()) {
+            if (players.get(i).getIsActive()) {
                 if (i==players.size()-1) {
-                    players.get(i).setActive(false);
-                    players.get(0).setActive(true);
+                    players.get(i).setIsActive(false);
+                    players.get(0).setIsActive(true);
                 } else {
-                    players.get(i).setActive(false);
-                    players.get(i+1).setActive(true);
+                    players.get(i).setIsActive(false);
+                    players.get(i+1).setIsActive(true);
                 }
                 break;
             }

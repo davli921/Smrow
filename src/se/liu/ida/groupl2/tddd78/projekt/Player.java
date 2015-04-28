@@ -116,11 +116,11 @@ public class Player implements Collidable, Drawable
         this.healthBar.updateHealthBar(this.health, this.xPos, this.yPos);
     }
 
-    public boolean isActive() {
+    public boolean getIsActive() {
         return isActive;
     }
 
-    public void setActive(final boolean isActive) {
+    public void setIsActive(final boolean isActive) {
         this.isActive = isActive;
     }
 

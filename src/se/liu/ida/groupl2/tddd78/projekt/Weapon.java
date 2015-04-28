@@ -12,7 +12,7 @@ import java.io.IOException;
  * The shoot function is realised in the subclass and is where the weapon creates an projectile and gives the properties to the projectile.
  */
 
-public abstract class Weapon //implements Drawable
+public abstract class Weapon
 {
 
     protected static final int MAX_POWER = 100;

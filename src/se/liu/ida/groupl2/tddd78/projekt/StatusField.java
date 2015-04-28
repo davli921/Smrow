@@ -52,7 +52,7 @@ public class StatusField implements Drawable
 
 
 	for (Player player : players) {
-	    if (player.isActive()) {
+	    if (player.getIsActive()) {
 		drawPlayerStats(g2d, player);
 	    }
 	}

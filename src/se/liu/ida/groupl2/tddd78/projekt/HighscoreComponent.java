@@ -24,8 +24,8 @@ public class HighscoreComponent extends JComponent
 	this.winner = null;
 	this.players = players;
 	for (Player player : players) {
-	    shotsFired.put(player, 0f);
-	    hits.put(player, 0f);
+	    shotsFired.put(player, 0.0f);
+	    hits.put(player, 0.0f);
 	}
 
     }
@@ -59,13 +59,15 @@ public class HighscoreComponent extends JComponent
     private void paintStats(Graphics2D g2d){
 	final int xPosStat = 30;
 	final int winneryPos = 30;
+	final int deltaYPos = 30;
+	int yPosAccStat = 60;
 
 	g2d.setColor(Color.black);
 	g2d.drawString("Player: " + this.winner + " has won the game!", xPosStat, winneryPos);
 
 	for (int i = 0; i < players.size(); i++) {
 	    Player player = players.get(i);
-	    int yPosAccStat = 60 + 30 * i;
+	    yPosAccStat += deltaYPos * i;
 	    String playerName = player.getName();
 	    float accuracy = 100 * (hits.get(player) / shotsFired.get(player));
 
