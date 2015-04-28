@@ -73,7 +73,7 @@ public class GameBoard implements Drawable
         this.listeners = new ArrayList<>();
 
         this.obstacles = new ArrayList<>();
-    /*
+
         final int boxXPos1 = WIDTH/2 -150;
         addBox(boxXPos1,getYCoord(boxXPos1)-Box.HEIGHT);
         final int boxXPos2 = WIDTH/2 -150 + (int)Box.WIDTH;
@@ -83,7 +83,7 @@ public class GameBoard implements Drawable
         final int boxXPos4 = WIDTH/2 +100;
         addBox(boxXPos4, getYCoord(boxXPos4)-Box.HEIGHT);
         addBox(boxXPos4, getYCoord(boxXPos4)-Box.HEIGHT*2);
-    */
+
 
         // Player construction ------------------------------//
         this.players = new ArrayList<>();
@@ -91,16 +91,14 @@ public class GameBoard implements Drawable
         // Start values for player1
         final double player1StartXPos = WIDTH / 10.0 - Player.WIDTH;
         final double player1StartAngle = Math.toDegrees(atan(getGradient(player1StartXPos)));
-        final double player1StartYPos = GROUNDLEVEL -Player.HEIGHT + (player1StartXPos +Player.WIDTH/2)*Math.tan(
-                toRadians(player1StartAngle));
+        final double player1StartYPos = getYCoord(player1StartXPos) - Player.HEIGHT;
 
         Player player1 = new Player(player1StartXPos, player1StartYPos, player1StartAngle,Direction.RIGHT);
 
         // Start values for player2
         final double player2StartXPos = WIDTH - WIDTH / 10.0;
         final double player2StartAngle = Math.toDegrees(atan(getGradient(player2StartXPos)));
-        final double player2StartYPos = GROUNDLEVEL -Player.HEIGHT -(WIDTH-(player2StartXPos +Player.WIDTH/2))*Math.tan(
-                toRadians(player2StartAngle));
+        final double player2StartYPos = getYCoord(player2StartXPos) -Player.HEIGHT;
 
         Player player2 = new Player(player2StartXPos, player2StartYPos, player2StartAngle, Direction.LEFT);
 
@@ -331,22 +329,6 @@ public class GameBoard implements Drawable
             if (outOfBounds(projectile)) {
                 collision = true;
             }
-            /*
-            // If collision with player, deal damage.
-            else if (checkCollision(projectile, player1)) {
-                int currentHp = player1.getHealth();
-                int dmg = projectile.getDmg();
-                player1.setHealth(currentHp - dmg);
-                collision = true;
-                highscoreComponent.addP2Hits(1);
-            } else if (checkCollision(projectile, player2)) {
-                int currentHp = player2.getHealth();
-                int dmg = projectile.getDmg();
-                player2.setHealth(currentHp - dmg);
-                collision = true;
-                highscoreComponent.addP1Hits(1);
-            }
-            */
 
             for (Player player : players) {
                 if (checkCollision(projectile,player)) {

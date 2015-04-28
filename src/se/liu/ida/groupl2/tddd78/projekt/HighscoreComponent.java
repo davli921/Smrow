@@ -20,7 +20,6 @@ public class HighscoreComponent extends JComponent
     private HashMap<Player, Float> shotsFired = new HashMap<>();
     private HashMap<Player, Float> hits = new HashMap<>();
 
-
     public HighscoreComponent(List<Player> players) {
 	this.winner = null;
 	this.players = players;

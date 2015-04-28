@@ -18,6 +18,8 @@ import java.awt.event.ActionListener;
 public class MenuComponent extends JComponent
 {
 
+    private int n = 0;
+
     public MenuComponent() {
 
 	final int textFieldWidth = 105;
@@ -45,11 +47,13 @@ public class MenuComponent extends JComponent
 	    } else if (e.getSource().equals(quit)) {
 		System.exit(0);
 	    }
+
+	    /*
 	    // The following branches sets player#:s name to
 	    // the text "in textField"
 	    else if (e.getSource().equals(enter) && textLabel.getText().equals("Player 1")) {
 		String player1Name = textField.getText();
-		textLabel.setText("Player2");
+		textLabel.setText("Player 2");
 		textField.setText("");
 		textField.requestFocus();
 
@@ -70,6 +74,27 @@ public class MenuComponent extends JComponent
 		}
 		stateList.setFrameState(FrameState.GAME);
 	    }
+	    */
+
+	    else if (e.getSource().equals(enter)) {
+		String playerName = textField.getText();
+		if (n==stateList.getFrame().getGameBoard().getPlayers().size()) {
+		    stateList.setFrameState(FrameState.GAME);
+		} else {
+		    textLabel.setText("Player " +(n+2));
+		    textField.setText("");
+		    textField.requestFocus();
+
+		    if (playerName.isEmpty()) {
+			stateList.getFrame().getGameBoard().getPlayers().get(n).setName("Player " +(n+1));
+		    } else {
+			stateList.getFrame().getGameBoard().getPlayers().get(n).setName(playerName);
+		    }
+
+		}
+		this.n++;
+	    }
+
 	};
 
 	start.addActionListener(al);
