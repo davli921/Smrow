@@ -1,6 +1,8 @@
 package se.liu.ida.groupl2.tddd78.projekt;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.util.List;
 
 import static java.lang.Math.abs;
 
@@ -14,34 +16,23 @@ public class StatusField implements Drawable
 
     final static Color TEXTCOLOR = Color.BLACK;
 
-    private Player player1, player2;
+    private List<Player> players;
 
-    public StatusField(Player player1, Player player2) {
-	this.player1 = player1;
-	this.player2 = player2;
+    public StatusField(List<Player> players) {
+	this.players = players;
     }
 
     //-------- WORK IN PROGRESS -------------/
 
     private void drawPlayerStats(Graphics2D g2d, Player player) {
-	int fieldX;
-	int angle;
+	int fieldX = GameBoard.WIDTH/2 -100;
+	int angle = (int) abs(player.getCurrentWeapon().getAngle() % 180 );
 
 	final int nameY = 40;
 	final int angleY = 60;
 	final int powerY = 80;
 	final int healthY = 100;
 	final int weaponY = 120;
-
-	// Places player1 stats to the far left and player2 stats to the far right.
-	// (Uses pointer comparison to make sure you've got the right object)
-	if (player == player1) {
-	    fieldX = 40;
-	    angle = (int) abs(player.getCurrentWeapon().getAngle() % 180);
-	} else {
-	    fieldX = 840;
-	    angle = (int) abs(player.getCurrentWeapon().getAngle() % 180 );
-	}
 
 	String weaponAngle = "Angle: " + angle;
 	String power = "Power: " + player.getCurrentWeapon().getPower();
@@ -59,7 +50,11 @@ public class StatusField implements Drawable
     public void draw(Graphics2D g2d) {
 	g2d.setColor(TEXTCOLOR);
 
-	drawPlayerStats(g2d,player1);
-	drawPlayerStats(g2d,player2);
+
+	for (Player player : players) {
+	    if (player.isActive()) {
+		drawPlayerStats(g2d, player);
+	    }
+	}
     }
 }

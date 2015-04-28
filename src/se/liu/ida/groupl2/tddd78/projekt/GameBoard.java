@@ -50,9 +50,6 @@ public class GameBoard implements Drawable
     // One projectile at the time since it is turn-based
     private Projectile projectile;
 
-    private Player player1;
-    private Player player2;
-
     private StatusField statusField;
 
     private boolean isBetweenTurns, isChargingWeapon, isGameOver;
@@ -76,7 +73,7 @@ public class GameBoard implements Drawable
         this.listeners = new ArrayList<>();
 
         this.obstacles = new ArrayList<>();
-        /*
+
         final int boxXPos1 = WIDTH/2 -150;
         addBox(boxXPos1,getYCoord(boxXPos1)-Box.HEIGHT);
         final int boxXPos2 = WIDTH/2 -150 + (int)Box.WIDTH;
@@ -86,7 +83,7 @@ public class GameBoard implements Drawable
         final int boxXPos4 = WIDTH/2 +100;
         addBox(boxXPos4, getYCoord(boxXPos4)-Box.HEIGHT);
         addBox(boxXPos4, getYCoord(boxXPos4)-Box.HEIGHT*2);
-        */
+
 
         // Player construction ------------------------------//
         this.players = new ArrayList<>();
@@ -97,7 +94,7 @@ public class GameBoard implements Drawable
         final double player1StartYPos = GROUNDLEVEL -Player.HEIGHT + (player1StartXPos +Player.WIDTH/2)*Math.tan(
                 toRadians(player1StartAngle));
 
-        this.player1 = new Player(player1StartXPos, player1StartYPos, player1StartAngle,Direction.RIGHT);
+        Player player1 = new Player(player1StartXPos, player1StartYPos, player1StartAngle,Direction.RIGHT);
 
         // Start values for player2
         final double player2StartXPos = WIDTH - WIDTH / 10.0;
@@ -105,7 +102,7 @@ public class GameBoard implements Drawable
         final double player2StartYPos = GROUNDLEVEL -Player.HEIGHT -(WIDTH-(player2StartXPos +Player.WIDTH/2))*Math.tan(
                 toRadians(player2StartAngle));
 
-        this.player2 = new Player(player2StartXPos, player2StartYPos, player2StartAngle, Direction.LEFT);
+        Player player2 = new Player(player2StartXPos, player2StartYPos, player2StartAngle, Direction.LEFT);
 
         // Set angle so that the players face eachother from the start
         player2.getCurrentWeapon().setAngle(180 + player2StartAngle);
@@ -115,19 +112,11 @@ public class GameBoard implements Drawable
 
         players.get(0).setActive(true);
 
-        this.statusField = new StatusField(player1, player2);
+        this.statusField = new StatusField(players);
         // -------------------------------------------------//
     }
 
     // GETTERS & SETTERS ----------------------------------//
-
-    public Player getPlayer1() {
-	return player1;
-    }
-
-    public Player getPlayer2() {
-	return player2;
-    }
 
     public Player getCurrentPlayer() {
         Player currentPlayer = null;
@@ -137,6 +126,10 @@ public class GameBoard implements Drawable
             }
         }
         return currentPlayer;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
     }
 
     public void setIsChargingWeapon(final boolean isChargingWeapon) {
@@ -250,7 +243,7 @@ public class GameBoard implements Drawable
             HighscoreComponent highscoreComponent = stateList.getFrame().getHighscoreComponent();
 
             // Intentional use of pointer comparison
-            if (currentPlayer == player1) {
+            if (currentPlayer == players.get(0)) {
                 highscoreComponent.addP1ShotsFired(1);
             } else {
                 highscoreComponent.addP2ShotsFired(1);
@@ -266,19 +259,18 @@ public class GameBoard implements Drawable
         double angleInRadians = atan(gradient);
         double angleInDegrees = Math.toDegrees(angleInRadians);
 
-        getCurrentPlayer().setAngle(angleInDegrees);
-        getCurrentPlayer().setDirection(direction);
-
-        // Enables the player to turn on the spot.
-        getCurrentPlayer().updateImg(direction);
-        if (direction.equals(Direction.RIGHT)) {
-            getCurrentPlayer().getCurrentWeapon().setAngle(angleInDegrees);
-        } else if (direction.equals(Direction.LEFT)) {
-            getCurrentPlayer().getCurrentWeapon().setAngle(180 + angleInDegrees);
-        }
-
-
         if (!isBetweenTurns && !isChargingWeapon) {
+
+            getCurrentPlayer().setAngle(angleInDegrees);
+            getCurrentPlayer().setDirection(direction);
+
+            // Enables the player to turn on the spot.
+            getCurrentPlayer().updateImg(direction);
+            if (direction.equals(Direction.RIGHT)) {
+                getCurrentPlayer().getCurrentWeapon().setAngle(angleInDegrees);
+            } else if (direction.equals(Direction.LEFT)) {
+                getCurrentPlayer().getCurrentWeapon().setAngle(180 + angleInDegrees);
+            }
 
             Player currentPlayer = getCurrentPlayer();
 
@@ -367,6 +359,7 @@ public class GameBoard implements Drawable
                     int dmg = projectile.getDmg();
                     player.setHealth(currentHp-dmg);
                     collision = true;
+                    System.out.println(getCurrentPlayer().getName());
                 }
             }
 
@@ -500,26 +493,21 @@ public class GameBoard implements Drawable
         StateList stateList = StateList.getInstance();
         HighscoreComponent highscoreComponent = stateList.getFrame().getHighscoreComponent();
 
-        int currentHpPlayer1 = player1.getHealth();
-        int currentHpPlayer2 = player2.getHealth();
-
-        /*
-        if (currentHpPlayer1 <= 0) {
-            highscoreComponent.setWinner(player2);
-            this.isGameOver = true;
-        } else if (currentHpPlayer2 <= 0) {
-            highscoreComponent.setWinner(player1);
-            this.isGameOver = true;
-        }
-        */
-
         for (Player player : players) {
             if (player.getHealth()==0) {
                 this.isGameOver = true;
-
             }
         }
-        
+
+        Player winner = players.get(0);
+        int winnerHP = 0;
+        for (Player player : players) {
+            if (player.getHealth()>winnerHP) {
+                winnerHP = player.getHealth();
+                winner = player;
+            }
+        }
+        highscoreComponent.setWinner(winner);
 
         if (isGameOver) {
             StateList.getInstance().setFrameState(FrameState.HIGHSCORE);
@@ -546,7 +534,6 @@ public class GameBoard implements Drawable
 
         if (projectile != null) {projectile.draw(g2d);}
 
-        statusField.draw(g2d);
         statusField.draw(g2d);
     }
 

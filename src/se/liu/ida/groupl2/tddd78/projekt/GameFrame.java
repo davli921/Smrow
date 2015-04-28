@@ -76,14 +76,14 @@ public class GameFrame extends JFrame
 	    if (e.getSource().equals(restart)) {
 		StateList sList = StateList.getInstance();
 
-		String p1Name = gameBoard.getPlayer1().getName();
-		String p2Name = gameBoard.getPlayer2().getName();
+		String p1Name = gameBoard.getPlayers().get(0).getName();
+		String p2Name = gameBoard.getPlayers().get(1).getName();
 
 		GameBoard gameBoard = new GameBoard();
 		this.gameBoard = gameBoard;
 
-		this.gameBoard.getPlayer1().setName(p1Name);
-		this.gameBoard.getPlayer2().setName(p2Name);
+		this.gameBoard.getPlayers().get(0).setName(p1Name);
+		this.gameBoard.getPlayers().get(1).setName(p2Name);
 
 		this.gameComponent = new GameComponent(gameBoard);
 

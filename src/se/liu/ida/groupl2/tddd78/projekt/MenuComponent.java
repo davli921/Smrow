@@ -1,8 +1,13 @@
 package se.liu.ida.groupl2.tddd78.projekt;
 
 import net.miginfocom.swing.MigLayout;
-import javax.swing.*;
-import java.awt.*;
+
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import java.awt.Dimension;
+import java.util.List;
 import java.awt.event.ActionListener;
 
 /**
@@ -23,7 +28,7 @@ public class MenuComponent extends JComponent
 	JButton start = new JButton("Start");
 	JButton quit = new JButton("Quit");
 
-	JLabel textLabel = new JLabel("Player1");
+	JLabel textLabel = new JLabel("Player 1");
 	JTextField textField = new JTextField();
 	Dimension textDim = new Dimension(textFieldWidth, textFieldHeight);
 	textField.setPreferredSize(textDim);
@@ -33,33 +38,35 @@ public class MenuComponent extends JComponent
 	    StateList stateList = StateList.getInstance();
 	    if (e.getSource().equals(start)) {
 		stateList.setFrameState(FrameState.GAME);
-		stateList.getFrame().getGameBoard().getPlayer1().setName("Player1");
-		stateList.getFrame().getGameBoard().getPlayer2().setName("Player2");
+		List<Player> players = stateList.getFrame().getGameBoard().getPlayers();
+		for (int i=0; i<players.size(); i++) {
+		    players.get(i).setName("Player " + (i+1));
+		}
 	    } else if (e.getSource().equals(quit)) {
 		System.exit(0);
 	    }
 	    // The following branches sets player#:s name to
 	    // the text "in textField"
-	    else if (e.getSource().equals(enter) && textLabel.getText().equals("Player1")) {
+	    else if (e.getSource().equals(enter) && textLabel.getText().equals("Player 1")) {
 		String player1Name = textField.getText();
 		textLabel.setText("Player2");
 		textField.setText("");
 		textField.requestFocus();
 
 		if (player1Name.isEmpty()) {
-		    stateList.getFrame().getGameBoard().getPlayer1().setName("Player1");
+		    stateList.getFrame().getGameBoard().getPlayers().get(0).setName("Player1");
 		} else {
-		    stateList.getFrame().getGameBoard().getPlayer1().setName(player1Name);
+		    stateList.getFrame().getGameBoard().getPlayers().get(0).setName(player1Name);
 		}
 	    }
 
-	    else if (e.getSource().equals(enter) && textLabel.getText().equals("Player2")) {
+	    else if (e.getSource().equals(enter) && textLabel.getText().equals("Player 2")) {
 		String player2Name = textField.getText();
 
 		if (player2Name.isEmpty()) {
-		    stateList.getFrame().getGameBoard().getPlayer2().setName("Player2");
+		    stateList.getFrame().getGameBoard().getPlayers().get(1).setName("Player 2");
 		} else {
-		    stateList.getFrame().getGameBoard().getPlayer2().setName(player2Name);
+		    stateList.getFrame().getGameBoard().getPlayers().get(1).setName(player2Name);
 		}
 		stateList.setFrameState(FrameState.GAME);
 	    }
