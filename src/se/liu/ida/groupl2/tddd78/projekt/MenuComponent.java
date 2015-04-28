@@ -18,7 +18,7 @@ import java.awt.event.ActionListener;
 public class MenuComponent extends JComponent
 {
 
-    private int n = 0;
+    private int playerNumber = 0;
 
     public MenuComponent() {
 
@@ -48,51 +48,22 @@ public class MenuComponent extends JComponent
 		System.exit(0);
 	    }
 
-	    /*
-	    // The following branches sets player#:s name to
-	    // the text "in textField"
-	    else if (e.getSource().equals(enter) && textLabel.getText().equals("Player 1")) {
-		String player1Name = textField.getText();
-		textLabel.setText("Player 2");
+	    else if (e.getSource().equals(enter)) {
+		String playerName = textField.getText();
+		textLabel.setText("Player " +(playerNumber +2));
 		textField.setText("");
 		textField.requestFocus();
 
-		if (player1Name.isEmpty()) {
-		    stateList.getFrame().getGameBoard().getPlayers().get(0).setName("Player1");
+		if (playerName.isEmpty()) {
+		    stateList.getFrame().getGameBoard().getPlayers().get(playerNumber).setName("Player " +(playerNumber +1));
 		} else {
-		    stateList.getFrame().getGameBoard().getPlayers().get(0).setName(player1Name);
+		    stateList.getFrame().getGameBoard().getPlayers().get(playerNumber).setName(playerName);
 		}
-	    }
-
-	    else if (e.getSource().equals(enter) && textLabel.getText().equals("Player 2")) {
-		String player2Name = textField.getText();
-
-		if (player2Name.isEmpty()) {
-		    stateList.getFrame().getGameBoard().getPlayers().get(1).setName("Player 2");
-		} else {
-		    stateList.getFrame().getGameBoard().getPlayers().get(1).setName(player2Name);
-		}
-		stateList.setFrameState(FrameState.GAME);
-	    }
-	    */
-
-	    else if (e.getSource().equals(enter)) {
-		String playerName = textField.getText();
-		if (n==stateList.getFrame().getGameBoard().getPlayers().size()) {
-		    stateList.setFrameState(FrameState.GAME);
-		} else {
-		    textLabel.setText("Player " +(n+2));
-		    textField.setText("");
-		    textField.requestFocus();
-
-		    if (playerName.isEmpty()) {
-			stateList.getFrame().getGameBoard().getPlayers().get(n).setName("Player " +(n+1));
-		    } else {
-			stateList.getFrame().getGameBoard().getPlayers().get(n).setName(playerName);
-		    }
 
 		}
-		this.n++;
+		this.playerNumber++;
+	    	if (playerNumber ==stateList.getFrame().getGameBoard().getPlayers().size()) {
+	    		    stateList.setFrameState(FrameState.GAME);
 	    }
 
 	};

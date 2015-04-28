@@ -95,6 +95,10 @@ public class Player implements Collidable, Drawable
         this.yPos = yPos;
     }
 
+    public double getAngle() {
+        return this.angle;
+    }
+
     public void setAngle(final double angle) {
         this.angle = angle;
     }

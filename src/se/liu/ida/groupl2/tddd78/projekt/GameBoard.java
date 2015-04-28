@@ -192,23 +192,28 @@ public class GameBoard implements Drawable
 
     // Changes the weapon angle.
     public void rotateWeapon(Direction direction) {
-            Weapon weapon = getCurrentPlayer().getCurrentWeapon();
-            Double angle = weapon.getAngle();
+        Weapon weapon = getCurrentPlayer().getCurrentWeapon();
+        Double weaponAngle = weapon.getAngle();
+        Double playerAngle = getCurrentPlayer().getAngle();
+        Double deltaAngle = playerAngle -weaponAngle;
+        //System.out.println("W:"+weaponAngle + "  P"+playerAngle + "  D"+deltaAngle);
 
             if (!isBetweenTurns && !isChargingWeapon) {
 
+                // Fixed limits so it is not possible to aim in akward angles.
+                // Aim between -10degrees from horizontal and vertical axels.
                 if (direction.equals(Direction.UP)) {
-                    if (getCurrentPlayer().getDirection().equals(Direction.RIGHT)) {
-                        weapon.setAngle(angle - 1);
-                    } else if (getCurrentPlayer().getDirection().equals(Direction.LEFT)) {
-                        weapon.setAngle(angle + 1);
+                    if (getCurrentPlayer().getDirection().equals(Direction.RIGHT) && deltaAngle>=-10 && deltaAngle<80) {
+                        weapon.setAngle(weaponAngle - 1);
+                    } else if (getCurrentPlayer().getDirection().equals(Direction.LEFT) && deltaAngle >-260 && deltaAngle <=-170) {
+                        weapon.setAngle(weaponAngle + 1);
                     }
 
                 } else if (direction.equals(Direction.DOWN)) {
-                    if (getCurrentPlayer().getDirection().equals(Direction.RIGHT)) {
-                        weapon.setAngle(angle + 1);
-                    } else if (getCurrentPlayer().getDirection().equals(Direction.LEFT)) {
-                        weapon.setAngle(angle - 1);
+                    if (getCurrentPlayer().getDirection().equals(Direction.RIGHT) && deltaAngle>-10 && deltaAngle<=80) {
+                        weapon.setAngle(weaponAngle + 1);
+                    } else if (getCurrentPlayer().getDirection().equals(Direction.LEFT) && deltaAngle >=-260 && deltaAngle < -170) {
+                        weapon.setAngle(weaponAngle - 1);
                     }
                 }
                 notifyListener();
