@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>se.liu.ida.groupl2.tddd78.projekt.Projectile</OriginalElement>
+  <nodes>
+    <node x="48.25" y="31.5">se.liu.ida.groupl2.tddd78.projekt.Drawable</node>
+    <node x="268.0" y="619.0">se.liu.ida.groupl2.tddd78.projekt.Rocket</node>
+    <node x="261.25" y="0.0">se.liu.ida.groupl2.tddd78.projekt.Collidable</node>
+    <node x="24.0" y="162.0">se.liu.ida.groupl2.tddd78.projekt.Projectile</node>
+    <node x="0.0" y="619.0">se.liu.ida.groupl2.tddd78.projekt.Missile</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="se.liu.ida.groupl2.tddd78.projekt.Missile" target="se.liu.ida.groupl2.tddd78.projekt.Projectile">
+      <point x="0.0" y="-88.0" />
+      <point x="124.0" y="594.0" />
+      <point x="141.0" y="594.0" />
+      <point x="-117.0" y="203.5" />
+    </edge>
+    <edge source="se.liu.ida.groupl2.tddd78.projekt.Projectile" target="se.liu.ida.groupl2.tddd78.projekt.Collidable">
+      <point x="117.0" y="-203.5" />
+      <point x="375.0" y="137.0" />
+      <point x="371.25" y="137.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="se.liu.ida.groupl2.tddd78.projekt.Rocket" target="se.liu.ida.groupl2.tddd78.projekt.Projectile">
+      <point x="0.0" y="-88.0" />
+      <point x="392.0" y="594.0" />
+      <point x="375.0" y="594.0" />
+      <point x="117.0" y="203.5" />
+    </edge>
+    <edge source="se.liu.ida.groupl2.tddd78.projekt.Projectile" target="se.liu.ida.groupl2.tddd78.projekt.Drawable">
+      <point x="-117.0" y="-203.5" />
+      <point x="141.0" y="137.0" />
+      <point x="144.75" y="137.0" />
+      <point x="0.0" y="24.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="101.5" y="281.5" />
+  <SelectedNodes>
+    <node>se.liu.ida.groupl2.tddd78.projekt.Rocket</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

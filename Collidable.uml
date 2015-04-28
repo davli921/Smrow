@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>se.liu.ida.groupl2.tddd78.projekt.Collidable</OriginalElement>
+  <nodes>
+    <node x="238.60714285714286" y="78.0">se.liu.ida.groupl2.tddd78.projekt.Obstacle</node>
+    <node x="92.99999999999999" y="156.0">se.liu.ida.groupl2.tddd78.projekt.Rocket</node>
+    <node x="137.5" y="0.0">se.liu.ida.groupl2.tddd78.projekt.Collidable</node>
+    <node x="148.60714285714286" y="78.0">se.liu.ida.groupl2.tddd78.projekt.Player</node>
+    <node x="38.60714285714286" y="78.0">se.liu.ida.groupl2.tddd78.projekt.Projectile</node>
+    <node x="255.10714285714286" y="156.0">se.liu.ida.groupl2.tddd78.projekt.Box</node>
+    <node x="0.0" y="156.0">se.liu.ida.groupl2.tddd78.projekt.Missile</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="se.liu.ida.groupl2.tddd78.projekt.Missile" target="se.liu.ida.groupl2.tddd78.projekt.Projectile">
+      <point x="0.0" y="-14.0" />
+      <point x="36.5" y="131.0" />
+      <point x="61.10714285714286" y="131.0" />
+      <point x="-22.5" y="14.0" />
+    </edge>
+    <edge source="se.liu.ida.groupl2.tddd78.projekt.Player" target="se.liu.ida.groupl2.tddd78.projekt.Collidable">
+      <point x="0.0" y="-14.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="se.liu.ida.groupl2.tddd78.projekt.Projectile" target="se.liu.ida.groupl2.tddd78.projekt.Collidable">
+      <point x="0.0" y="-14.0" />
+      <point x="83.60714285714286" y="53.0" />
+      <point x="152.83333333333331" y="53.0" />
+      <point x="-30.666666666666657" y="14.0" />
+    </edge>
+    <edge source="se.liu.ida.groupl2.tddd78.projekt.Rocket" target="se.liu.ida.groupl2.tddd78.projekt.Projectile">
+      <point x="0.0" y="-14.0" />
+      <point x="130.5" y="131.0" />
+      <point x="106.10714285714286" y="131.0" />
+      <point x="22.5" y="14.0" />
+    </edge>
+    <edge source="se.liu.ida.groupl2.tddd78.projekt.Box" target="se.liu.ida.groupl2.tddd78.projekt.Obstacle">
+      <point x="0.0" y="-14.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="se.liu.ida.groupl2.tddd78.projekt.Obstacle" target="se.liu.ida.groupl2.tddd78.projekt.Collidable">
+      <point x="0.0" y="-14.0" />
+      <point x="282.1071428571429" y="53.0" />
+      <point x="214.16666666666669" y="53.0" />
+      <point x="30.666666666666686" y="14.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="46.0" y="14.0" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
