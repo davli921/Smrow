@@ -90,14 +90,14 @@ public class GameBoard implements Drawable
         // Start values for player1
         final double player1StartXPos = WIDTH / 10.0 - Player.WIDTH;
         final double player1StartAngle = Math.toDegrees(atan(getGradient(player1StartXPos)));
-        final double player1StartYPos = getYCoord(player1StartXPos+Player.WIDTH/2) - Player.HEIGHT;
+        final double player1StartYPos = getYCoord(player1StartXPos + Player.WIDTH / 2) - Player.HEIGHT;
 
         Player player1 = new Player(player1StartXPos, player1StartYPos, player1StartAngle,Direction.RIGHT);
 
         // Start values for player2
         final double player2StartXPos = WIDTH - WIDTH / 10.0;
         final double player2StartAngle = Math.toDegrees(atan(getGradient(player2StartXPos)));
-        final double player2StartYPos = getYCoord(player2StartXPos+Player.WIDTH/2) -Player.HEIGHT;
+        final double player2StartYPos = getYCoord(player2StartXPos + Player.WIDTH / 2) - Player.HEIGHT;
 
         Player player2 = new Player(player2StartXPos, player2StartYPos, player2StartAngle, Direction.LEFT);
 

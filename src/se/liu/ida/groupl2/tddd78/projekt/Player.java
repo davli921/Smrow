@@ -6,7 +6,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.awt.geom.AffineTransform;
 
-import static java.lang.Math.multiplyExact;
 import static java.lang.Math.toRadians;
 
 /**
