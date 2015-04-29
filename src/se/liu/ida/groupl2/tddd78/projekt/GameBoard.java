@@ -84,7 +84,6 @@ public class GameBoard implements Drawable
         addBox(boxXPos4, getYCoord(boxXPos4)-Box.HEIGHT);
         addBox(boxXPos4, getYCoord(boxXPos4)-Box.HEIGHT*2);
 
-
         // Player construction ------------------------------//
         this.players = new ArrayList<>();
 
@@ -492,7 +491,7 @@ public class GameBoard implements Drawable
         highscoreComponent.setWinner(winner);
 
         if (isGameOver) {
-            StateList.getInstance().setFrameState(FrameState.HIGHSCORE);
+            StateList.getInstance().getFrame().setFrameState(FrameState.HIGHSCORE);
         }
     }
 

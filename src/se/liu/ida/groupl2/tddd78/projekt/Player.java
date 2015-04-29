@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.awt.geom.AffineTransform;
 
+import static java.lang.Math.multiplyExact;
 import static java.lang.Math.toRadians;
 
 /**
@@ -176,6 +177,7 @@ public class Player implements Collidable, Drawable
     }
 
     public void changeWeapon(WeaponType weapon) {
+        double currentAngle = currentWeapon.getAngle();
         switch (weapon) {
             case MISSILE_LAUNCHER:
                 currentWeapon = missileLauncher;
@@ -186,6 +188,7 @@ public class Player implements Collidable, Drawable
             default:
                 break;
         }
+        currentWeapon.setAngle(currentAngle);
     }
 
     private void drawWeapon(Graphics2D g2d) {

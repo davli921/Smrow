@@ -20,6 +20,8 @@ public class GameFrame extends JFrame
     private MenuComponent menuComponent;
     private JComponent currentComponent;
 
+    private FrameState frameState;
+
 
     public GameFrame(final String title) throws HeadlessException {
 	super(title);
@@ -31,7 +33,9 @@ public class GameFrame extends JFrame
 	this.gameComponent = new GameComponent(gameBoard);
 	this.highscoreComponent = new HighscoreComponent(gameBoard.getPlayers());
 	this.menuComponent = new MenuComponent();
-	this.currentComponent = menuComponent;
+
+	// Assigns values to "frameState" and "currentComponent"
+	setFrameState(FrameState.MENU);
 
 	this.add(currentComponent);
 	// Frame is not resizable
@@ -51,17 +55,33 @@ public class GameFrame extends JFrame
 	return highscoreComponent;
     }
 
-    public MenuComponent getMenuComponent() {
-	return menuComponent;
-    }
-
     public void setCurrentComponent(final JComponent currentComponent) {
-	this.remove(this.currentComponent);
+	if (this.currentComponent!=null) {
+	    this.remove(this.currentComponent);
+	}
+	//this.remove(this.currentComponent);
 	this.currentComponent = currentComponent;
 	this.add(currentComponent);
 	this.currentComponent.requestFocus();
 	this.pack();
     }
+
+    public FrameState getFrameState() {
+	return frameState;
+    }
+
+    public void setFrameState(final FrameState frameState) {
+    	this.frameState = frameState;
+            if (frameState.equals(FrameState.MENU)) {
+                setCurrentComponent(menuComponent);
+            }
+            else if (frameState.equals(FrameState.GAME)) {
+		setCurrentComponent(gameComponent);
+            }
+	    else if (frameState.equals(FrameState.HIGHSCORE)) {
+		setCurrentComponent(highscoreComponent);
+	    }
+}
 
     private void createMenu() {
 	final JMenu menu = new JMenu("Menu");
@@ -74,7 +94,6 @@ public class GameFrame extends JFrame
 	//Creates a action listener for the menuitems.
 	final ActionListener actionListener = e -> {
 	    if (e.getSource().equals(restart)) {
-		StateList sList = StateList.getInstance();
 
 		String p1Name = gameBoard.getPlayers().get(0).getName();
 		String p2Name = gameBoard.getPlayers().get(1).getName();
@@ -87,9 +106,12 @@ public class GameFrame extends JFrame
 
 		this.gameComponent = new GameComponent(gameBoard);
 
+		this.highscoreComponent = new HighscoreComponent(gameBoard.getPlayers());
+
 		this.gameBoard.addListener(gameComponent);
 
-		sList.setFrameState(FrameState.GAME);
+		//sList.setFrameState(FrameState.GAME);
+		setFrameState(FrameState.GAME);
 
 	    } else if (e.getSource().equals(exit)) {
 		System.exit(0);

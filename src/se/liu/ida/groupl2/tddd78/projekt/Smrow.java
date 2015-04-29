@@ -27,7 +27,7 @@ public final class Smrow
 	final Action updateGameState = new AbstractAction()
 	{
 	    @Override public void actionPerformed(final ActionEvent e) {
-		if(sList.getFrameState().equals(FrameState.GAME)){
+		if(sList.getFrame().getFrameState().equals(FrameState.GAME)){
 		    sList.getFrame().getGameBoard().tick();
 		}
 	    }

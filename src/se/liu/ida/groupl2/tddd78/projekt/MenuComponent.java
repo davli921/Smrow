@@ -39,7 +39,7 @@ public class MenuComponent extends JComponent
 	ActionListener al = e -> {
 	    StateList stateList = StateList.getInstance();
 	    if (e.getSource().equals(start)) {
-		stateList.setFrameState(FrameState.GAME);
+		stateList.getFrame().setFrameState(FrameState.GAME);
 		List<Player> players = stateList.getFrame().getGameBoard().getPlayers();
 		for (int i=0; i<players.size(); i++) {
 		    players.get(i).setName("Player " + (i+1));
@@ -61,7 +61,7 @@ public class MenuComponent extends JComponent
 		}
 		this.playerNumber++;
 		if (playerNumber ==stateList.getFrame().getGameBoard().getPlayers().size()) {
-		    stateList.setFrameState(FrameState.GAME);
+		    stateList.getFrame().setFrameState(FrameState.GAME);
 	    	}
 	    }
 	};
