@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>se.liu.ida.groupl2.tddd78.projekt.GameFrame</OriginalElement>
+  <nodes>
+    <node x="181.0" y="52.5">se.liu.ida.groupl2.tddd78.projekt.GameComponent</node>
+    <node x="639.0" y="235.0">se.liu.ida.groupl2.tddd78.projekt.FrameState</node>
+    <node x="0.0" y="52.5">se.liu.ida.groupl2.tddd78.projekt.MenuComponent</node>
+    <node x="131.0" y="205.0">se.liu.ida.groupl2.tddd78.projekt.GameFrame</node>
+    <node x="404.0" y="0.0">se.liu.ida.groupl2.tddd78.projekt.HighscoreComponent</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="se.liu.ida.groupl2.tddd78.projekt.GameFrame" target="se.liu.ida.groupl2.tddd78.projekt.GameComponent">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="se.liu.ida.groupl2.tddd78.projekt.GameFrame" target="se.liu.ida.groupl2.tddd78.projekt.MenuComponent">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="se.liu.ida.groupl2.tddd78.projekt.GameFrame" target="se.liu.ida.groupl2.tddd78.projekt.HighscoreComponent">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="se.liu.ida.groupl2.tddd78.projekt.GameFrame" target="se.liu.ida.groupl2.tddd78.projekt.FrameState">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="386.0" y="231.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
