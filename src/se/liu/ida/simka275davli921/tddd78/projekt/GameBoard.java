@@ -1,4 +1,4 @@
-package se.liu.ida.groupl2.tddd78.projekt;
+package se.liu.ida.simka275davli921.tddd78.projekt;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -311,7 +311,6 @@ public class GameBoard implements Drawable
         notifyListener();
     }
 
-    // FIXA MED SKOTTLAGRING
     public void moveProjectile() {
         if (projectile != null) {
 
@@ -469,7 +468,6 @@ public class GameBoard implements Drawable
         listeners.forEach(Listener::update);
     }
 
-    // FIXA MED VEM SOM ÄR VINNARE
     public void checkGameOver() {
         StateList stateList = StateList.getInstance();
         HighscoreComponent highscoreComponent = stateList.getFrame().getHighscoreComponent();

@@ -1,4 +1,4 @@
-package se.liu.ida.groupl2.tddd78.projekt;
+package se.liu.ida.simka275davli921.tddd78.projekt;
 
 /**
  * Direction that a weapon or player can move.

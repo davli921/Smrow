@@ -1,4 +1,4 @@
-package se.liu.ida.groupl2.tddd78.projekt;
+package se.liu.ida.simka275davli921.tddd78.projekt;
 
 /**
  * Classes that implement this Interface has method to update the visual
